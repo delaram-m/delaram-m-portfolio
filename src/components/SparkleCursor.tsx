@@ -46,6 +46,8 @@ export function SparkleCursor() {
           const count = Math.random() > 0.7 ? 2 : 1;
           const newSparks: Spark[] = [];
           for (let i = 0; i < count; i++) {
+            const hueRoll = Math.random();
+            const hue = hueRoll > 0.6 ? 260 : hueRoll > 0.3 ? 280 : 220;
             newSparks.push({
               id: idRef.current++,
               x: x + (Math.random() - 0.5) * 10,
@@ -55,7 +57,7 @@ export function SparkleCursor() {
               life: 1,
               maxLife: 1,
               size: Math.random() * 2 + 1,
-              hue: Math.random() > 0.5 ? 260 : 220,
+              hue,
             });
           }
           setSparks((prev) => [...prev, ...newSparks]);
