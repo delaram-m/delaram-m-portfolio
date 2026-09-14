@@ -17,8 +17,7 @@ export function Header() {
     <header className="fixed left-0 right-0 top-0 z-50">
       <div className="mx-auto max-w-6xl px-4 pt-4 sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between rounded-2xl border border-border/60 bg-card/70 px-4 py-3 shadow-lg shadow-black/20 backdrop-blur-xl">
-          <Link to="/" className="group flex items-center gap-2 text-foreground">
-            <Sparkles className="h-5 w-5 text-primary transition-transform duration-300 group-hover:rotate-12" aria-hidden="true" />
+          <Link to="/" className="group flex items-center text-foreground">
             <span className="font-semibold tracking-tight">Delaram Moradi</span>
           </Link>
 
