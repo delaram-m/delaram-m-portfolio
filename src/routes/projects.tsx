@@ -34,8 +34,8 @@ function ProjectsPage() {
           <ProjectPlaceholder />
         </div>
 
-        <div className="mt-16 rounded-2xl border border-dashed border-border bg-card/40 p-8 text-center backdrop-blur-sm">
-          <div className="mx-auto mb-4 inline-flex rounded-full bg-primary/10 p-3 text-primary">
+        <div className="mt-16 rounded-2xl border border-dashed border-border bg-card/70 p-8 text-center">
+          <div className="mx-auto mb-4 inline-flex rounded-full bg-primary/15 p-3 text-primary">
             <Plus className="h-6 w-6" aria-hidden="true" />
           </div>
           <h2 className="text-lg font-semibold text-foreground">More projects coming soon</h2>
@@ -50,16 +50,16 @@ function ProjectsPage() {
 
 function ProjectPlaceholder() {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card/50 backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/70">
-      <div className="flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-primary/5 via-nebula/10 to-horizon/5">
-        <FolderOpen className="h-10 w-10 text-muted-foreground/40 transition-colors group-hover:text-primary/60" aria-hidden="true" />
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-primary/50 hover:bg-card hover:shadow-lg hover:shadow-primary/10">
+      <div className="flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-primary/15 via-nebula/20 to-horizon/15">
+        <FolderOpen className="h-10 w-10 text-muted-foreground/50 transition-colors group-hover:text-primary/70" aria-hidden="true" />
       </div>
       <div className="flex flex-1 flex-col p-6">
         <h2 className="text-lg font-semibold text-foreground">Project Title</h2>
         <p className="mt-2 flex-1 text-sm text-muted-foreground">
           A brief description of the project will appear here, alongside its role, tools, and outcome.
         </p>
-        <span className="mt-4 inline-flex items-center text-sm font-medium text-primary opacity-60 transition-opacity group-hover:opacity-100">
+        <span className="mt-4 inline-flex items-center text-sm font-medium text-primary opacity-70 transition-opacity group-hover:opacity-100">
           View case study
         </span>
       </div>

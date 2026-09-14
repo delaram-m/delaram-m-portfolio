@@ -34,8 +34,8 @@ function HomePage() {
           </div>
 
           <div className="hidden lg:block">
-            <div className="relative h-72 w-72 rounded-full bg-gradient-to-br from-primary/20 via-nebula/30 to-horizon/20 p-1 shadow-2xl shadow-primary/10">
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-space/80 text-6xl font-light text-stardust">
+            <div className="relative h-72 w-72 rounded-full bg-gradient-to-br from-primary/40 via-nebula/50 to-horizon/40 p-1 shadow-2xl shadow-primary/20">
+              <div className="flex h-full w-full items-center justify-center rounded-full bg-space/90 text-6xl font-light text-stardust">
                 DM
               </div>
             </div>
@@ -76,13 +76,13 @@ function FeatureCard({
   return (
     <Link
       to={to}
-      className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card/50 p-6 backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/70 hover:shadow-lg hover:shadow-primary/10"
+      className="group relative overflow-hidden rounded-2xl border border-border bg-card/90 p-6 transition-all hover:border-primary/50 hover:bg-card hover:shadow-lg hover:shadow-primary/15"
     >
-      <div className="mb-4 inline-flex rounded-xl bg-primary/10 p-3 text-primary transition-colors group-hover:bg-primary/20">
+      <div className="mb-4 inline-flex rounded-xl bg-primary/15 p-3 text-primary transition-colors group-hover:bg-primary/25">
         {icon}
       </div>
       <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-      <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-primary to-horizon transition-all duration-500 group-hover:w-full" />
+      <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-primary via-nebula to-horizon transition-all duration-500 group-hover:w-full" />
     </Link>
   );
 }

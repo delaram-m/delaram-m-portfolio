@@ -74,9 +74,9 @@ function ContactPage() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-4 rounded-2xl border border-border/60 bg-card/50 p-5 text-left backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/70 hover:shadow-lg hover:shadow-primary/10"
+                className="group flex items-center gap-4 rounded-2xl border border-border bg-card/90 p-5 text-left transition-all hover:border-primary/50 hover:bg-card hover:shadow-lg hover:shadow-primary/10"
               >
-                <div className="inline-flex rounded-xl bg-primary/10 p-3 text-primary transition-colors group-hover:bg-primary/20">
+                <div className="inline-flex rounded-xl bg-primary/15 p-3 text-primary transition-colors group-hover:bg-primary/25">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div className="min-w-0">
@@ -88,14 +88,14 @@ function ContactPage() {
           })}
         </div>
 
-        <div className="mt-16 rounded-2xl border border-dashed border-border bg-card/40 p-8 backdrop-blur-sm">
+        <div className="mt-16 rounded-2xl border border-dashed border-border bg-card/70 p-8">
           <h2 className="text-lg font-semibold text-foreground">Prefer a message?</h2>
           <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
             A contact form can be added later. For now, email is the best way to start a conversation.
           </p>
           <a
             href="mailto:your.email@example.com"
-            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90"
+            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:bg-primary/90"
           >
             <Mail className="h-4 w-4" aria-hidden="true" />
             Send an email

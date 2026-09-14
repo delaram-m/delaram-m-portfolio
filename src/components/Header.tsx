@@ -16,7 +16,7 @@ export function Header() {
   return (
     <header className="fixed left-0 right-0 top-0 z-50">
       <div className="mx-auto max-w-6xl px-4 pt-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center justify-between rounded-2xl border border-border/60 bg-card/70 px-4 py-3 shadow-lg shadow-black/20 backdrop-blur-xl">
+        <nav className="flex items-center justify-between rounded-2xl border border-border bg-space-elevated/90 px-4 py-3 shadow-lg shadow-black/30 backdrop-blur-xl">
           <Link to="/" className="group flex items-center text-foreground">
             <span className="font-semibold tracking-tight">Delaram Moradi</span>
           </Link>
@@ -55,7 +55,7 @@ export function Header() {
         </nav>
 
         {open && (
-          <div className="mt-2 rounded-2xl border border-border/60 bg-card/90 p-2 shadow-xl shadow-black/20 backdrop-blur-xl md:hidden">
+          <div className="mt-2 rounded-2xl border border-border bg-space-elevated/95 p-2 shadow-xl shadow-black/30 backdrop-blur-xl md:hidden">
             <ul className="flex flex-col gap-1">
               {navItems.map((item) => (
                 <li key={item.to}>
@@ -64,7 +64,7 @@ export function Header() {
                     onClick={() => setOpen(false)}
                     className={`block rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                       pathname === item.to
-                        ? "bg-primary/10 text-primary"
+                        ? "bg-primary/15 text-primary"
                         : "text-muted-foreground hover:bg-muted hover:text-foreground"
                     }`}
                   >

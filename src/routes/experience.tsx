@@ -51,7 +51,7 @@ function ExperiencePage() {
           />
         </div>
 
-        <div className="mt-16 rounded-2xl border border-border/60 bg-card/50 p-8 backdrop-blur-sm">
+        <div className="mt-16 rounded-2xl border border-border bg-card/90 p-8">
           <h2 className="text-xl font-semibold text-foreground">Curriculum Vitae</h2>
           <p className="mt-2 max-w-2xl text-muted-foreground">
             A downloadable CV or résumé can be linked here once it is ready.
@@ -59,7 +59,7 @@ function ExperiencePage() {
           <button
             type="button"
             disabled
-            className="mt-6 inline-flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-5 py-2.5 text-sm font-medium text-muted-foreground"
+            className="mt-6 inline-flex items-center gap-2 rounded-xl border border-border bg-muted/60 px-5 py-2.5 text-sm font-medium text-muted-foreground"
           >
             <FileText className="h-4 w-4" aria-hidden="true" />
             CV coming soon
@@ -80,8 +80,8 @@ function SectionCard({
   description: string;
 }) {
   return (
-    <div className="rounded-2xl border border-border/60 bg-card/50 p-6 backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/70">
-      <div className="mb-4 inline-flex rounded-xl bg-primary/10 p-3 text-primary">
+    <div className="rounded-2xl border border-border bg-card/90 p-6 transition-all hover:border-primary/50 hover:bg-card hover:shadow-lg hover:shadow-primary/10">
+      <div className="mb-4 inline-flex rounded-xl bg-primary/15 p-3 text-primary transition-colors group-hover:bg-primary/25">
         {icon}
       </div>
       <h2 className="text-lg font-semibold text-foreground">{title}</h2>
