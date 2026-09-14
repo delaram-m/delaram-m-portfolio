@@ -68,6 +68,7 @@ export function SparkleCursor() {
       for (let i = 0; i < trail.length; i++) {
         const t = (i + 1) / trail.length;
         const p = trail[i];
+        if (!p) continue;
         const alpha = t * t * 0.55;
         const radius = 0.6 + t * 1.6;
         ctx.beginPath();
