@@ -8,7 +8,9 @@ interface Star {
   vibrateSpeed: number; // slow oscillation speed
   vibrateAmp: number; // tiny oscillation amplitude in px
   phase: number; // random phase so stars don't move in sync
-  parallax: number; // how much this star shifts with scroll (depth)
+  parallax: number; // how much this star shifts with the scroll (depth)
+  twinkleSpeed: number; // how fast the star dims and brightens
+  twinklePhase: number; // random phase for twinkle
 }
 
 function createStars(width: number, height: number): Star[] {
@@ -26,7 +28,8 @@ function createStars(width: number, height: number): Star[] {
       vibrateAmp: Math.random() * 2.5 + 1.0, // wider drift range so stars wander more
       phase: Math.random() * Math.PI * 2,
       parallax: depth * 0.8 + 0.1, // stronger scroll parallax depth
-
+      twinkleSpeed: Math.random() * 0.5 + 0.2, // slow fade-in/fade-out cycle
+      twinklePhase: Math.random() * Math.PI * 2,
     });
   }
   return stars;
@@ -84,9 +87,15 @@ export function StarBackground() {
         // Wrap so stars stay on screen while scrolling
         y = ((y % height) + height) % height;
 
+        // Twinkle: opacity dims and brightens in a smooth sine wave
+        const twinkle = prefersReducedMotion
+          ? 1
+          : 0.55 + 0.45 * Math.sin(now * star.twinkleSpeed + star.twinklePhase);
+        const opacity = Math.max(0, Math.min(1, star.baseOpacity * twinkle));
+
         ctx.beginPath();
         ctx.arc(star.x + vx, y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${star.baseOpacity})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
         ctx.fill();
       }
 
