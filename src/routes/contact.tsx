@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, Linkedin, Github, Globe, Twitter, Instagram } from "lucide-react";
+import { Linkedin, Github } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -17,12 +17,6 @@ export const Route = createFileRoute("/contact")({
 
 const socialLinks = [
   {
-    name: "Email",
-    handle: "your.email@example.com",
-    href: "mailto:your.email@example.com",
-    icon: Mail,
-  },
-  {
     name: "LinkedIn",
     handle: "linkedin.com/in/yourprofile",
     href: "https://linkedin.com/in/yourprofile",
@@ -34,24 +28,6 @@ const socialLinks = [
     href: "https://github.com/yourusername",
     icon: Github,
   },
-  {
-    name: "Website",
-    handle: "yourwebsite.com",
-    href: "https://yourwebsite.com",
-    icon: Globe,
-  },
-  {
-    name: "Twitter / X",
-    handle: "@yourhandle",
-    href: "https://twitter.com/yourhandle",
-    icon: Twitter,
-  },
-  {
-    name: "Instagram",
-    handle: "@yourhandle",
-    href: "https://instagram.com/yourhandle",
-    icon: Instagram,
-  },
 ];
 
 function ContactPage() {
@@ -62,7 +38,7 @@ function ContactPage() {
           Contact
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">
-          Reach out through any of the channels below. Links are placeholders until real profiles are added.
+          You can connect with me through the links below.
         </p>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2">
@@ -88,19 +64,6 @@ function ContactPage() {
           })}
         </div>
 
-        <div className="mt-16 rounded-2xl border border-dashed border-border bg-card/70 p-8">
-          <h2 className="text-lg font-semibold text-foreground">Prefer a message?</h2>
-          <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-            A contact form can be added later. For now, email is the best way to start a conversation.
-          </p>
-          <a
-            href="mailto:your.email@example.com"
-            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:bg-primary/90"
-          >
-            <Mail className="h-4 w-4" aria-hidden="true" />
-            Send an email
-          </a>
-        </div>
       </div>
     </div>
   );
