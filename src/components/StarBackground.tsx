@@ -87,11 +87,12 @@ export function StarBackground() {
         // Wrap so stars stay on screen while scrolling
         y = ((y % height) + height) % height;
 
-        // Twinkle: opacity dims and brightens in a smooth sine wave
+        // Twinkle: opacity dims and brightens only slightly
         const twinkle = prefersReducedMotion
           ? 1
-          : 0.55 + 0.45 * Math.sin(now * star.twinkleSpeed + star.twinklePhase);
+          : 0.88 + 0.12 * Math.sin(now * star.twinkleSpeed + star.twinklePhase);
         const opacity = Math.max(0, Math.min(1, star.baseOpacity * twinkle));
+
 
         ctx.beginPath();
         ctx.arc(star.x + vx, y, star.size, 0, Math.PI * 2);
