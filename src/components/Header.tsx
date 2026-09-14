@@ -45,7 +45,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="absolute right-4 inline-flex h-9 w-9 items-center justify-center rounded-lg text-foreground md:hidden"
+            className="absolute right-0 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl border border-border bg-space-elevated/90 text-foreground shadow-lg shadow-black/30 backdrop-blur-xl md:hidden"
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
           >
