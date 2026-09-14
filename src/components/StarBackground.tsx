@@ -28,7 +28,7 @@ function createStars(width: number, height: number): Star[] {
       vibrateAmp: Math.random() * 2.5 + 1.0, // wider drift range so stars wander more
       phase: Math.random() * Math.PI * 2,
       parallax: depth * 0.8 + 0.1, // stronger scroll parallax depth
-      twinkleSpeed: Math.random() * 0.5 + 0.2, // slow fade-in/fade-out cycle
+      twinkleSpeed: Math.random() * 1.2 + 0.8, // noticeable fade-in/fade-out cycle (few seconds)
       twinklePhase: Math.random() * Math.PI * 2,
     });
   }
