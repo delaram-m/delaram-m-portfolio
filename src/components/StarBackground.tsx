@@ -21,7 +21,7 @@ function createStars(width: number, height: number): Star[] {
     // Random depth bucket: far stars barely move on scroll, near stars move more
     const depth = Math.random();
     const tintRoll = Math.random();
-    const tint: Star["tint"] = tintRoll > 0.85 ? "purple" : tintRoll > 0.65 ? "blue" : "white";
+    const tint: Star["tint"] = tintRoll > 0.75 ? "purple" : tintRoll > 0.50 ? "blue" : "white";
     stars.push({
       x: Math.random() * width,
       y: Math.random() * height,
