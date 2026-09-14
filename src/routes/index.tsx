@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div className="relative flex min-h-[calc(100vh-7rem)] flex-col justify-center px-4 sm:px-6 lg:px-8">
+    <div className="relative flex min-h-[calc(100vh-7rem)] flex-col justify-center px-4 pb-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
