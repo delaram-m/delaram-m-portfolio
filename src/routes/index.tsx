@@ -34,7 +34,7 @@ function HomePage() {
           </div>
 
           <div className="hidden lg:block">
-            <div className="relative h-72 w-72 rounded-full bg-gradient-to-br from-horizon/55 via-horizon/30 to-primary/25 p-1 shadow-2xl shadow-horizon/20">
+            <div className="relative h-72 w-72 rounded-full bg-gradient-to-r from-horizon/70 from-50% to-primary/70 to-50% p-1 shadow-2xl shadow-horizon/20">
               <div className="flex h-full w-full items-center justify-center rounded-full bg-space/90 text-6xl font-light text-stardust">
                 DM
               </div>
