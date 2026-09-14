@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BriefcaseBusiness } from "lucide-react";
+import { Route } from "lucide-react";
 
 export const Route = createFileRoute("/experience")({
   head: () => ({
@@ -42,8 +42,8 @@ function ExperiencePlaceholder({ index }: { index: number }) {
   return (
     <article className="rounded-2xl border border-border bg-card/90 p-6 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 sm:p-8">
       <div className="flex items-start gap-4">
-        <div className="mt-1 inline-flex rounded-xl bg-horizon/15 p-3 text-horizon">
-          <BriefcaseBusiness className="h-5 w-5" aria-hidden="true" />
+          <div className="mt-1 inline-flex rounded-xl bg-horizon/15 p-3 text-horizon">
+          <Route className="h-5 w-5" aria-hidden="true" />
         </div>
         <div>
           <h2 className="text-xl font-semibold text-foreground">Experience {index}</h2>
