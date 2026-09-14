@@ -26,8 +26,8 @@ export function Header() {
                     to={item.to}
                     className={`group relative rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                       active
-                        ? "text-horizon"
-                        : "text-muted-foreground hover:text-horizon"
+                        ? "text-primary"
+                        : "text-muted-foreground hover:text-primary"
                     }`}
                   >
                     {item.label}
