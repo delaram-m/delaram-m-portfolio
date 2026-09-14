@@ -11,7 +11,7 @@ Create a polished, immersive portfolio with a near-black cosmic background, deep
 
 ## Shared Experience
 - Add a consistent navigation and compact footer across all pages.
-- Build a layered animated star field with varied depth and speed.
+- Build layered animated decorative stars with varied depth and speed.
 - Add a refined cursor-following glow and short-lived spark particles on pointer movement.
 - Provide touch-friendly behavior and respect reduced-motion settings.
 - Use responsive layouts with strong typography, generous space, accessible contrast, keyboard focus states, and readable mobile navigation.
