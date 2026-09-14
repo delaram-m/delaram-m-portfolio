@@ -24,7 +24,7 @@ function ExperiencePage() {
             Experience
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">
-            Experience and volunteering.
+            Highlight of my experience and volunteering
           </p>
         </header>
 
