@@ -6,11 +6,11 @@ import { SparkleCursor } from "./SparkleCursor";
 
 export function CosmicLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="cosmic relative min-h-screen overflow-x-hidden bg-background text-foreground">
+    <div className="cosmic relative flex min-h-screen flex-col overflow-x-hidden bg-background text-foreground">
       <StarBackground />
       <SparkleCursor />
       <Header />
-      <main className="relative z-10 pt-28">{children}</main>
+      <main className="relative z-10 flex-1 pt-28">{children}</main>
       <Footer />
     </div>
   );

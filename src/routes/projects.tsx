@@ -45,8 +45,7 @@ function ProjectPlaceholder({ index, reverse = false }: { index: number; reverse
         <FolderOpen className="h-10 w-10 text-muted-foreground/50 transition-colors group-hover:text-primary/70" aria-hidden="true" />
       </div>
       <div className="flex flex-col justify-center p-7 sm:p-9">
-        <span className="text-xs font-semibold uppercase text-horizon">Project {index}</span>
-        <h2 className="mt-3 text-2xl font-semibold text-foreground">Project Title</h2>
+        <h2 className="text-2xl font-semibold text-foreground">Project Title</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           A short project description will appear here, giving an overview of the work and its outcome.
         </p>
