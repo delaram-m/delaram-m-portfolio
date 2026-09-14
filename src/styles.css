@@ -182,6 +182,17 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  .profile-ring {
+    background: conic-gradient(
+      from 45deg,
+      var(--horizon) 0deg,
+      var(--horizon) 135deg,
+      var(--primary) 180deg,
+      var(--primary) 315deg,
+      var(--horizon) 360deg
+    );
+  }
 }
 
 @keyframes float {
