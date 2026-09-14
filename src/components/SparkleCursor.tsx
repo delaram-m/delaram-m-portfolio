@@ -1,125 +1,118 @@
 import { useEffect, useRef, useState } from "react";
 
-interface Spark {
-  id: number;
+interface TrailPoint {
   x: number;
   y: number;
-  vx: number;
-  vy: number;
-  life: number;
-  maxLife: number;
-  size: number;
-  hue: number;
 }
 
+const MAX_TRAIL = 22;
+
 export function SparkleCursor() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [mounted, setMounted] = useState(false);
-  const [sparks, setSparks] = useState<Spark[]>([]);
+  const trailRef = useRef<TrailPoint[]>([]);
+  const posRef = useRef<TrailPoint | null>(null);
   const frameRef = useRef<number>(0);
-  const idRef = useRef(0);
-  const lastPosRef = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     setMounted(true);
-    const container = containerRef.current;
-    if (!container) return;
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
     if (prefersReducedMotion || isTouch) return;
 
-    let throttle = 0;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+
     const onMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      if (lastPosRef.current) {
-        const dx = x - lastPosRef.current.x;
-        const dy = y - lastPosRef.current.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        throttle += dist;
-
-        if (throttle > 18) {
-          throttle = 0;
-          const count = Math.random() > 0.7 ? 2 : 1;
-          const newSparks: Spark[] = [];
-          for (let i = 0; i < count; i++) {
-            const hueRoll = Math.random();
-            const hue = hueRoll > 0.6 ? 260 : hueRoll > 0.3 ? 280 : 220;
-            newSparks.push({
-              id: idRef.current++,
-              x: x + (Math.random() - 0.5) * 10,
-              y: y + (Math.random() - 0.5) * 10,
-              vx: (Math.random() - 0.5) * 1.5,
-              vy: (Math.random() - 0.5) * 1.5 - 0.5,
-              life: 1,
-              maxLife: 1,
-              size: Math.random() * 2 + 1,
-              hue,
-            });
-          }
-          setSparks((prev) => [...prev, ...newSparks]);
-        }
-      }
-      lastPosRef.current = { x, y };
+      posRef.current = { x: e.clientX, y: e.clientY };
+    };
+    const onLeave = () => {
+      posRef.current = null;
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("mouseout", onLeave);
+    window.addEventListener("resize", resize);
 
-    const animate = () => {
-      setSparks((prev) => {
-        const next = [];
-        for (const s of prev) {
-          const updated = {
-            ...s,
-            x: s.x + s.vx,
-            y: s.y + s.vy,
-            vy: s.vy + 0.03,
-            life: s.life - 0.025,
-          };
-          if (updated.life > 0) {
-            next.push(updated);
-          }
-        }
-        return next;
-      });
-      frameRef.current = requestAnimationFrame(animate);
+    const draw = () => {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      const pos = posRef.current;
+      const trail = trailRef.current;
+
+      if (pos) {
+        trail.push({ x: pos.x, y: pos.y });
+      } else if (trail.length) {
+        trail.shift();
+      }
+      while (trail.length > MAX_TRAIL) trail.shift();
+
+      // Trail: older points are dimmer and smaller.
+      for (let i = 0; i < trail.length; i++) {
+        const t = (i + 1) / trail.length;
+        const p = trail[i];
+        const alpha = t * t * 0.55;
+        const radius = 0.6 + t * 1.6;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(235, 230, 255, ${alpha})`;
+        ctx.fill();
+      }
+
+      // Head: a bright, steady star at the cursor tip.
+      if (pos) {
+        const glow = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, 12);
+        glow.addColorStop(0, "rgba(255, 255, 255, 0.85)");
+        glow.addColorStop(0.4, "rgba(205, 195, 255, 0.35)");
+        glow.addColorStop(1, "rgba(180, 200, 255, 0)");
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 12, 0, Math.PI * 2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 1.9, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255, 255, 255, 1)";
+        ctx.fill();
+      }
+
+      frameRef.current = requestAnimationFrame(draw);
     };
 
-    frameRef.current = requestAnimationFrame(animate);
+    frameRef.current = requestAnimationFrame(draw);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseout", onLeave);
+      window.removeEventListener("resize", resize);
       cancelAnimationFrame(frameRef.current);
     };
-  }, []);
+  }, [mounted]);
 
   if (!mounted) return null;
 
   return (
-    <div
-      ref={containerRef}
+    <canvas
+      ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-[100] overflow-hidden"
-    >
-      {sparks.map((spark) => (
-        <span
-          key={spark.id}
-          className="absolute rounded-full"
-          style={{
-            left: spark.x,
-            top: spark.y,
-            width: spark.size,
-            height: spark.size,
-            opacity: spark.life,
-            transform: "translate(-50%, -50%)",
-            backgroundColor: `hsl(${spark.hue}, 90%, 80%)`,
-            boxShadow: `0 0 ${spark.size * 3}px ${spark.size}px hsl(${spark.hue}, 80%, 70%)`,
-          }}
-        />
-      ))}
-    </div>
+      className="pointer-events-none fixed inset-0 z-[100]"
+    />
   );
 }
