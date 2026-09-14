@@ -11,6 +11,7 @@ interface Star {
   parallax: number; // how much this star shifts with the scroll (depth)
   twinkleSpeed: number; // how fast the star dims and brightens
   twinklePhase: number; // random phase for twinkle
+  tint: "white" | "blue" | "purple"; // subtle color tint for variety
 }
 
 function createStars(width: number, height: number): Star[] {
@@ -19,6 +20,8 @@ function createStars(width: number, height: number): Star[] {
   for (let i = 0; i < count; i++) {
     // Random depth bucket: far stars barely move on scroll, near stars move more
     const depth = Math.random();
+    const tintRoll = Math.random();
+    const tint: Star["tint"] = tintRoll > 0.85 ? "purple" : tintRoll > 0.65 ? "blue" : "white";
     stars.push({
       x: Math.random() * width,
       y: Math.random() * height,
@@ -30,6 +33,7 @@ function createStars(width: number, height: number): Star[] {
       parallax: depth * 0.8 + 0.1, // stronger scroll parallax depth
       twinkleSpeed: Math.random() * 1.2 + 0.8, // noticeable fade-in/fade-out cycle (few seconds)
       twinklePhase: Math.random() * Math.PI * 2,
+      tint,
     });
   }
   return stars;
