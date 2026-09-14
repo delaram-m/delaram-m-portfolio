@@ -18,21 +18,26 @@ export function Header() {
       <div className="mx-auto max-w-6xl px-4 pt-4 sm:px-6 lg:px-8">
         <nav className="relative flex items-center justify-center rounded-2xl border border-border bg-space-elevated/90 px-4 py-3 shadow-lg shadow-black/30 backdrop-blur-xl">
           <ul className="hidden items-center gap-1 md:flex">
-            {navItems.map((item) => {
+            {navItems.map((item, i) => {
               const active = pathname === item.to;
+              const purple = i % 2 === 0;
               return (
                 <li key={item.to}>
                   <Link
                     to={item.to}
                     className={`group relative rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                      active ? "text-horizon" : "text-muted-foreground hover:text-foreground"
+                      active
+                        ? purple
+                          ? "text-primary"
+                          : "text-horizon"
+                        : `text-muted-foreground ${purple ? "hover:text-primary" : "hover:text-horizon"}`
                     }`}
                   >
                     {item.label}
                     <span
-                      className={`absolute bottom-0 left-1/2 h-0.5 -translate-x-1/2 rounded-full bg-horizon transition-all duration-300 ${
-                        active ? "w-4" : "w-0 group-hover:w-4 group-hover:bg-horizon/70"
-                      }`}
+                      className={`absolute bottom-0 left-1/2 h-0.5 -translate-x-1/2 rounded-full transition-all duration-300 ${
+                        purple ? "bg-primary" : "bg-horizon"
+                      } ${active ? "w-4" : "w-0 group-hover:w-4 group-hover:opacity-80"}`}
                     />
                   </Link>
                 </li>

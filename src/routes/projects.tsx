@@ -29,24 +29,23 @@ function ProjectsPage() {
         </header>
 
         <div className="space-y-10">
-          <ProjectPlaceholder index={1} />
-          <ProjectPlaceholder index={2} reverse />
-          <ProjectPlaceholder index={3} />
+          <ProjectPlaceholder />
+          <ProjectPlaceholder reverse />
+          <ProjectPlaceholder />
         </div>
       </div>
     </div>
   );
 }
 
-function ProjectPlaceholder({ index, reverse = false }: { index: number; reverse?: boolean }) {
+function ProjectPlaceholder({ reverse = false }: { reverse?: boolean }) {
   return (
     <article className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
       <div className="flex min-h-60 items-center justify-center bg-gradient-to-br from-horizon/25 via-primary/15 to-nebula/20 md:min-h-72">
         <FolderOpen className="h-10 w-10 text-muted-foreground/50 transition-colors group-hover:text-primary/70" aria-hidden="true" />
       </div>
       <div className="flex flex-col justify-center p-7 sm:p-9">
-        <span className="text-xs font-semibold uppercase text-horizon">Project {index}</span>
-        <h2 className="mt-3 text-2xl font-semibold text-foreground">Project Title</h2>
+        <h2 className="text-2xl font-semibold text-foreground">Project Title</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           A short project description will appear here, giving an overview of the work and its outcome.
         </p>
