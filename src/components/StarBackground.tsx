@@ -1,26 +1,31 @@
 import { useEffect, useRef } from "react";
 
 interface Star {
-  x: number;
+  x: number; // base position
   y: number;
   size: number;
-  opacity: number;
-  speed: number;
-  layer: number;
-  twinklePhase: number;
+  baseOpacity: number; // fixed random transparency per star
+  vibrateSpeed: number; // slow oscillation speed
+  vibrateAmp: number; // tiny oscillation amplitude in px
+  phase: number; // random phase so stars don't move in sync
+  parallax: number; // how much this star shifts with scroll (depth)
 }
 
-function createStars(width: number, height: number, count: number, layer: number): Star[] {
+function createStars(width: number, height: number): Star[] {
+  const count = Math.min(width, height) < 640 ? 110 : 220;
   const stars: Star[] = [];
   for (let i = 0; i < count; i++) {
+    // Random depth bucket: far stars barely move on scroll, near stars move more
+    const depth = Math.random();
     stars.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: Math.random() * 1.5 + 0.5,
-      opacity: Math.random() * 0.5 + 0.2,
-      speed: (Math.random() * 0.3 + 0.05) * (layer === 0 ? 0.3 : layer === 1 ? 0.6 : 1),
-      layer,
-      twinklePhase: Math.random() * Math.PI * 2,
+      size: Math.random() * 1.4 + 0.5,
+      baseOpacity: Math.random() * 0.75 + 0.15, // random transparency per star
+      vibrateSpeed: Math.random() * 0.4 + 0.1, // really slow vibration
+      vibrateAmp: Math.random() * 1.6 + 0.4,
+      phase: Math.random() * Math.PI * 2,
+      parallax: depth * 0.5 + 0.05,
     });
   }
   return stars;
@@ -31,6 +36,7 @@ export function StarBackground() {
   const starsRef = useRef<Star[]>([]);
   const frameRef = useRef<number>(0);
   const dimsRef = useRef({ width: 0, height: 0 });
+  const scrollRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -50,68 +56,47 @@ export function StarBackground() {
       canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       dimsRef.current = { width, height };
+      starsRef.current = createStars(width, height);
+    };
 
-      const density = Math.min(width, height) < 640 ? 60 : 120;
-      starsRef.current = [
-        ...createStars(width, height, density, 0),
-        ...createStars(width, height, Math.floor(density * 0.6), 1),
-        ...createStars(width, height, Math.floor(density * 0.3), 2),
-      ];
+    const onScroll = () => {
+      scrollRef.current = window.scrollY;
     };
 
     resize();
+    onScroll();
     window.addEventListener("resize", resize);
+    window.addEventListener("scroll", onScroll, { passive: true });
 
-    let lastTime = performance.now();
-    const animate = (time: number) => {
-      const delta = Math.min((time - lastTime) / 1000, 0.1);
-      lastTime = time;
+    const draw = (time: number) => {
       const { width, height } = dimsRef.current;
-
       ctx.clearRect(0, 0, width, height);
-
-      // Subtle nebula gradient wash
-      const gradient = ctx.createRadialGradient(width * 0.3, height * 0.4, 0, width * 0.5, height * 0.5, width * 0.8);
-      gradient.addColorStop(0, "rgba(76, 29, 149, 0.08)");
-      gradient.addColorStop(0.5, "rgba(30, 58, 138, 0.05)");
-      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, width, height);
 
       const now = time / 1000;
       for (const star of starsRef.current) {
-        if (!prefersReducedMotion) {
-          star.x -= star.speed * delta * 10;
-          if (star.x < -2) star.x = width + 2;
-        }
+        // Really slow vibration around the base position
+        const vx = prefersReducedMotion ? 0 : Math.sin(now * star.vibrateSpeed + star.phase) * star.vibrateAmp;
+        const vy = prefersReducedMotion ? 0 : Math.cos(now * star.vibrateSpeed * 0.8 + star.phase) * star.vibrateAmp;
 
-        const twinkle = Math.sin(now * 1.5 + star.twinklePhase) * 0.15 + 0.85;
-        const alpha = star.opacity * twinkle;
+        // Scroll parallax: stars drift with the view by depth
+        let y = star.y + vy - scrollRef.current * star.parallax;
+        // Wrap so stars stay on screen while scrolling
+        y = ((y % height) + height) % height;
 
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(245, 243, 255, ${alpha})`;
+        ctx.arc(star.x + vx, y, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.baseOpacity})`;
         ctx.fill();
-
-        // Soft glow for larger stars
-        if (star.size > 1.2) {
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
-          const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 3);
-          glow.addColorStop(0, `rgba(167, 139, 250, ${alpha * 0.25})`);
-          glow.addColorStop(1, "rgba(167, 139, 250, 0)");
-          ctx.fillStyle = glow;
-          ctx.fill();
-        }
       }
 
-      frameRef.current = requestAnimationFrame(animate);
+      frameRef.current = requestAnimationFrame(draw);
     };
 
-    frameRef.current = requestAnimationFrame(animate);
+    frameRef.current = requestAnimationFrame(draw);
 
     return () => {
       window.removeEventListener("resize", resize);
+      window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(frameRef.current);
     };
   }, []);
@@ -121,7 +106,6 @@ export function StarBackground() {
       ref={canvasRef}
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0"
-      style={{ background: "radial-gradient(ellipse at 30% 20%, rgba(30, 27, 75, 0.4) 0%, rgba(2, 6, 23, 1) 60%, rgba(0, 0, 0, 1) 100%)" }}
     />
   );
 }
