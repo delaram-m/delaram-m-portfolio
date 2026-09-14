@@ -103,7 +103,13 @@ export function StarBackground() {
 
         ctx.beginPath();
         ctx.arc(star.x + vx, y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        const [r, g, b] =
+          star.tint === "purple"
+            ? [220, 210, 255]
+            : star.tint === "blue"
+              ? [200, 225, 255]
+              : [255, 255, 255];
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
         ctx.fill();
       }
 
