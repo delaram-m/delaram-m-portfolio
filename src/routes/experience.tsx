@@ -1,27 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BookOpen, GraduationCap, FlaskConical, FileText } from "lucide-react";
 
-export const Route = createFileRoute("/research-teaching")({
+export const Route = createFileRoute("/experience")({
   head: () => ({
     meta: [
-      { title: "Research & Teaching — Delaram Moradi" },
-      { name: "description", content: "Research interests, publications, and teaching work by Delaram Moradi." },
-      { property: "og:title", content: "Research & Teaching — Delaram Moradi" },
-      { property: "og:description", content: "Research interests, publications, and teaching work by Delaram Moradi." },
+      { title: "Experience — Delaram Moradi" },
+      { name: "description", content: "Experience, research, publications, and teaching work by Delaram Moradi." },
+      { property: "og:title", content: "Experience — Delaram Moradi" },
+      { property: "og:description", content: "Experience, research, publications, and teaching work by Delaram Moradi." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: ResearchTeachingPage,
+  component: ExperiencePage,
 });
 
-function ResearchTeachingPage() {
+function ExperiencePage() {
   return (
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
         <header className="mb-12 text-center">
           <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-            Research & Teaching
+            Experience
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">
             Academic interests, scholarly work, and teaching experience — ready to be filled in.

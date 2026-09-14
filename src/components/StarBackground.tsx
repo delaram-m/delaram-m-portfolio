@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface Star {
   x: number;
@@ -28,13 +28,11 @@ function createStars(width: number, height: number, count: number, layer: number
 
 export function StarBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [mounted, setMounted] = useState(false);
   const starsRef = useRef<Star[]>([]);
   const frameRef = useRef<number>(0);
   const dimsRef = useRef({ width: 0, height: 0 });
 
   useEffect(() => {
-    setMounted(true);
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -117,8 +115,6 @@ export function StarBackground() {
       cancelAnimationFrame(frameRef.current);
     };
   }, []);
-
-  if (!mounted) return null;
 
   return (
     <canvas
