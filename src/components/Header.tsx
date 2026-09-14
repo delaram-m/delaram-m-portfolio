@@ -16,7 +16,7 @@ export function Header() {
   return (
     <header className="fixed left-0 right-0 top-0 z-50">
       <div className="mx-auto max-w-6xl px-4 pt-4 sm:px-6 lg:px-8">
-        <nav className="relative flex items-center justify-center rounded-2xl border border-border bg-space-elevated/90 px-4 py-3 shadow-lg shadow-black/30 backdrop-blur-xl">
+        <nav className="relative flex h-12 items-center justify-center md:h-auto md:justify-center md:rounded-2xl md:border md:border-border md:bg-space-elevated/90 md:px-4 md:py-3 md:shadow-lg md:shadow-black/30 md:backdrop-blur-xl">
           <ul className="hidden items-center gap-1 md:flex">
             {navItems.map((item) => {
               const active = pathname === item.to;
@@ -45,7 +45,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="absolute right-4 inline-flex h-9 w-9 items-center justify-center rounded-lg text-foreground md:hidden"
+            className="absolute right-0 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl border border-border bg-space-elevated/90 text-foreground shadow-lg shadow-black/30 backdrop-blur-xl md:hidden"
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
           >
