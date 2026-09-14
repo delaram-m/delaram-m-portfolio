@@ -50,8 +50,13 @@ function ProjectPlaceholder({ index, reverse = false }: { index: number; reverse
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           A short project description will appear here, giving an overview of the work and its outcome.
         </p>
-        <a href="#" className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-semibold text-horizon transition-colors hover:text-primary">
-          View
+        <a
+          href="https://github.com/yourusername"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-semibold text-horizon transition-colors hover:text-horizon/70"
+        >
+          GitHub
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
         </a>
       </div>
