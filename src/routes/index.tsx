@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Code2, Route as RouteIcon, Mail } from "lucide-react";
+import { Code2, Route as RouteIcon, Mail, Award } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -52,6 +52,11 @@ function HomePage() {
             to="/experience"
             icon={<RouteIcon className="h-5 w-5" />}
             title="Experience"
+          />
+          <FeatureCard
+            to="/trainings"
+            icon={<Award className="h-5 w-5" />}
+            title="Trainings"
           />
           <FeatureCard
             to="/contact"

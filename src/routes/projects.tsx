@@ -29,22 +29,25 @@ function ProjectsPage() {
         </header>
 
         <div className="space-y-10">
-          <ProjectPlaceholder />
-          <ProjectPlaceholder reverse />
-          <ProjectPlaceholder />
+          <ProjectPlaceholder skill="Key skill" />
+          <ProjectPlaceholder skill="Key skill" reverse />
+          <ProjectPlaceholder skill="Key skill" />
         </div>
       </div>
     </div>
   );
 }
 
-function ProjectPlaceholder({ reverse = false }: { reverse?: boolean }) {
+function ProjectPlaceholder({ skill, reverse = false }: { skill: string; reverse?: boolean }) {
   return (
     <article className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
       <div className="flex min-h-60 items-center justify-center bg-gradient-to-br from-horizon/25 via-primary/15 to-nebula/20 md:min-h-72">
         <FolderOpen className="h-10 w-10 text-muted-foreground/50 transition-colors group-hover:text-primary/70" aria-hidden="true" />
       </div>
       <div className="flex flex-col justify-center p-7 sm:p-9">
+        <p className="mb-3 w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
+          {skill}
+        </p>
         <h2 className="text-2xl font-semibold text-foreground">Project Title</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           A short project description will appear here, giving an overview of the work and its outcome.
