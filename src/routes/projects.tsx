@@ -24,7 +24,7 @@ function ProjectsPage() {
             Projects
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">
-            Here you can see a highlight of my technical projects.
+            Highlight of my technical projects
           </p>
         </header>
 
