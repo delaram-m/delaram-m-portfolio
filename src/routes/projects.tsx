@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { FolderOpen, Plus } from "lucide-react";
+import { ArrowUpRight, FolderOpen } from "lucide-react";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -24,44 +24,36 @@ function ProjectsPage() {
             Projects
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">
-            A curated space for future case studies, creative experiments, and portfolio pieces.
+            A highlight of some projects.
           </p>
         </header>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <ProjectPlaceholder />
-          <ProjectPlaceholder />
-          <ProjectPlaceholder />
-        </div>
-
-        <div className="mt-16 rounded-2xl border border-dashed border-border bg-card/70 p-8 text-center">
-          <div className="mx-auto mb-4 inline-flex rounded-full bg-primary/15 p-3 text-primary">
-            <Plus className="h-6 w-6" aria-hidden="true" />
-          </div>
-          <h2 className="text-lg font-semibold text-foreground">More projects coming soon</h2>
-          <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-            This portfolio is intentionally starting empty. Each project will be added with its own story, visuals, and details.
-          </p>
+        <div className="space-y-10">
+          <ProjectPlaceholder index={1} />
+          <ProjectPlaceholder index={2} reverse />
+          <ProjectPlaceholder index={3} />
         </div>
       </div>
     </div>
   );
 }
 
-function ProjectPlaceholder() {
+function ProjectPlaceholder({ index, reverse = false }: { index: number; reverse?: boolean }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-primary/50 hover:bg-card hover:shadow-lg hover:shadow-primary/10">
-      <div className="flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-primary/15 via-nebula/20 to-horizon/15">
+    <article className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
+      <div className="flex min-h-60 items-center justify-center bg-gradient-to-br from-horizon/25 via-primary/15 to-nebula/20 md:min-h-72">
         <FolderOpen className="h-10 w-10 text-muted-foreground/50 transition-colors group-hover:text-primary/70" aria-hidden="true" />
       </div>
-      <div className="flex flex-1 flex-col p-6">
-        <h2 className="text-lg font-semibold text-foreground">Project Title</h2>
-        <p className="mt-2 flex-1 text-sm text-muted-foreground">
-          A brief description of the project will appear here, alongside its role, tools, and outcome.
+      <div className="flex flex-col justify-center p-7 sm:p-9">
+        <span className="text-xs font-semibold uppercase text-horizon">Project {index}</span>
+        <h2 className="mt-3 text-2xl font-semibold text-foreground">Project Title</h2>
+        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+          A short project description will appear here, giving an overview of the work and its outcome.
         </p>
-        <span className="mt-4 inline-flex items-center text-sm font-medium text-primary opacity-70 transition-opacity group-hover:opacity-100">
-          View case study
-        </span>
+        <a href="#" className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-semibold text-horizon transition-colors hover:text-primary">
+          View
+          <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+        </a>
       </div>
     </article>
   );
