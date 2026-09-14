@@ -16,11 +16,7 @@ export function Header() {
   return (
     <header className="fixed left-0 right-0 top-0 z-50">
       <div className="mx-auto max-w-6xl px-4 pt-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center justify-between rounded-2xl border border-border bg-space-elevated/90 px-4 py-3 shadow-lg shadow-black/30 backdrop-blur-xl">
-          <Link to="/" className="group flex items-center text-foreground">
-            <span className="font-semibold tracking-tight">Delaram Moradi</span>
-          </Link>
-
+        <nav className="relative flex items-center justify-center rounded-2xl border border-border bg-space-elevated/90 px-4 py-3 shadow-lg shadow-black/30 backdrop-blur-xl">
           <ul className="hidden items-center gap-1 md:flex">
             {navItems.map((item) => {
               const active = pathname === item.to;
@@ -28,15 +24,16 @@ export function Header() {
                 <li key={item.to}>
                   <Link
                     to={item.to}
-                    activeProps={{ className: "text-primary" }}
-                    className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                      active ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                    className={`group relative rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                      active ? "text-horizon" : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     {item.label}
-                    {active && (
-                      <span className="absolute bottom-0 left-1/2 h-0.5 w-4 -translate-x-1/2 rounded-full bg-primary" />
-                    )}
+                    <span
+                      className={`absolute bottom-0 left-1/2 h-0.5 -translate-x-1/2 rounded-full bg-horizon transition-all duration-300 ${
+                        active ? "w-4" : "w-0 group-hover:w-4 group-hover:bg-horizon/70"
+                      }`}
+                    />
                   </Link>
                 </li>
               );
@@ -46,7 +43,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-foreground md:hidden"
+            className="absolute right-4 inline-flex h-9 w-9 items-center justify-center rounded-lg text-foreground md:hidden"
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
           >
