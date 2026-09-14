@@ -15,7 +15,7 @@ interface Spark {
 export function SparkleCursor() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
-  const sparksRef = useRef<Spark[]>([]);
+  const [sparks, setSparks] = useState<Spark[]>([]);
   const frameRef = useRef<number>(0);
   const idRef = useRef(0);
   const lastPosRef = useRef<{ x: number; y: number } | null>(null);
@@ -44,8 +44,9 @@ export function SparkleCursor() {
         if (throttle > 18) {
           throttle = 0;
           const count = Math.random() > 0.7 ? 2 : 1;
+          const newSparks: Spark[] = [];
           for (let i = 0; i < count; i++) {
-            sparksRef.current.push({
+            newSparks.push({
               id: idRef.current++,
               x: x + (Math.random() - 0.5) * 10,
               y: y + (Math.random() - 0.5) * 10,
@@ -57,6 +58,7 @@ export function SparkleCursor() {
               hue: Math.random() > 0.5 ? 260 : 220,
             });
           }
+          setSparks((prev) => [...prev, ...newSparks]);
         }
       }
       lastPosRef.current = { x, y };
@@ -65,18 +67,22 @@ export function SparkleCursor() {
     window.addEventListener("mousemove", onMove, { passive: true });
 
     const animate = () => {
-      const sparks = sparksRef.current;
-      for (let i = sparks.length - 1; i >= 0; i--) {
-        const s = sparks[i];
-        s.x += s.vx;
-        s.y += s.vy;
-        s.vy += 0.03;
-        s.life -= 0.025;
-        if (s.life <= 0) {
-          sparks.splice(i, 1);
+      setSparks((prev) => {
+        const next = [];
+        for (const s of prev) {
+          const updated = {
+            ...s,
+            x: s.x + s.vx,
+            y: s.y + s.vy,
+            vy: s.vy + 0.03,
+            life: s.life - 0.025,
+          };
+          if (updated.life > 0) {
+            next.push(updated);
+          }
         }
-      }
-      container.style.setProperty("--spark-count", String(sparks.length));
+        return next;
+      });
       frameRef.current = requestAnimationFrame(animate);
     };
 
@@ -96,7 +102,7 @@ export function SparkleCursor() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-[100] overflow-hidden"
     >
-      {sparksRef.current.map((spark) => (
+      {sparks.map((spark) => (
         <span
           key={spark.id}
           className="absolute rounded-full"
