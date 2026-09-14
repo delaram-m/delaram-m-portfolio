@@ -55,7 +55,7 @@ function ProjectPlaceholder({ reverse = false }: { reverse?: boolean }) {
           rel="noopener noreferrer"
           className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-semibold text-horizon transition-colors hover:text-horizon/70"
         >
-          GitHub
+          Repository
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
         </a>
       </div>
