@@ -22,10 +22,11 @@ function createStars(width: number, height: number): Star[] {
       y: Math.random() * height,
       size: Math.random() * 1.4 + 0.5,
       baseOpacity: Math.random() * 0.75 + 0.15, // random transparency per star
-      vibrateSpeed: Math.random() * 0.4 + 0.1, // really slow vibration
-      vibrateAmp: Math.random() * 1.6 + 0.4,
+      vibrateSpeed: Math.random() * 0.6 + 0.15, // slow vibration, wider speed range
+      vibrateAmp: Math.random() * 2.5 + 1.0, // wider drift range so stars wander more
       phase: Math.random() * Math.PI * 2,
-      parallax: depth * 0.5 + 0.05,
+      parallax: depth * 0.8 + 0.1, // stronger scroll parallax depth
+
     });
   }
   return stars;
