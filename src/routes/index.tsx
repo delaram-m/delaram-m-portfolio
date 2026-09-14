@@ -71,9 +71,9 @@ function HomePage() {
             description="Selected work and creative experiments."
           />
           <FeatureCard
-            to="/research-teaching"
+            to="/experience"
             icon={<BookOpen className="h-5 w-5" />}
-            title="Research & Teaching"
+            title="Experience"
             description="Academic interests, publications, and courses."
           />
           <FeatureCard
