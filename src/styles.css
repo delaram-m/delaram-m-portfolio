@@ -168,6 +168,10 @@
 }
 
 @layer base {
+  html {
+    font-size: 14px;
+  }
+
   * {
     border-color: var(--color-border);
   }
