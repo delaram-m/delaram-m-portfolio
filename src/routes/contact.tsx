@@ -38,7 +38,7 @@ function ContactPage() {
           Contact
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">
-          You can connect with me through the links below.
+          Connection channels
         </p>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2">
