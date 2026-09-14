@@ -50,9 +50,9 @@ function ContactPage() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-4 rounded-2xl border border-border bg-card/90 p-5 text-left transition-all hover:border-primary/50 hover:bg-card hover:shadow-lg hover:shadow-primary/10"
+                className="group flex items-center gap-4 rounded-2xl border border-border bg-card/90 p-5 text-left transition-all hover:border-horizon/50 hover:bg-card hover:shadow-lg hover:shadow-horizon/10"
               >
-                <div className="inline-flex rounded-xl bg-primary/15 p-3 text-primary transition-colors group-hover:bg-primary/25">
+                <div className="inline-flex rounded-xl bg-horizon/15 p-3 text-horizon transition-colors group-hover:bg-horizon/25">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div className="min-w-0">
