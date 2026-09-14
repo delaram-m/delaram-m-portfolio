@@ -78,9 +78,9 @@
 :root {
   --radius: 0.75rem;
 
-  /* Light mode fallback — the app enforces dark cosmic theme via class */
-  --background: oklch(0.98 0.005 270);
-  --foreground: oklch(0.12 0.03 265);
+  /* The app enforces a dark cosmic theme — base is plain black */
+  --background: oklch(0 0 0);
+  --foreground: oklch(0.96 0.01 260);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.12 0.03 265);
   --popover: oklch(1 0 0);
