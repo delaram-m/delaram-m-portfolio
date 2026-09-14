@@ -29,16 +29,16 @@ function ProjectsPage() {
         </header>
 
         <div className="space-y-10">
-          <ProjectPlaceholder index={1} />
-          <ProjectPlaceholder index={2} reverse />
-          <ProjectPlaceholder index={3} />
+          <ProjectPlaceholder />
+          <ProjectPlaceholder reverse />
+          <ProjectPlaceholder />
         </div>
       </div>
     </div>
   );
 }
 
-function ProjectPlaceholder({ index, reverse = false }: { index: number; reverse?: boolean }) {
+function ProjectPlaceholder({ reverse = false }: { reverse?: boolean }) {
   return (
     <article className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
       <div className="flex min-h-60 items-center justify-center bg-gradient-to-br from-horizon/25 via-primary/15 to-nebula/20 md:min-h-72">
