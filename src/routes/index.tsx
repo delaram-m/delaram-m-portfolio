@@ -55,14 +55,14 @@ function HomePage() {
             title="Projects"
           />
           <FeatureCard
-            to="/experience"
-            icon={<RouteIcon className="h-5 w-5" />}
-            title="Experience"
-          />
-          <FeatureCard
             to="/trainings"
             icon={<Award className="h-5 w-5" />}
             title="Trainings"
+          />
+          <FeatureCard
+            to="/experience"
+            icon={<RouteIcon className="h-5 w-5" />}
+            title="Experience"
           />
           <FeatureCard
             to="/contact"
