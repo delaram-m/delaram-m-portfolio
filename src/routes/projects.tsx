@@ -39,9 +39,9 @@ function ProjectsPage() {
             repoUrl="https://github.com/Delaram-M/library-database"
           />
           <ProjectPlaceholder
-            skills={["Key skill"]}
-            title="Project Title"
-            description="A short project description will appear here, giving an overview of the work and its outcome."
+            skills={["DATA ANALYSIS"]}
+            title="The Keyword ”Alignment” in AI Conference Papers "
+            description="Data visualization, data analysis, review "
             reverse
           />
           <ProjectPlaceholder
