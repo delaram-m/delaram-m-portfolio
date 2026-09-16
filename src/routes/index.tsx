@@ -34,8 +34,8 @@ function HomePage() {
             </p>
           </div>
 
-          <div className="hidden lg:block">
-            <div className="profile-ring relative h-72 w-72 rounded-full p-1 shadow-2xl shadow-horizon/20">
+          <div className="self-center lg:block">
+            <div className="profile-ring relative h-44 w-44 rounded-full p-1 shadow-2xl shadow-horizon/20 sm:h-52 sm:w-52 lg:h-72 lg:w-72">
               <img
                 src={profilePhoto.url}
                 alt="Illustrated portrait of Delaram Moradi inside a spacecraft"
