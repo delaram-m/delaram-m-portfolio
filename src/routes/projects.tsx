@@ -38,7 +38,7 @@ function ProjectsPage() {
             skills={["Data Analysis", "SQL"]}
             title="Digital Media Store Analysis"
             description={
-              "Exploring key business questions regarding a media store's sales"
+              "Addressing key business questions regarding a media store's sales covering revenue, customer spending, and employee performance "
             }
             reverse
           />
