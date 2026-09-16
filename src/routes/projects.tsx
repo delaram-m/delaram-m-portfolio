@@ -32,7 +32,7 @@ function ProjectsPage() {
           <ProjectPlaceholder
             skill="DATABASE DESIGN"
             title="Library Database"
-            description="Design and implementation of a relational database for a public library's catalogue and circulation data with over 30 tables"
+            description="Design and implementation of a relational database for a public library's catalogue and circulation data "
           />
           <ProjectPlaceholder
             skill="Key skill"
