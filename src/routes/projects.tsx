@@ -55,11 +55,13 @@ function ProjectPlaceholder({
   skill,
   title,
   description,
+  repoUrl = "https://github.com/yourusername",
   reverse = false,
 }: {
   skill: string;
   title: string;
   description: string;
+  repoUrl?: string;
   reverse?: boolean;
 }) {
   return (
@@ -74,7 +76,7 @@ function ProjectPlaceholder({
         <h2 className="text-2xl font-semibold text-foreground">{title}</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{description}</p>
         <a
-          href="https://github.com/yourusername"
+          href={repoUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-semibold text-horizon transition-colors hover:text-horizon/70"
