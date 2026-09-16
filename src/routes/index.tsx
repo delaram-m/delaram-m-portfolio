@@ -21,7 +21,7 @@ function HomePage() {
       <div className="mx-auto w-full max-w-5xl shrink-0">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
-            <h1 className="bg-gradient-to-r from-primary via-nebula to-horizon bg-clip-text text-balance text-5xl font-bold leading-[1.1] tracking-tight text-transparent sm:text-6xl lg:text-7xl">
+            <h1 className="bg-gradient-to-r from-primary via-horizon to-[oklch(0.85_0.09_245)] bg-clip-text text-balance text-5xl font-black leading-[1.1] tracking-tight text-transparent drop-shadow-[0_0_20px_rgba(160,185,255,0.35)] [-webkit-text-stroke:1px_rgba(255,255,255,0.22)] sm:text-6xl lg:text-7xl">
               Delaram Moradi
             </h1>
 
