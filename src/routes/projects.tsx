@@ -44,9 +44,11 @@ function ProjectsPage() {
             reverse
           />
           <ProjectPlaceholder
-            skills={["Key skill"]}
-            title="Project Title"
-            description="A short project description will appear here, giving an overview of the work and its outcome."
+            skills={["Data Visualization", "Power BI"]}
+            title="Coffee Vending Machine Sales Report"
+            description="Addressing key business questions regarding a coffee vending machine's sales in a year"
+            repoUrl="https://github.com/Delaram-M/coffee-vending-machine-sales-report"
+            reverse
           />
         </div>
       </div>
