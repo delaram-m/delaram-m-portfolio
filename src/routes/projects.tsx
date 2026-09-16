@@ -42,6 +42,7 @@ function ProjectsPage() {
             skills={["DATA ANALYSIS", "Python"]}
             title="The Keyword ”Alignment” in AI Conference Papers "
             description="Data visualization, data analysis, review "
+            showRepoLink={false}
             reverse
           />
           <ProjectPlaceholder
