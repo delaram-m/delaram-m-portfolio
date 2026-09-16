@@ -29,9 +29,22 @@ function ProjectsPage() {
         </header>
 
         <div className="space-y-10">
-           <ProjectPlaceholder skill="DATABASE DESIGN" />
-           <ProjectPlaceholder skill="DATABASE DESIGN" reverse />
-           <ProjectPlaceholder skill="DATABASE DESIGN" />
+          <ProjectPlaceholder
+            skill="DATABASE DESIGN"
+            title="Library Database"
+            description="Design and implementation of a relational database for a public library's catalogue and circulation data with over 30 tables"
+          />
+          <ProjectPlaceholder
+            skill="Key skill"
+            title="Project Title"
+            description="A short project description will appear here, giving an overview of the work and its outcome."
+            reverse
+          />
+          <ProjectPlaceholder
+            skill="Key skill"
+            title="Project Title"
+            description="A short project description will appear here, giving an overview of the work and its outcome."
+          />
         </div>
       </div>
     </div>
