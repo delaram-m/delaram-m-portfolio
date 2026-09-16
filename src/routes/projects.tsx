@@ -35,7 +35,7 @@ function ProjectsPage() {
             repoUrl="https://github.com/Delaram-M/library-database"
           />
           <ProjectPlaceholder
-            skills={["DATA ANALYSIS", "Data Visualization"]}
+            skills={["Data Analysis", "SQL"]}
             title="The Keyword ”Alignment” in AI Conference Papers "
             description={
               'Finding patterns and insights regarding the use of the keyword "alignment" in AI conference papers'
