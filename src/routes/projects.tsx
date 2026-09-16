@@ -40,6 +40,7 @@ function ProjectsPage() {
             description={
               "Addressing key business questions regarding a media store's sales covering revenue, customer spending, and employee performance "
             }
+            repoUrl="https://github.com/Delaram-M/digital-media-store-analysis"
             reverse
           />
           <ProjectPlaceholder
