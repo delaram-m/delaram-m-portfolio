@@ -46,7 +46,7 @@ function ProjectsPage() {
           <ProjectPlaceholder
             skills={["Data Visualization", "Data Analysis", "Power BI"]}
             title="Coffee Vending Machine Sales Report"
-             description="Visualizing a coffee vending machine's sales data in a specific year and addressing key business questions"
+             description="Addressing key business questions covering product performance, refill timing, and marketing campaign focus areas"
             repoUrl="https://github.com/Delaram-M/coffee-vending-machine-sales-report"
           />
           <ProjectPlaceholder
