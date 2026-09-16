@@ -51,7 +51,17 @@ function ProjectsPage() {
   );
 }
 
-function ProjectPlaceholder({ skill, reverse = false }: { skill: string; reverse?: boolean }) {
+function ProjectPlaceholder({
+  skill,
+  title,
+  description,
+  reverse = false,
+}: {
+  skill: string;
+  title: string;
+  description: string;
+  reverse?: boolean;
+}) {
   return (
     <article className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
       <div className="flex min-h-60 items-center justify-center bg-gradient-to-br from-horizon/25 via-primary/15 to-nebula/20 md:min-h-72">
