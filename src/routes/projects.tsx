@@ -23,17 +23,13 @@ function ProjectsPage() {
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
         <header className="mb-12 text-center">
-          <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-            Projects
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">
-            Highlight of my technical projects
-          </p>
+          <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl">Projects</h1>
+          <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">Highlight of my technical projects</p>
         </header>
 
         <div className="space-y-10">
           <ProjectPlaceholder
-            skills={["DATABASE"]}
+            skills={["DATABASE DESIGN", "DATABASE IMPLEMENTATION"]}
             title="Library Database"
             description="Design and implementation of a relational database for a public library's catalogue and circulation data "
             repoUrl="https://github.com/Delaram-M/library-database"
@@ -41,7 +37,9 @@ function ProjectsPage() {
           <ProjectPlaceholder
             skills={["DATA ANALYSIS", "Data Visualization"]}
             title="The Keyword ”Alignment” in AI Conference Papers "
-            description={'Finding patterns and insights regarding the use of the keyword "alignment" in AI conference papers'}
+            description={
+              'Finding patterns and insights regarding the use of the keyword "alignment" in AI conference papers'
+            }
             showRepoLink={false}
             reverse
           />
@@ -84,7 +82,9 @@ function ProjectPlaceholder({
   const imageUrl = media?.url;
 
   return (
-    <article className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
+    <article
+      className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}
+    >
       <div className="flex min-h-60 items-center justify-center bg-gradient-to-br from-horizon/25 via-primary/15 to-nebula/20 md:min-h-72">
         {imageUrl && media?.kind === "pdf" ? (
           <iframe
@@ -100,7 +100,10 @@ function ProjectPlaceholder({
             loading="lazy"
           />
         ) : (
-          <FolderOpen className="h-10 w-10 text-muted-foreground/50 transition-colors group-hover:text-primary/70" aria-hidden="true" />
+          <FolderOpen
+            className="h-10 w-10 text-muted-foreground/50 transition-colors group-hover:text-primary/70"
+            aria-hidden="true"
+          />
         )}
       </div>
       <div className="flex flex-col justify-center p-7 sm:p-9">
