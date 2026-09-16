@@ -33,7 +33,7 @@ function ProjectsPage() {
 
         <div className="space-y-10">
           <ProjectPlaceholder
-            skills={["DATABASE", "SQL", "Python"]}
+            skills={["DATABASE"]}
             title="Library Database"
             description="Design and implementation of a relational database for a public library's catalogue and circulation data "
             repoUrl="https://github.com/Delaram-M/library-database"
