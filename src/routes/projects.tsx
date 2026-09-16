@@ -29,16 +29,39 @@ function ProjectsPage() {
         </header>
 
         <div className="space-y-10">
-           <ProjectPlaceholder skill="DATABASE DESIGN" />
-           <ProjectPlaceholder skill="DATABASE DESIGN" reverse />
-           <ProjectPlaceholder skill="DATABASE DESIGN" />
+          <ProjectPlaceholder
+            skill="DATABASE DESIGN"
+            title="Library Database"
+            description="Design and implementation of a relational database for a public library's catalogue and circulation data with over 30 tables"
+          />
+          <ProjectPlaceholder
+            skill="Key skill"
+            title="Project Title"
+            description="A short project description will appear here, giving an overview of the work and its outcome."
+            reverse
+          />
+          <ProjectPlaceholder
+            skill="Key skill"
+            title="Project Title"
+            description="A short project description will appear here, giving an overview of the work and its outcome."
+          />
         </div>
       </div>
     </div>
   );
 }
 
-function ProjectPlaceholder({ skill, reverse = false }: { skill: string; reverse?: boolean }) {
+function ProjectPlaceholder({
+  skill,
+  title,
+  description,
+  reverse = false,
+}: {
+  skill: string;
+  title: string;
+  description: string;
+  reverse?: boolean;
+}) {
   return (
     <article className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
       <div className="flex min-h-60 items-center justify-center bg-gradient-to-br from-horizon/25 via-primary/15 to-nebula/20 md:min-h-72">
@@ -48,10 +71,8 @@ function ProjectPlaceholder({ skill, reverse = false }: { skill: string; reverse
         <p className="mb-3 w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
           {skill}
         </p>
-         <h2 className="text-2xl font-semibold text-foreground">Library Database</h2>
-        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-           Design and implementation of a relational database&nbsp;for a public library's catalogue and circulation data&nbsp;with over 30 tables&nbsp;
-        </p>
+        <h2 className="text-2xl font-semibold text-foreground">{title}</h2>
+        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{description}</p>
         <a
           href="https://github.com/yourusername"
           target="_blank"
