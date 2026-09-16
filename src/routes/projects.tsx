@@ -83,10 +83,16 @@ function ProjectPlaceholder({
   return (
     <article className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
       <div className="flex min-h-60 items-center justify-center bg-gradient-to-br from-horizon/25 via-primary/15 to-nebula/20 md:min-h-72">
-        {imageUrl ? (
+        {imageUrl && media?.kind === "pdf" ? (
+          <iframe
+            src={`${imageUrl}#view=FitH&toolbar=0`}
+            title={imageAlt || `${title} document preview`}
+            className="h-72 w-full"
+          />
+        ) : imageUrl ? (
           <img
             src={imageUrl}
-            alt={imageAlt}
+            alt={imageAlt || `${title} preview from repository README`}
             className="max-h-72 w-full object-contain p-4"
             loading="lazy"
           />
