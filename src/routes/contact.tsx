@@ -18,14 +18,14 @@ export const Route = createFileRoute("/contact")({
 const socialLinks = [
   {
     name: "LinkedIn",
-    handle: "linkedin.com/in/yourprofile",
-    href: "https://linkedin.com/in/yourprofile",
+    handle: "linkedin.com/in/delaram-m-",
+    href: "https://www.linkedin.com/in/delaram-m-/",
     icon: Linkedin,
   },
   {
     name: "GitHub",
-    handle: "github.com/yourusername",
-    href: "https://github.com/yourusername",
+    handle: "github.com/Delaram-M",
+    href: "https://github.com/Delaram-M",
     icon: Github,
   },
 ];
