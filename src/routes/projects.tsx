@@ -70,6 +70,7 @@ function ProjectPlaceholder({
   description: string;
   repoUrl?: string;
   reverse?: boolean;
+  showRepoLink?: boolean;
   imageAlt?: string;
 }) {
   const fetchMedia = useServerFn(getRepoReadmeMedia);
