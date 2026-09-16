@@ -52,7 +52,7 @@ function ProjectsPage() {
           <ProjectPlaceholder
             skills={["Data Analysis", "Data Visualization", "Excel"]}
             title="Video Game Sales Analysis"
-             description="Addressing key business questions regarding video game sales"
+             description="Addressing key business questions covering sales tier classification, genre efficiency, and regional sales correlations"
             repoUrl="https://github.com/Delaram-M/video-game-sales-analysis"
             reverse
           />
