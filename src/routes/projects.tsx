@@ -29,7 +29,7 @@ function ProjectsPage() {
 
         <div className="space-y-10">
           <ProjectPlaceholder
-            skills={["DATABASE DESIGN", "DATABASE IMPLEMENTATION"]}
+            skills={["Database", "SQL", "Python"]}
             title="Library Database"
             description="Design and implementation of a relational database for a public library's catalogue and circulation data "
             repoUrl="https://github.com/Delaram-M/library-database"
@@ -110,7 +110,7 @@ function ProjectPlaceholder({
           {skills.map((skill) => (
             <p
               key={skill}
-              className="w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary"
+              className="w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary"
             >
               {skill}
             </p>
