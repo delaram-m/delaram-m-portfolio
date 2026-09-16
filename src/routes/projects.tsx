@@ -50,7 +50,7 @@ function ProjectsPage() {
             repoUrl="https://github.com/Delaram-M/coffee-vending-machine-sales-report"
           />
           <ProjectPlaceholder
-            skills={["Data Analysis", "Data Visualization", "Exel"]}
+            skills={["Data Analysis", "Data Visualization", "Excel"]}
             title="Video Game Sales Analysis"
              description="Addressing key business questions regarding video game sales"
             repoUrl="https://github.com/Delaram-M/video-game-sales-analysis"
