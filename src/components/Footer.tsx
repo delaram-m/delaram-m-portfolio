@@ -9,7 +9,7 @@ export function Footer() {
         <p className="inline-flex items-center gap-1.5 text-sm text-muted-foreground">
           © {year} Delaram Moradi. Built with
           <Heart className="h-3.5 w-3.5 fill-primary text-primary" aria-label="love" />
-          and Lovable.
+          in Lovable.
         </p>
       </div>
     </footer>
