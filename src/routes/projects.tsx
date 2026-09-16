@@ -71,15 +71,24 @@ function ProjectPlaceholder({
   showRepoLink?: boolean;
   imageAlt?: string;
 }) {
+  const isRealRepo = repoUrl.includes("github.com/") && !repoUrl.includes("yourusername");
   const fetchMedia = useServerFn(getRepoReadmeMedia);
-  const { data: media } = useQuery({
+  const { data: media, isFetched } = useQuery({
     queryKey: ["repo-readme-media", repoUrl],
     queryFn: () => fetchMedia({ data: { repoUrl } }),
-    enabled: repoUrl.includes("github.com/") && !repoUrl.includes("yourusername"),
+    enabled: isRealRepo,
     staleTime: 1000 * 60 * 60,
     retry: false,
   });
   const imageUrl = media?.url;
+  const repoPath = isRealRepo
+    ? repoUrl
+        .replace(/^https?:\/\/(www\.)?github\.com\//, "")
+        .replace(/\.git$/, "")
+        .replace(/\/+$/, "")
+    : "";
+  const repoPreviewUrl =
+    isFetched && !imageUrl && repoPath ? `https://opengraph.githubassets.com/1/${repoPath}` : null;
 
   return (
     <article
