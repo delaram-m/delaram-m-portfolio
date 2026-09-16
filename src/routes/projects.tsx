@@ -62,6 +62,7 @@ function ProjectPlaceholder({
   description,
   repoUrl = "https://github.com/yourusername",
   reverse = false,
+  showRepoLink = true,
   imageAlt = "",
 }: {
   skills: string[];
