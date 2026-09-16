@@ -21,7 +21,7 @@ function HomePage() {
       <div className="mx-auto w-full max-w-5xl shrink-0">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
-            <h1 className="text-balance text-5xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+            <h1 className="bg-gradient-to-r from-primary via-nebula to-horizon bg-clip-text text-balance text-5xl font-bold leading-[1.1] tracking-tight text-transparent sm:text-6xl lg:text-7xl">
               Delaram Moradi
             </h1>
 
@@ -42,7 +42,7 @@ function HomePage() {
           </div>
         </div>
 
-        <nav aria-label="Featured sections" className="mt-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <nav aria-label="Featured sections" className="mt-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <FeatureCard
             to="/projects"
             icon={<Code2 className="h-5 w-5" />}
