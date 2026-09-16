@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Code2, Route as RouteIcon, Mail, Award } from "lucide-react";
+import profilePhoto from "@/assets/delaram-profile.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
