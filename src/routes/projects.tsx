@@ -49,6 +49,13 @@ function ProjectsPage() {
              description="Visualizing a coffee vending machine's sales data in a specific year and addressing key business questions"
             repoUrl="https://github.com/Delaram-M/coffee-vending-machine-sales-report"
           />
+          <ProjectPlaceholder
+            skills={["Data Analysis", "Data Visualization", "Exel"]}
+            title="Video Game Sales Analysis"
+            description="Addressing key business questions regarding video games sales"
+            repoUrl="https://github.com/Delaram-M/video-game-sales-analysis"
+            reverse
+          />
         </div>
       </div>
     </div>
