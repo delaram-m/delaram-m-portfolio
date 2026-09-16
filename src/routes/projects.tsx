@@ -108,6 +108,13 @@ function ProjectPlaceholder({
             className="max-h-72 w-full object-contain p-4"
             loading="lazy"
           />
+        ) : repoPreviewUrl ? (
+          <img
+            src={repoPreviewUrl}
+            alt={`${title} GitHub repository preview`}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
         ) : (
           <FolderOpen
             className="h-10 w-10 text-muted-foreground/50 transition-colors group-hover:text-primary/70"
