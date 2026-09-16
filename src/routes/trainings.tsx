@@ -47,7 +47,7 @@ function TrainingsPage() {
             Trainings
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">
-            Badges, MOOCs, and certificates
+            Highlight of my certificates and badges
           </p>
         </header>
 
