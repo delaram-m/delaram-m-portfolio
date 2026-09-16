@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Code2, Route as RouteIcon, Mail, Award } from "lucide-react";
+import profilePhoto from "@/assets/delaram-profile.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,9 +36,11 @@ function HomePage() {
 
           <div className="hidden lg:block">
             <div className="profile-ring relative h-72 w-72 rounded-full p-1 shadow-2xl shadow-horizon/20">
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-space/90 text-6xl font-light text-stardust">
-                DM
-              </div>
+              <img
+                src={profilePhoto.url}
+                alt="Illustrated portrait of Delaram Moradi inside a spacecraft"
+                className="h-full w-full rounded-full bg-space object-cover object-center"
+              />
             </div>
           </div>
         </div>
