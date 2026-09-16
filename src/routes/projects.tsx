@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRight, FolderOpen } from "lucide-react";
-import erDiagram from "@/assets/library-database-er-diagram.png.asset.json";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -35,8 +34,6 @@ function ProjectsPage() {
             title="Library Database"
             description="Design and implementation of a relational database for a public library's catalogue and circulation data "
             repoUrl="https://github.com/Delaram-M/library-database"
-            imageUrl={erDiagram.url}
-            imageAlt="Entity-relationship diagram of the library database schema"
           />
           <ProjectPlaceholder
             skill="Key skill"
