@@ -33,7 +33,7 @@ function ProjectsPage() {
 
         <div className="space-y-10">
           <ProjectPlaceholder
-            skill="DATABASE"
+            skills={["DATABASE", "SQL", "Python"]}
             title="Library Database"
             description="Design and implementation of a relational database for a public library's catalogue and circulation data "
             repoUrl="https://github.com/Delaram-M/library-database"
@@ -56,14 +56,14 @@ function ProjectsPage() {
 }
 
 function ProjectPlaceholder({
-  skill,
+  skills,
   title,
   description,
   repoUrl = "https://github.com/yourusername",
   reverse = false,
   imageAlt = "",
 }: {
-  skill: string;
+  skills: string[];
   title: string;
   description: string;
   repoUrl?: string;
@@ -101,9 +101,16 @@ function ProjectPlaceholder({
         )}
       </div>
       <div className="flex flex-col justify-center p-7 sm:p-9">
-        <p className="mb-3 w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
-          {skill}
-        </p>
+        <div className="mb-3 flex flex-wrap gap-2">
+          {skills.map((skill) => (
+            <p
+              key={skill}
+              className="w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary"
+            >
+              {skill}
+            </p>
+          ))}
+        </div>
         <h2 className="text-2xl font-semibold text-foreground">{title}</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{description}</p>
         <a
