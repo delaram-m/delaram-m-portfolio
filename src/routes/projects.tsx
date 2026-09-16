@@ -39,13 +39,13 @@ function ProjectsPage() {
             repoUrl="https://github.com/Delaram-M/library-database"
           />
           <ProjectPlaceholder
-            skill="Key skill"
+            skills={["Key skill"]}
             title="Project Title"
             description="A short project description will appear here, giving an overview of the work and its outcome."
             reverse
           />
           <ProjectPlaceholder
-            skill="Key skill"
+            skills={["Key skill"]}
             title="Project Title"
             description="A short project description will appear here, giving an overview of the work and its outcome."
           />
