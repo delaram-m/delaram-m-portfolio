@@ -29,9 +29,9 @@ function ProjectsPage() {
         </header>
 
         <div className="space-y-10">
-          <ProjectPlaceholder skill="Key skill" />
-          <ProjectPlaceholder skill="Key skill" reverse />
-          <ProjectPlaceholder skill="Key skill" />
+           <ProjectPlaceholder skill="DATABASE DESIGN" />
+           <ProjectPlaceholder skill="DATABASE DESIGN" reverse />
+           <ProjectPlaceholder skill="DATABASE DESIGN" />
         </div>
       </div>
     </div>
@@ -48,9 +48,9 @@ function ProjectPlaceholder({ skill, reverse = false }: { skill: string; reverse
         <p className="mb-3 w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
           {skill}
         </p>
-        <h2 className="text-2xl font-semibold text-foreground">Project Title</h2>
+         <h2 className="text-2xl font-semibold text-foreground">Library Database</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-          A short project description will appear here, giving an overview of the work and its outcome.
+           Design and implementation of a relational database&nbsp;for a public library's catalogue and circulation data&nbsp;with over 30 tables&nbsp;
         </p>
         <a
           href="https://github.com/yourusername"
