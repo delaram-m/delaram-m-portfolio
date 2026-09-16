@@ -38,9 +38,6 @@ function ProjectsPage() {
             imageUrl={erDiagram.url}
             imageAlt="Entity-relationship diagram of the library database schema"
           />
-            description="Design and implementation of a relational database for a public library's catalogue and circulation data "
-            repoUrl="https://github.com/Delaram-M/library-database"
-          />
           <ProjectPlaceholder
             skill="Key skill"
             title="Project Title"
