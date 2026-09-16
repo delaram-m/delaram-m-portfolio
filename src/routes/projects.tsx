@@ -48,7 +48,6 @@ function ProjectsPage() {
             title="Coffee Vending Machine Sales Report"
             description="Addressing key business questions regarding a coffee vending machine's sales in a year"
             repoUrl="https://github.com/Delaram-M/coffee-vending-machine-sales-report"
-            reverse
           />
         </div>
       </div>
