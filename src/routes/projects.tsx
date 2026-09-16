@@ -71,10 +71,8 @@ function ProjectPlaceholder({
         <p className="mb-3 w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
           {skill}
         </p>
-         <h2 className="text-2xl font-semibold text-foreground">Library Database</h2>
-        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-           Design and implementation of a relational database&nbsp;for a public library's catalogue and circulation data&nbsp;with over 30 tables&nbsp;
-        </p>
+        <h2 className="text-2xl font-semibold text-foreground">{title}</h2>
+        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{description}</p>
         <a
           href="https://github.com/yourusername"
           target="_blank"
