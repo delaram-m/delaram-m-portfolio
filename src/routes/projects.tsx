@@ -40,7 +40,6 @@ function ProjectsPage() {
             description={
               'Finding patterns and insights regarding the use of the keyword "alignment" in AI conference papers'
             }
-            showRepoLink={false}
             reverse
           />
           <ProjectPlaceholder
