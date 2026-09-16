@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRight, FolderOpen } from "lucide-react";
+import erDiagram from "@/assets/library-database-er-diagram.png.asset.json";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -58,17 +59,30 @@ function ProjectPlaceholder({
   description,
   repoUrl = "https://github.com/yourusername",
   reverse = false,
+  imageUrl,
+  imageAlt = "",
 }: {
   skill: string;
   title: string;
   description: string;
   repoUrl?: string;
   reverse?: boolean;
+  imageUrl?: string;
+  imageAlt?: string;
 }) {
   return (
     <article className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
       <div className="flex min-h-60 items-center justify-center bg-gradient-to-br from-horizon/25 via-primary/15 to-nebula/20 md:min-h-72">
-        <FolderOpen className="h-10 w-10 text-muted-foreground/50 transition-colors group-hover:text-primary/70" aria-hidden="true" />
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={imageAlt}
+            className="max-h-72 w-full object-contain p-4"
+            loading="lazy"
+          />
+        ) : (
+          <FolderOpen className="h-10 w-10 text-muted-foreground/50 transition-colors group-hover:text-primary/70" aria-hidden="true" />
+        )}
       </div>
       <div className="flex flex-col justify-center p-7 sm:p-9">
         <p className="mb-3 w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
