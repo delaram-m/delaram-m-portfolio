@@ -37,10 +37,12 @@ function HomePage() {
 
           <div className="self-center lg:block">
             <div className="profile-ring relative h-44 w-44 rounded-full p-1 shadow-2xl shadow-horizon/20 sm:h-52 sm:w-52 lg:h-72 lg:w-72">
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-space-elevated/60">
-                <span className="bg-gradient-to-r from-primary via-nebula to-horizon bg-clip-text text-4xl font-black tracking-tight text-transparent sm:text-5xl lg:text-7xl">
-                  DM
-                </span>
+              <div className="flex h-full w-full items-end justify-center overflow-hidden rounded-full">
+                <img
+                  src={profilePhoto.url}
+                  alt="Illustrated portrait of Delaram Moradi"
+                  className="h-full w-full object-contain object-bottom"
+                />
               </div>
             </div>
           </div>
