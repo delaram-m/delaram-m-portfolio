@@ -61,7 +61,6 @@ function ProjectPlaceholder({
   description,
   repoUrl = "https://github.com/yourusername",
   reverse = false,
-  imageUrl,
   imageAlt = "",
 }: {
   skill: string;
@@ -69,9 +68,18 @@ function ProjectPlaceholder({
   description: string;
   repoUrl?: string;
   reverse?: boolean;
-  imageUrl?: string;
   imageAlt?: string;
 }) {
+  const fetchMedia = useServerFn(getRepoReadmeMedia);
+  const { data: media } = useQuery({
+    queryKey: ["repo-readme-media", repoUrl],
+    queryFn: () => fetchMedia({ data: { repoUrl } }),
+    enabled: repoUrl.includes("github.com/") && !repoUrl.includes("yourusername"),
+    staleTime: 1000 * 60 * 60,
+    retry: false,
+  });
+  const imageUrl = media?.url;
+
   return (
     <article className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
       <div className="flex min-h-60 items-center justify-center bg-gradient-to-br from-horizon/25 via-primary/15 to-nebula/20 md:min-h-72">
