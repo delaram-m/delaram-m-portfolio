@@ -33,8 +33,8 @@ function ProjectsPage() {
             skill="DATABASE DESIGN"
             title="Library Database"
             description="Design and implementation of a relational database for a public library's catalogue and circulation data "
-          />
             repoUrl="https://github.com/Delaram-M/library-database"
+          />
           <ProjectPlaceholder
             skill="Key skill"
             title="Project Title"
