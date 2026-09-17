@@ -41,7 +41,29 @@ const trainings: Training[] = [
   { name: "Certificate or badge name", month: "Month", year: 2026, skills: ["Skill"], link: "https://example.com" },
 ];
 
+const MONTHS = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];
+
+// Sort by completion date, most recent first. Unknown months sort as January.
+function byDateDesc(a: Training, b: Training) {
+  const dateValue = (t: Training) => t.year * 100 + (MONTHS.indexOf(t.month.toLowerCase()) + 1 || 1);
+  return dateValue(b) - dateValue(a);
+}
+
 function TrainingsPage() {
+  const sortedTrainings = [...trainings].sort(byDateDesc);
   return (
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
