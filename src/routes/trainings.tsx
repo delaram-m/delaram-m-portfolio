@@ -82,6 +82,11 @@ function TrainingsPage() {
     });
   };
 
+  const setAllSkills = (selectAll: boolean) => {
+    setSelected(selectAll ? new Set(allSkills) : new Set());
+  };
+
+
   const sortedTrainings = [...trainings]
     .sort(byDateDesc)
     .filter((t) => t.skills.some((s) => selected.has(s)));
@@ -98,7 +103,7 @@ function TrainingsPage() {
           </p>
         </header>
 
-        <SkillFilter skills={allSkills} selected={selected} onToggle={toggleSkill} />
+        <SkillFilter skills={allSkills} selected={selected} onToggle={toggleSkill} onSetAll={setAllSkills} />
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {sortedTrainings.map((training, i) => (
