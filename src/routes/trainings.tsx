@@ -27,9 +27,13 @@ type Training = {
   year: number;
   skills: string[];
   link?: string;
+  // Fallback preview used when there is no link, or the link yields nothing.
+  // Point url at an uploaded asset (image recommended; pdf also supported).
+  manualPreview?: { url: string; kind: "image" | "pdf" };
 };
 
 // Add link for a clickable credential; the preview is pulled from that link automatically.
+// If that fails (or there is no link), manualPreview is shown instead.
 const trainings: Training[] = [
   { name: "Getting Started with AWS Cloud Essentials", month: "August", year: 2026, skills: ["AWS"] },
   {
