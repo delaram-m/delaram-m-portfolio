@@ -13,8 +13,13 @@ export function SkillFilter({
   onToggle: (skill: string) => void;
   onSetAll: (select: boolean) => void;
 }) {
-  // Sort skills from longest to shortest, alphabetical as a tie-break.
-  const sortedSkills = [...skills].sort((a, b) => b.length - a.length || a.localeCompare(b));
+  // Sort skills into two groups: those starting with "data" first, then the
+  // rest. Within each group, longest to shortest, alphabetical as tie-break.
+  const sortedSkills = [...skills].sort((a, b) => {
+    const aData = a.toLowerCase().startsWith("data") ? 0 : 1;
+    const bData = b.toLowerCase().startsWith("data") ? 0 : 1;
+    return aData - bData || b.length - a.length || a.localeCompare(b);
+  });
   const allSelected = sortedSkills.every((s) => selected.has(s));
 
   // When the skill pills wrap to more than one line, give the select/unselect
