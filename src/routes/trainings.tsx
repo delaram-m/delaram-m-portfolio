@@ -126,13 +126,17 @@ function TrainingsPage() {
 
 function TrainingCard({ training }: { training: Training }) {
   const fetchPreview = useServerFn(getCredentialPreview);
-  const { data: preview, isLoading } = useQuery({
+  const { data: linkPreview, isLoading } = useQuery({
     queryKey: ["credential-preview", training.link],
     queryFn: () => fetchPreview({ data: { link: training.link ?? "" } }),
     enabled: Boolean(training.link),
     staleTime: 1000 * 60 * 60,
     retry: false,
   });
+
+  // Link preview wins; manual upload is the fallback.
+  const preview = linkPreview ?? (isLoading ? undefined : training.manualPreview);
+
 
   const content = (
     <>
