@@ -23,15 +23,16 @@ type Training = {
   name: string;
   month: string;
   year: number;
+  skills: string[];
   link?: string;
 };
 
 // Add link for a clickable credential; the preview is pulled from that link automatically.
 const trainings: Training[] = [
-  { name: "Getting Started with AWS Cloud Essentials", month: "August", year: 2026 },
-  { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
-  { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
-  { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
+  { name: "Getting Started with AWS Cloud Essentials", month: "August", year: 2026, skills: ["AWS", "Cloud"] },
+  { name: "Certificate or badge name", month: "Month", year: 2026, skills: ["Skill"], link: "https://example.com" },
+  { name: "Certificate or badge name", month: "Month", year: 2026, skills: ["Skill"], link: "https://example.com" },
+  { name: "Certificate or badge name", month: "Month", year: 2026, skills: ["Skill"], link: "https://example.com" },
 ];
 
 function TrainingsPage() {
@@ -96,6 +97,16 @@ function TrainingCard({ training }: { training: Training }) {
       </div>
       <div className="flex min-h-32 items-start gap-3 p-5">
         <div className="min-w-0 flex-1">
+          <div className="mb-3 flex flex-wrap gap-1.5">
+            {training.skills.map((skill) => (
+              <p
+                key={skill}
+                className="w-fit rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold tracking-wide text-primary"
+              >
+                {skill}
+              </p>
+            ))}
+          </div>
           <h2 className="text-base font-semibold leading-snug text-foreground">{training.name}</h2>
           <p className="mt-2 text-sm text-muted-foreground">
             {training.month} {training.year}
