@@ -68,6 +68,11 @@ function ProjectsPage() {
     });
   };
 
+  const setAllSkills = (selectAll: boolean) => {
+    setSelected(selectAll ? new Set(allSkills) : new Set());
+  };
+
+
   const visibleProjects = projects.filter((p) => p.skills.some((s) => selected.has(s)));
 
   return (
