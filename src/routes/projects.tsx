@@ -29,7 +29,7 @@ type Project = {
 
 const projects: Project[] = [
   {
-    skills: ["Database", "SQL", "Python"],
+    skills: ["Database Design", "Database Implementation", "SQL", "Python"],
     title: "Library Database",
     description: "Design and implementation of a relational database for a public library's catalogue and circulation data ",
     repoUrl: "https://github.com/Delaram-M/library-database",
