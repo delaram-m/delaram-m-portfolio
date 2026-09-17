@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { ArrowUpRight } from "lucide-react";
+import { getCredentialPreview, type CredentialPreview } from "@/lib/credentialPreview.functions";
 
 export const Route = createFileRoute("/trainings")({
   head: () => ({
@@ -17,26 +20,19 @@ export const Route = createFileRoute("/trainings")({
 
 type Training = {
   name: string;
+  month: string;
+  year: number;
   link?: string;
+  preview?: CredentialPreview;
 };
 
-// Add your badges, MOOCs, and certificates here.
+// Add an optional link for automatic previews, or preview for a manually uploaded image or PDF.
 const trainings: Training[] = [
-  { name: "Certificate name" },
-  { name: "Certificate name" },
-  { name: "Certificate name" },
-  { name: "Certificate name" },
+  { name: "Certificate or badge name", month: "Month", year: 2026 },
+  { name: "Certificate or badge name", month: "Month", year: 2026 },
+  { name: "Certificate or badge name", month: "Month", year: 2026 },
+  { name: "Certificate or badge name", month: "Month", year: 2026 },
 ];
-
-function faviconFor(link?: string) {
-  if (!link) return null;
-  try {
-    const { hostname } = new URL(link);
-    return `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`;
-  } catch {
-    return null;
-  }
-}
 
 function TrainingsPage() {
   return (
@@ -51,7 +47,7 @@ function TrainingsPage() {
           </p>
         </header>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {trainings.map((training, i) => (
             <TrainingCard key={i} training={training} />
           ))}
@@ -62,33 +58,57 @@ function TrainingsPage() {
 }
 
 function TrainingCard({ training }: { training: Training }) {
-  const icon = faviconFor(training.link);
+  const fetchPreview = useServerFn(getCredentialPreview);
+  const { data: linkedPreview, isLoading } = useQuery({
+    queryKey: ["credential-preview", training.link],
+    queryFn: () => fetchPreview({ data: { link: training.link ?? "" } }),
+    enabled: Boolean(training.link) && !training.preview,
+    staleTime: 1000 * 60 * 60,
+    retry: false,
+  });
+  const preview = training.preview ?? linkedPreview;
 
   const content = (
     <>
-      {icon && (
-        <img
-          src={icon}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          className="h-8 w-8 shrink-0 rounded-md bg-muted/40 object-contain p-1"
-        />
-      )}
-      <div className="min-w-0 flex-1">
-        <h2 className="text-sm font-semibold leading-snug text-foreground">{training.name}</h2>
+      <div className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden border-b border-border bg-space-elevated/70">
+        {preview?.kind === "pdf" ? (
+          <iframe
+            src={`${preview.url}#view=FitH&toolbar=0`}
+            title={`${training.name} preview`}
+            className="h-full w-full"
+          />
+        ) : preview ? (
+          <img
+            src={preview.url}
+            alt={`${training.name} preview`}
+            loading="lazy"
+            className="h-full w-full object-contain p-4"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center px-6 text-center text-xs text-muted-foreground">
+            {isLoading ? "Loading preview…" : "Credential preview"}
+          </div>
+        )}
       </div>
-      {training.link && (
-        <ArrowUpRight
-          className="h-4 w-4 shrink-0 text-horizon transition-transform group-hover:translate-x-0.5"
-          aria-hidden="true"
-        />
-      )}
+      <div className="flex min-h-28 items-start gap-3 p-5">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-base font-semibold leading-snug text-foreground">{training.name}</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {training.month} {training.year}
+          </p>
+        </div>
+        {training.link && (
+          <ArrowUpRight
+            className="h-4 w-4 shrink-0 text-horizon transition-transform group-hover:translate-x-0.5"
+            aria-hidden="true"
+          />
+        )}
+      </div>
     </>
   );
 
   const className =
-    "group flex items-center gap-3 rounded-xl border border-border bg-card/90 p-4 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10";
+    "group block overflow-hidden rounded-xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10";
 
   return training.link ? (
     <a href={training.link} target="_blank" rel="noopener noreferrer" className={className}>
