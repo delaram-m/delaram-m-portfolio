@@ -44,7 +44,7 @@ const trainings: Training[] = [
 function TrainingsPage() {
   return (
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-6xl">
         <header className="mb-12 text-center">
           <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Trainings
@@ -54,7 +54,7 @@ function TrainingsPage() {
           </p>
         </header>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {trainings.map((training, i) => (
             <TrainingCard key={i} training={training} />
           ))}
