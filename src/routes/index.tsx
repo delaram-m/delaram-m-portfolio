@@ -66,7 +66,7 @@ function HomePage() {
           />
           <FeatureCard
             to="/contact"
-            icon={<Mail className="h-5 w-5" />}
+            icon={<Handshake className="h-5 w-5" />}
             title="Connect"
           />
         </nav>
