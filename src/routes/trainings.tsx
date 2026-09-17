@@ -44,6 +44,7 @@ const trainings: Training[] = [
     skills: ["Python"],
     link: "https://coursera.org/share/14a0a4242348d12a342cf6d2d533e5e7",
   },
+];
 
 const MONTHS = [
   "january",
