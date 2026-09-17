@@ -159,7 +159,7 @@ function TrainingCard({ training }: { training: Training }) {
             src={preview.url}
             alt={`${training.name} preview`}
             loading="lazy"
-            className="h-full w-full object-cover"
+            className="max-h-full max-w-full object-contain p-4"
           />
         ) : (
           <div className="relative flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/15 via-space-elevated to-horizon/15">
