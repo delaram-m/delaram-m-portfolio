@@ -67,7 +67,7 @@ function HomePage() {
           <FeatureCard
             to="/contact"
             icon={<Mail className="h-5 w-5" />}
-            title="Contact"
+            title="Connect"
           />
         </nav>
       </div>

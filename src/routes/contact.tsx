@@ -35,7 +35,7 @@ function ContactPage() {
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-3xl text-center">
         <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-          Contact
+          Connect
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">
           Connect with me

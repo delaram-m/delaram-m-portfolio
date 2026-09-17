@@ -7,7 +7,7 @@ const navItems = [
   { to: "/projects", label: "Projects" },
   { to: "/trainings", label: "Trainings" },
   { to: "/experience", label: "Experience" },
-  { to: "/contact", label: "Contact" },
+  { to: "/contact", label: "Connect" },
 ];
 
 export function Header() {
