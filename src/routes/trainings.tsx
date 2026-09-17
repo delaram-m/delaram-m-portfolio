@@ -27,9 +27,13 @@ type Training = {
   year: number;
   skills: string[];
   link?: string;
+  // Fallback preview used when there is no link, or the link yields nothing.
+  // Point url at an uploaded asset (image recommended; pdf also supported).
+  manualPreview?: { url: string; kind: "image" | "pdf" };
 };
 
 // Add link for a clickable credential; the preview is pulled from that link automatically.
+// If that fails (or there is no link), manualPreview is shown instead.
 const trainings: Training[] = [
   { name: "Getting Started with AWS Cloud Essentials", month: "August", year: 2026, skills: ["AWS"] },
   {
@@ -122,13 +126,17 @@ function TrainingsPage() {
 
 function TrainingCard({ training }: { training: Training }) {
   const fetchPreview = useServerFn(getCredentialPreview);
-  const { data: preview, isLoading } = useQuery({
+  const { data: linkPreview, isLoading } = useQuery({
     queryKey: ["credential-preview", training.link],
     queryFn: () => fetchPreview({ data: { link: training.link ?? "" } }),
     enabled: Boolean(training.link),
     staleTime: 1000 * 60 * 60,
     retry: false,
   });
+
+  // Link preview wins; manual upload is the fallback.
+  const preview = linkPreview ?? (isLoading ? undefined : training.manualPreview);
+
 
   const content = (
     <>
