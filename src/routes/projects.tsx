@@ -55,7 +55,7 @@ const projects: Project[] = [
   },
   {
     skills: ["Data Science", "Machine Learning", "Python"],
-    title: "Precipitation Forecasting Using Climate Data",
+    title: "Precipitation Forecasting",
     description:
       "Preprocessed, visualized, and trained models on climate data and evaluated model's performance in collaboration with team members",
     repoUrl: "",
