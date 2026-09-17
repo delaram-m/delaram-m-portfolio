@@ -59,6 +59,18 @@ function extractPreviewFromHtml(html: string, pageUrl: string): CredentialPrevie
   return url ? { url, kind: PDF_EXTENSION.test(url) ? "pdf" : "image" } : null;
 }
 
+// Coursera accomplishment pages only inject the real certificate image via
+// client-side rendering; plain server fetches see a generic banner instead.
+// The generated certificate image follows a stable URL pattern, so build it
+// from the certificate id in the final (post-redirect) page URL.
+const COURSERA_ACCOMPLISHMENT = /coursera\.org\/account\/accomplishments\/(?:specialization|certificate|verify)\/([A-Z0-9]+)/i;
+
+function courseraCertificateImage(pageUrl: string): string | null {
+  const id = COURSERA_ACCOMPLISHMENT.exec(pageUrl)?.[1];
+  if (!id) return null;
+  return `https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~${id}/CERTIFICATE_LANDING_PAGE~${id}.jpeg`;
+}
+
 export const getCredentialPreview = createServerFn({ method: "GET" })
   .inputValidator((data: { link: string }) => data)
   .handler(async ({ data }): Promise<CredentialPreview> => {
@@ -78,6 +90,9 @@ export const getCredentialPreview = createServerFn({ method: "GET" })
       if (contentType.includes("application/pdf")) return { url: response.url, kind: "pdf" };
       if (contentType.startsWith("image/")) return { url: response.url, kind: "image" };
       if (!contentType.includes("text/html")) return null;
+
+      const courseraImage = courseraCertificateImage(response.url);
+      if (courseraImage) return { url: courseraImage, kind: "image" };
 
       return extractPreviewFromHtml((await response.text()).slice(0, 1_000_000), response.url);
     } catch {
