@@ -43,6 +43,7 @@ const trainings: Training[] = [
     skills: ["AWS"],
     manualPreview: { url: awsCredentialImage.url, kind: "image" },
   },
+  {
     name: "Introduction to Data Analytics for Business",
     month: "June",
     year: 2026,
