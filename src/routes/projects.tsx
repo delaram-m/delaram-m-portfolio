@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { useMemo, useState } from "react";
 import { ArrowUpRight, FolderOpen } from "lucide-react";
 import { getRepoReadmeMedia } from "@/lib/repoImage.functions";
+import { SkillFilter } from "@/components/SkillFilter";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -18,7 +20,56 @@ export const Route = createFileRoute("/projects")({
   component: ProjectsPage,
 });
 
+type Project = {
+  skills: string[];
+  title: string;
+  description: string;
+  repoUrl: string;
+};
+
+const projects: Project[] = [
+  {
+    skills: ["Database", "SQL", "Python"],
+    title: "Library Database",
+    description: "Design and implementation of a relational database for a public library's catalogue and circulation data ",
+    repoUrl: "https://github.com/Delaram-M/library-database",
+  },
+  {
+    skills: ["Data Querying", "Data Analysis", "SQL"],
+    title: "Digital Media Store Analysis",
+    description:
+      "Addressing key business questions regarding a media store's sales covering revenue, customer spending, and employee performance ",
+    repoUrl: "https://github.com/Delaram-M/digital-media-store-analysis",
+  },
+  {
+    skills: ["Data Visualization", "Data Analysis", "Power BI"],
+    title: "Coffee Vending Machine Sales Report",
+    description: "Addressing key business questions covering product performance, refill timing, and marketing campaign focus areas",
+    repoUrl: "https://github.com/Delaram-M/coffee-vending-machine-sales-report",
+  },
+  {
+    skills: ["Data Analysis", "Data Visualization", "Excel"],
+    title: "Video Game Sales Analysis",
+    description: "Addressing key business questions covering sales tier classification, genre efficiency, and regional sales correlations",
+    repoUrl: "https://github.com/Delaram-M/video-game-sales-analysis",
+  },
+];
+
 function ProjectsPage() {
+  const allSkills = useMemo(() => [...new Set(projects.flatMap((p) => p.skills))], []);
+  const [selected, setSelected] = useState<Set<string>>(() => new Set(allSkills));
+
+  const toggleSkill = (skill: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(skill)) next.delete(skill);
+      else next.add(skill);
+      return next;
+    });
+  };
+
+  const visibleProjects = projects.filter((p) => p.skills.some((s) => selected.has(s)));
+
   return (
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
@@ -27,35 +78,17 @@ function ProjectsPage() {
           <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">Highlight of my technical projects</p>
         </header>
 
+        <SkillFilter skills={allSkills} selected={selected} onToggle={toggleSkill} />
+
         <div className="space-y-10">
-          <ProjectPlaceholder
-            skills={["Database", "SQL", "Python"]}
-            title="Library Database"
-            description="Design and implementation of a relational database for a public library's catalogue and circulation data "
-            repoUrl="https://github.com/Delaram-M/library-database"
-          />
-          <ProjectPlaceholder
-            skills={["Data Querying", "Data Analysis", "SQL"]}
-            title="Digital Media Store Analysis"
-            description={
-              "Addressing key business questions regarding a media store's sales covering revenue, customer spending, and employee performance "
-            }
-            repoUrl="https://github.com/Delaram-M/digital-media-store-analysis"
-            reverse
-          />
-          <ProjectPlaceholder
-            skills={["Data Visualization", "Data Analysis", "Power BI"]}
-            title="Coffee Vending Machine Sales Report"
-             description="Addressing key business questions covering product performance, refill timing, and marketing campaign focus areas"
-            repoUrl="https://github.com/Delaram-M/coffee-vending-machine-sales-report"
-          />
-          <ProjectPlaceholder
-            skills={["Data Analysis", "Data Visualization", "Excel"]}
-            title="Video Game Sales Analysis"
-             description="Addressing key business questions covering sales tier classification, genre efficiency, and regional sales correlations"
-            repoUrl="https://github.com/Delaram-M/video-game-sales-analysis"
-            reverse
-          />
+          {visibleProjects.map((project, i) => (
+            <ProjectPlaceholder key={project.title} {...project} reverse={i % 2 === 1} />
+          ))}
+          {visibleProjects.length === 0 && (
+            <p className="py-12 text-center text-sm text-muted-foreground">
+              No projects match the selected skills. Turn a skill back on to see projects.
+            </p>
+          )}
         </div>
       </div>
     </div>

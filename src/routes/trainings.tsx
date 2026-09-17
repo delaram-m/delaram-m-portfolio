@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { useMemo, useState } from "react";
 import { ArrowUpRight, Award } from "lucide-react";
 import { getCredentialPreview } from "@/lib/credentialPreview.functions";
+import { SkillFilter } from "@/components/SkillFilter";
 
 
 export const Route = createFileRoute("/trainings")({
@@ -68,7 +70,22 @@ function byDateDesc(a: Training, b: Training) {
 }
 
 function TrainingsPage() {
-  const sortedTrainings = [...trainings].sort(byDateDesc);
+  const allSkills = useMemo(() => [...new Set(trainings.flatMap((t) => t.skills))], []);
+  const [selected, setSelected] = useState<Set<string>>(() => new Set(allSkills));
+
+  const toggleSkill = (skill: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(skill)) next.delete(skill);
+      else next.add(skill);
+      return next;
+    });
+  };
+
+  const sortedTrainings = [...trainings]
+    .sort(byDateDesc)
+    .filter((t) => t.skills.some((s) => selected.has(s)));
+
   return (
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
@@ -81,11 +98,18 @@ function TrainingsPage() {
           </p>
         </header>
 
+        <SkillFilter skills={allSkills} selected={selected} onToggle={toggleSkill} />
+
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {sortedTrainings.map((training, i) => (
             <TrainingCard key={i} training={training} />
           ))}
         </div>
+        {sortedTrainings.length === 0 && (
+          <p className="py-12 text-center text-sm text-muted-foreground">
+            No trainings match the selected skills. Turn a skill back on to see certificates.
+          </p>
+        )}
       </div>
     </div>
   );
