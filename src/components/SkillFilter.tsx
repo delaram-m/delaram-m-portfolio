@@ -54,19 +54,21 @@ export function SkillFilter({
 
   return (
     <div
-      className={cn("mb-10 flex items-center justify-center gap-2", multiLine && "gap-4")}
+      className={cn(
+        "mb-10 flex items-center gap-2",
+        multiLine ? "justify-start gap-4" : "justify-center",
+      )}
       role="group"
       aria-label="Filter by skill"
     >
+      <div className="flex shrink-0 items-center">{selectAllButton}</div>
       <div
+        ref={listRef}
         className={cn(
-          "flex shrink-0 items-center",
-          multiLine && "self-stretch border-r border-border/60 pr-4",
+          "flex flex-wrap items-center gap-2",
+          multiLine ? "flex-1 justify-start" : "justify-center",
         )}
       >
-        {selectAllButton}
-      </div>
-      <div ref={listRef} className="flex flex-wrap items-center justify-center gap-2">
         {sortedSkills.map((skill) => {
           const active = selected.has(skill);
           return (
