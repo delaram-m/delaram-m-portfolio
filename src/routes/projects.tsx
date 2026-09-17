@@ -86,8 +86,12 @@ function ProjectsPage() {
         <SkillFilter skills={allSkills} selected={selected} onToggle={toggleSkill} onSetAll={setAllSkills} />
 
         <div className="space-y-10">
-          {visibleProjects.map((project, i) => (
-            <ProjectPlaceholder key={project.title} {...project} reverse={i % 2 === 1} />
+          {visibleProjects.map((project) => (
+            <ProjectPlaceholder
+              key={project.title}
+              {...project}
+              reverse={projects.indexOf(project) % 2 === 1}
+            />
           ))}
           {visibleProjects.length === 0 && (
             <p className="py-12 text-center text-sm text-muted-foreground">
