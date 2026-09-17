@@ -57,7 +57,7 @@ const projects: Project[] = [
     skills: ["Data Analysis", "Data Visualization", "Python", "Jupyter Notebook"],
     title: '"Alignment" in AI Conference Papers',
     description:
-      'Extracted and visualized data on the use of the keyword "alignment" in AI conference papers',
+      'Extracted and visualized data on the use of the keyword "alignment" in AI papers and reviewed sampled papers for contextual information',
     repoUrl: "",
   },
   {
