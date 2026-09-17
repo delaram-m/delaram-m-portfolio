@@ -54,7 +54,7 @@ const projects: Project[] = [
     repoUrl: "https://github.com/Delaram-M/video-game-sales-analysis",
   },
   {
-    skills: ["Data Science", "Machine Learning", "Data Visualization", "Python", "Jupyter"],
+    skills: ["Data Science", "Machine Learning", "Data Visualization", "Python", "Jupyter Notebook"],
     title: "Precipitation Forecasting",
     description:
       "Preprocessed and visualized climate data and trained models and evaluated model's performance in collaboration with team members",
