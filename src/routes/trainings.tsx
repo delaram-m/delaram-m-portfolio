@@ -29,7 +29,7 @@ type Training = {
 
 // Add link for a clickable credential; the preview is pulled from that link automatically.
 const trainings: Training[] = [
-  { name: "Getting Started with AWS Cloud Essentials", month: "August", year: 2026, skills: ["AWS", "Cloud"] },
+  { name: "Getting Started with AWS Cloud Essentials", month: "August", year: 2026, skills: ["AWS"] },
   { name: "Certificate or badge name", month: "Month", year: 2026, skills: ["Skill"], link: "https://example.com" },
   { name: "Certificate or badge name", month: "Month", year: 2026, skills: ["Skill"], link: "https://example.com" },
   { name: "Certificate or badge name", month: "Month", year: 2026, skills: ["Skill"], link: "https://example.com" },
