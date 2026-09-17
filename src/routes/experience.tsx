@@ -41,7 +41,18 @@ function ExperiencePage() {
               "Created a master's thesis and successfully presented it to the committee members",
             ]}
           />
-          <ExperiencePlaceholder index={2} />
+          <ExperienceEntry
+            title="Teaching Assistant"
+            org="University of Waterloo"
+            dates="September 2024 - April 2026"
+            bullets={[
+              "Held office hours to respond to student questions and guide them in problem-solving",
+              "Developed marking schemes collaboratively to ensure grading consistency",
+              "Provided constructive feedback on essays to help students improve their writing and critical thinking",
+              "Provided feedback to an instructor on role-playing exercise descriptions",
+              "Marked assignments and exams, and provided constructive feedback to students",
+            ]}
+          />
           <ExperiencePlaceholder index={3} />
         </div>
       </div>
