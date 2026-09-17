@@ -155,14 +155,12 @@ function TrainingCard({ training }: { training: Training }) {
             className="h-full w-full"
           />
         ) : preview ? (
-          <div className="flex h-full w-full items-center justify-center p-3">
-            <img
-              src={preview.url}
-              alt={`${training.name} preview`}
-              loading="lazy"
-              className="max-h-full max-w-full rounded-md object-contain"
-            />
-          </div>
+          <img
+            src={preview.url}
+            alt={`${training.name} preview`}
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
         ) : (
           <div className="relative flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/15 via-space-elevated to-horizon/15">
             <Award className="h-10 w-10 text-muted-foreground/60" aria-hidden="true" />
