@@ -97,6 +97,16 @@ function TrainingCard({ training }: { training: Training }) {
       </div>
       <div className="flex min-h-32 items-start gap-3 p-5">
         <div className="min-w-0 flex-1">
+          <div className="mb-3 flex flex-wrap gap-1.5">
+            {training.skills.map((skill) => (
+              <p
+                key={skill}
+                className="w-fit rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold tracking-wide text-primary"
+              >
+                {skill}
+              </p>
+            ))}
+          </div>
           <h2 className="text-base font-semibold leading-snug text-foreground">{training.name}</h2>
           <p className="mt-2 text-sm text-muted-foreground">
             {training.month} {training.year}
