@@ -30,7 +30,12 @@ type Training = {
 
 // Add link for a clickable credential and automatic preview. A manually uploaded file can be used instead.
 const trainings: Training[] = [
-  { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
+  {
+    name: "Getting Started with AWS Cloud Essentials",
+    month: "August",
+    year: 2026,
+    manualPreview: { url: awsCredentialPdf.url, kind: "pdf" },
+  },
   { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
   { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
   { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
