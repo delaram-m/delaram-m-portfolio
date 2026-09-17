@@ -50,9 +50,35 @@ export const getRepoReadmeMedia = createServerFn({ method: "GET" })
     const token = process.env["GITHUB_API_KEY"];
     if (token && token.startsWith("gh")) headers["Authorization"] = `Bearer ${token}`;
 
-    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/readme`, { headers });
-    if (!res.ok) return null;
-    const markdown = await res.text();
+    let markdown: string | null = null;
+    try {
+      const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/readme`, { headers });
+      if (res.ok) markdown = await res.text();
+    } catch {
+      markdown = null;
+    }
+
+    // Fallback when the API is unavailable or rate-limited: read the raw README directly.
+    if (!markdown) {
+      const candidates = ["main", "master"].flatMap((branch) =>
+        ["README.md", "readme.md", "README.MD"].map(
+          (name) => `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${name}`,
+        ),
+      );
+      for (const candidate of candidates) {
+        try {
+          const raw = await fetch(candidate);
+          if (raw.ok) {
+            markdown = await raw.text();
+            break;
+          }
+        } catch {
+          // try the next candidate
+        }
+      }
+    }
+
+    if (!markdown) return null;
 
     const found = extractFirstMedia(markdown);
     if (!found) return null;
