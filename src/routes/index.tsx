@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Code2, Route as RouteIcon, Mail, Award } from "lucide-react";
+import { Code2, Route as RouteIcon, Handshake, Award } from "lucide-react";
 import profilePhoto from "@/assets/delaram-profile.png.asset.json";
 
 
@@ -66,7 +66,7 @@ function HomePage() {
           />
           <FeatureCard
             to="/contact"
-            icon={<Mail className="h-5 w-5" />}
+            icon={<Handshake className="h-5 w-5" />}
             title="Connect"
           />
         </nav>
