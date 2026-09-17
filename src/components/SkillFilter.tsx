@@ -12,8 +12,8 @@ export function SkillFilter({
   onToggle: (skill: string) => void;
   onSetAll: (select: boolean) => void;
 }) {
-  // Sort skills by word length, alphabetical as a tie-break.
-  const sortedSkills = [...skills].sort((a, b) => a.length - b.length || a.localeCompare(b));
+  // Sort skills from longest to shortest, alphabetical as a tie-break.
+  const sortedSkills = [...skills].sort((a, b) => b.length - a.length || a.localeCompare(b));
   const allSelected = sortedSkills.every((s) => selected.has(s));
 
   return (
