@@ -35,7 +35,7 @@ function ProjectsPage() {
             repoUrl="https://github.com/Delaram-M/library-database"
           />
           <ProjectPlaceholder
-            skills={["Data Analysis", "SQL"]}
+            skills={["Data Querying", "Data Analysis", "SQL"]}
             title="Digital Media Store Analysis"
             description={
               "Addressing key business questions regarding a media store's sales covering revenue, customer spending, and employee performance "
