@@ -83,7 +83,7 @@ function ProjectsPage() {
           <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">Highlight of my technical projects</p>
         </header>
 
-        <SkillFilter skills={allSkills} selected={selected} onToggle={toggleSkill} />
+        <SkillFilter skills={allSkills} selected={selected} onToggle={toggleSkill} onSetAll={setAllSkills} />
 
         <div className="space-y-10">
           {visibleProjects.map((project, i) => (

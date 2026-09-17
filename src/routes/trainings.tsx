@@ -82,7 +82,11 @@ function TrainingsPage() {
     });
   };
 
-  const sortedTrainings = [...trainings]
+  const setAllSkills = (selectAll: boolean) => {
+    setSelected(selectAll ? new Set(allSkills) : new Set());
+  };
+
+
     .sort(byDateDesc)
     .filter((t) => t.skills.some((s) => selected.has(s)));
 
