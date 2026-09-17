@@ -32,7 +32,7 @@ function ExperiencePage() {
           <ExperienceEntry
             title="Graduate Research Student"
             org="University of Waterloo"
-            dates="Fall 2024 – Winter 2026"
+            dates="September 2024 - April 2026"
             bullets={[
               "Provided progress reports and independently defined and planned tasks on a weekly basis",
               "Wrote Python code that generates CSV or TXT data to explore patterns and bounds",
