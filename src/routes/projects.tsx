@@ -192,7 +192,7 @@ function ProjectPlaceholder({
         </div>
         <h2 className="text-2xl font-semibold text-foreground">{title}</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{description}</p>
-        {showRepoLink && (
+        {showRepoLink && repoUrl && (
           <a
             href={repoUrl}
             target="_blank"
