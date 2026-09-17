@@ -65,6 +65,14 @@ function ExperiencePage() {
               "Marked assignments and provided constructive feedback to students",
             ]}
           />
+          <ExperienceEntry
+            title="Tech Support (volunteer)"
+            org="University of Waterloo Teaching and Learning Conference"
+            bullets={[
+              "Hosted a Zoom meeting for an online session, including management of co-host privileges and live captioning",
+              "Communicated necessary messages and assisted presenters with time management",
+            ]}
+          />
         </div>
       </div>
     </div>
