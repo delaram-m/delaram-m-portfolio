@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { useMemo, useState } from "react";
 import { ArrowUpRight, Award } from "lucide-react";
 import { getCredentialPreview } from "@/lib/credentialPreview.functions";
+import { SkillFilter } from "@/components/SkillFilter";
 
 
 export const Route = createFileRoute("/trainings")({
