@@ -53,7 +53,18 @@ function ExperiencePage() {
               "Marked assignments and exams, and provided constructive feedback to students",
             ]}
           />
-          <ExperiencePlaceholder index={3} />
+          <ExperienceEntry
+            title="Teaching Assistant (volunteer)"
+            org="Amirkabir University of Technology"
+            dates="1st Semester of 2022-2023 & 1st Semester of 2023-2024"
+            bullets={[
+              "Planned and led online TA sessions including solving exercises with students to improve student learning",
+              "Responded to students online between TA sessions to address their questions and concerns",
+              "Facilitated communication between students and the instructor",
+              "Created and published assignments on a learning management system (LMS)",
+              "Marked assignments and provided constructive feedback to students",
+            ]}
+          />
         </div>
       </div>
     </div>
