@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useMemo, useState } from "react";
 import { ArrowUpRight, Award } from "lucide-react";
 import { getCredentialPreview } from "@/lib/credentialPreview.functions";
+import awsCredentialImage from "@/assets/getting_started_with_aws_cloud_essentials.png.asset.json";
 import { SkillFilter } from "@/components/SkillFilter";
 
 
@@ -35,7 +36,13 @@ type Training = {
 // Add link for a clickable credential; the preview is pulled from that link automatically.
 // If that fails (or there is no link), manualPreview is shown instead.
 const trainings: Training[] = [
-  { name: "Getting Started with AWS Cloud Essentials", month: "August", year: 2026, skills: ["AWS"] },
+  {
+    name: "Getting Started with AWS Cloud Essentials",
+    month: "August",
+    year: 2026,
+    skills: ["AWS"],
+    manualPreview: { url: awsCredentialImage.url, kind: "image" },
+  },
   {
     name: "Introduction to Data Analytics for Business",
     month: "June",
