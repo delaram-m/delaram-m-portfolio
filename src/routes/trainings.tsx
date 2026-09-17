@@ -23,10 +23,10 @@ type Training = {
   month: string;
   year: number;
   link?: string;
-  preview?: CredentialPreview;
+  manualPreview?: CredentialPreview;
 };
 
-// Add an optional link for automatic previews, or preview for a manually uploaded image or PDF.
+// Add link for a clickable credential and automatic preview. A manually uploaded file can be used instead.
 const trainings: Training[] = [
   { name: "Certificate or badge name", month: "Month", year: 2026 },
   { name: "Certificate or badge name", month: "Month", year: 2026 },
@@ -62,11 +62,11 @@ function TrainingCard({ training }: { training: Training }) {
   const { data: linkedPreview, isLoading } = useQuery({
     queryKey: ["credential-preview", training.link],
     queryFn: () => fetchPreview({ data: { link: training.link ?? "" } }),
-    enabled: Boolean(training.link) && !training.preview,
+    enabled: Boolean(training.link) && !training.manualPreview,
     staleTime: 1000 * 60 * 60,
     retry: false,
   });
-  const preview = training.preview ?? linkedPreview;
+  const preview = training.manualPreview ?? linkedPreview;
 
   const content = (
     <>
@@ -90,19 +90,24 @@ function TrainingCard({ training }: { training: Training }) {
           </div>
         )}
       </div>
-      <div className="flex min-h-28 items-start gap-3 p-5">
+      <div className="flex min-h-32 items-start gap-3 p-5">
         <div className="min-w-0 flex-1">
           <h2 className="text-base font-semibold leading-snug text-foreground">{training.name}</h2>
           <p className="mt-2 text-sm text-muted-foreground">
             {training.month} {training.year}
           </p>
+          {training.link && (
+            <a
+              href={training.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-horizon transition-colors hover:text-horizon/70"
+            >
+              View credential
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </a>
+          )}
         </div>
-        {training.link && (
-          <ArrowUpRight
-            className="h-4 w-4 shrink-0 text-horizon transition-transform group-hover:translate-x-0.5"
-            aria-hidden="true"
-          />
-        )}
       </div>
     </>
   );
@@ -110,11 +115,5 @@ function TrainingCard({ training }: { training: Training }) {
   const className =
     "group block overflow-hidden rounded-xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10";
 
-  return training.link ? (
-    <a href={training.link} target="_blank" rel="noopener noreferrer" className={className}>
-      {content}
-    </a>
-  ) : (
-    <article className={className}>{content}</article>
-  );
+  return <article className={className}>{content}</article>;
 }
