@@ -77,7 +77,7 @@ function TrainingsPage() {
         </header>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-          {trainings.map((training, i) => (
+          {sortedTrainings.map((training, i) => (
             <TrainingCard key={i} training={training} />
           ))}
         </div>
