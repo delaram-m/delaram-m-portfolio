@@ -75,7 +75,7 @@ function ExperiencePage() {
             ]}
           />
           <ExperienceEntry
-            title="Science Writer"
+            title="Science Writer (volunteer)"
             org="Halgheh Student Science Magazine"
             bullets={[
               "Independently learned the basic concepts of a field through online sources",
