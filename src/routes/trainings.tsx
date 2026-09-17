@@ -44,8 +44,6 @@ const trainings: Training[] = [
     skills: ["Python"],
     link: "https://coursera.org/share/14a0a4242348d12a342cf6d2d533e5e7",
   },
-  { name: "Certificate or badge name", month: "Month", year: 2026, skills: ["Skill"], link: "https://example.com" },
-  { name: "Certificate or badge name", month: "Month", year: 2026, skills: ["Skill"], link: "https://example.com" },
 ];
 
 const MONTHS = [
