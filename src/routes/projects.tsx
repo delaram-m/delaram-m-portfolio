@@ -53,6 +53,13 @@ const projects: Project[] = [
     description: "Addressing key business questions covering sales tier classification, genre efficiency, and regional sales correlations",
     repoUrl: "https://github.com/Delaram-M/video-game-sales-analysis",
   },
+  {
+    skills: ["Data Science", "Machine Learning", "Python"],
+    title: "Precipitation Forecasting Using Climate Data",
+    description:
+      "Preprocessed, visualized, and trained models on climate data and evaluated model's performance in collaboration with team members",
+    repoUrl: "",
+  },
 ];
 
 function ProjectsPage() {
@@ -185,7 +192,7 @@ function ProjectPlaceholder({
         </div>
         <h2 className="text-2xl font-semibold text-foreground">{title}</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{description}</p>
-        {showRepoLink && (
+        {showRepoLink && repoUrl && (
           <a
             href={repoUrl}
             target="_blank"
