@@ -60,6 +60,13 @@ const projects: Project[] = [
       "Preprocessed and visualized climate data and trained models and evaluated model's performance in collaboration with team members",
     repoUrl: "",
   },
+  {
+    skills: ["Data Analysis", "Data Visualization", "Python", "Jupyter Notebook"],
+    title: "Employee Absence Data Analysis",
+    description:
+      "Preprocessed and visualized employee absence data for exploratory data analysis in collaboration with team members",
+    repoUrl: "",
+  },
 ];
 
 function ProjectsPage() {
