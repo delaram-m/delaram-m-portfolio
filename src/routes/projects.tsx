@@ -54,6 +54,13 @@ const projects: Project[] = [
     repoUrl: "https://github.com/Delaram-M/video-game-sales-analysis",
   },
   {
+    skills: ["Data Analysis", "Data Visualization", "Python", "Jupyter Notebook"],
+    title: '"Alignment" in AI Conference Papers',
+    description:
+      'Extracted and visualized data on the use of the keyword "alignment" in AI conference papers',
+    repoUrl: "",
+  },
+  {
     skills: ["Data Science", "Machine Learning", "Data Visualization", "Python", "Jupyter Notebook"],
     title: "Precipitation Forecasting",
     description:
