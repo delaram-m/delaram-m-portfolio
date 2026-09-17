@@ -91,6 +91,9 @@ export const getCredentialPreview = createServerFn({ method: "GET" })
       if (contentType.startsWith("image/")) return { url: response.url, kind: "image" };
       if (!contentType.includes("text/html")) return null;
 
+      const courseraImage = courseraCertificateImage(response.url);
+      if (courseraImage) return { url: courseraImage, kind: "image" };
+
       return extractPreviewFromHtml((await response.text()).slice(0, 1_000_000), response.url);
     } catch {
       return null;
