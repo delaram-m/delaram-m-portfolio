@@ -29,12 +29,50 @@ function ExperiencePage() {
         </header>
 
         <div className="space-y-6">
-          <ExperiencePlaceholder index={1} />
+          <ExperienceEntry
+            title="Graduate Research Student"
+            org="University of Waterloo — Algorithms & Complexity Group"
+            dates="Fall 2024 – Winter 2026"
+            bullets={[
+              "Provided progress reports and independently defined and planned tasks on a weekly basis",
+              "Wrote Python code that generates CSV or TXT data to explore patterns and bounds",
+              "Collaborated with other researchers, including professors and postdocs, to solve problems",
+              "Co-authored 3 conference papers published in Springer Nature's Lecture Notes in Computer Science",
+              "Created a master's thesis and successfully presented it to the committee members",
+            ]}
+          />
           <ExperiencePlaceholder index={2} />
           <ExperiencePlaceholder index={3} />
         </div>
       </div>
     </div>
+  );
+}
+
+function ExperienceEntry({
+  title,
+  org,
+  dates,
+  bullets,
+}: {
+  title: string;
+  org: string;
+  dates: string;
+  bullets: string[];
+}) {
+  return (
+    <article className="rounded-2xl border border-border bg-card/90 p-6 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 sm:p-8">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h2 className="text-xl font-semibold text-foreground">{title}</h2>
+        <p className="text-sm font-medium text-horizon">{dates}</p>
+      </div>
+      <p className="mt-1 text-sm text-muted-foreground">{org}</p>
+      <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">
+        {bullets.map((bullet) => (
+          <li key={bullet}>{bullet}</li>
+        ))}
+      </ul>
+    </article>
   );
 }
 
