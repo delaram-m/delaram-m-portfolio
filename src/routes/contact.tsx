@@ -38,7 +38,7 @@ function ContactPage() {
           Connect
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-balance text-muted-foreground">
-          Connect with me
+          Let's connect!
         </p>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2">
