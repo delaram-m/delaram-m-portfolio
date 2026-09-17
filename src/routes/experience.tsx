@@ -41,7 +41,10 @@ function ExperiencePage() {
 function ExperiencePlaceholder({ index }: { index: number }) {
   return (
     <article className="rounded-2xl border border-border bg-card/90 p-6 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 sm:p-8">
-      <h2 className="text-xl font-semibold text-foreground">Experience {index}</h2>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h2 className="text-xl font-semibold text-foreground">Experience {index}</h2>
+        <p className="text-sm font-medium text-horizon">Month YYYY – Month YYYY</p>
+      </div>
       <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">
         <li>A key responsibility, achievement, or contribution will appear here.</li>
         <li>Another detail about this experience or volunteer role will appear here.</li>
