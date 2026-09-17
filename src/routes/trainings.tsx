@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowUpRight } from "lucide-react";
-import { getCredentialPreview, type CredentialPreview } from "@/lib/credentialPreview.functions";
-import awsCredentialPreview from "@/assets/getting_started_with_aws_cloud_essentials_preview.png.asset.json";
+import { ArrowUpRight, Award } from "lucide-react";
+import { getCredentialPreview } from "@/lib/credentialPreview.functions";
 
 
 export const Route = createFileRoute("/trainings")({
@@ -25,17 +24,11 @@ type Training = {
   month: string;
   year: number;
   link?: string;
-  manualPreview?: CredentialPreview;
 };
 
-// Add link for a clickable credential and automatic preview. A manually uploaded file can be used instead.
+// Add link for a clickable credential; the preview is pulled from that link automatically.
 const trainings: Training[] = [
-  {
-    name: "Getting Started with AWS Cloud Essentials",
-    month: "August",
-    year: 2026,
-    manualPreview: { url: awsCredentialPreview.url, kind: "image" },
-  },
+  { name: "Getting Started with AWS Cloud Essentials", month: "August", year: 2026 },
   { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
   { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
   { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
@@ -66,14 +59,13 @@ function TrainingsPage() {
 
 function TrainingCard({ training }: { training: Training }) {
   const fetchPreview = useServerFn(getCredentialPreview);
-  const { data: linkedPreview, isLoading } = useQuery({
+  const { data: preview, isLoading } = useQuery({
     queryKey: ["credential-preview", training.link],
     queryFn: () => fetchPreview({ data: { link: training.link ?? "" } }),
-    enabled: Boolean(training.link) && !training.manualPreview,
+    enabled: Boolean(training.link),
     staleTime: 1000 * 60 * 60,
     retry: false,
   });
-  const preview = training.manualPreview ?? linkedPreview;
 
   const content = (
     <>
@@ -92,8 +84,13 @@ function TrainingCard({ training }: { training: Training }) {
             className="h-full w-full object-contain p-4"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center px-6 text-center text-xs text-muted-foreground">
-            {isLoading ? "Loading preview…" : "Credential preview"}
+          <div className="relative flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/15 via-space-elevated to-horizon/15">
+            <Award className="h-10 w-10 text-muted-foreground/60" aria-hidden="true" />
+            {isLoading && (
+              <span className="absolute bottom-2 text-[10px] text-muted-foreground/60">
+                Loading preview…
+              </span>
+            )}
           </div>
         )}
       </div>
