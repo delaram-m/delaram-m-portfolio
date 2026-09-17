@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowUpRight } from "lucide-react";
 import { getCredentialPreview, type CredentialPreview } from "@/lib/credentialPreview.functions";
+import awsCredentialPdf from "@/assets/getting_started_with_aws_cloud_essentials.pdf.asset.json";
+
 
 export const Route = createFileRoute("/trainings")({
   head: () => ({
@@ -28,7 +30,12 @@ type Training = {
 
 // Add link for a clickable credential and automatic preview. A manually uploaded file can be used instead.
 const trainings: Training[] = [
-  { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
+  {
+    name: "Getting Started with AWS Cloud Essentials",
+    month: "August",
+    year: 2026,
+    manualPreview: { url: awsCredentialPdf.url, kind: "pdf" },
+  },
   { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
   { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
   { name: "Certificate or badge name", month: "Month", year: 2026, link: "https://example.com" },
