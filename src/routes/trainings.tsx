@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowUpRight } from "lucide-react";
 import { getCredentialPreview, type CredentialPreview } from "@/lib/credentialPreview.functions";
+import awsCredentialPdf from "@/assets/getting_started_with_aws_cloud_essentials.pdf.asset.json";
+
 
 export const Route = createFileRoute("/trainings")({
   head: () => ({
