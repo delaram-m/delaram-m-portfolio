@@ -31,7 +31,7 @@ function ExperiencePage() {
         <div className="space-y-6">
           <ExperienceEntry
             title="Graduate Research Student"
-            org="University of Waterloo, as part of the Algorithms & Complexity Group"
+            org="University of Waterloo"
             dates="Fall 2024 – Winter 2026"
             bullets={[
               "Provided progress reports and independently defined and planned tasks on a weekly basis",
