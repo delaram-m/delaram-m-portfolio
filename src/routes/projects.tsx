@@ -53,6 +53,13 @@ const projects: Project[] = [
     description: "Addressing key business questions covering sales tier classification, genre efficiency, and regional sales correlations",
     repoUrl: "https://github.com/Delaram-M/video-game-sales-analysis",
   },
+  {
+    skills: ["Data Science", "Machine Learning", "Python"],
+    title: "Precipitation Forecasting Using Climate Data",
+    description:
+      "Preprocessed, visualized, and trained models on climate data and evaluated model's performance in collaboration with team members",
+    repoUrl: "",
+  },
 ];
 
 function ProjectsPage() {
