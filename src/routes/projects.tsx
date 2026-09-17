@@ -1,8 +1,46 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { useMemo, useState } from "react";
 import { ArrowUpRight, FolderOpen } from "lucide-react";
 import { getRepoReadmeMedia } from "@/lib/repoImage.functions";
+import { SkillFilter } from "@/components/SkillFilter";
+
+type Project = {
+  skills: string[];
+  title: string;
+  description: string;
+  repoUrl: string;
+};
+
+const projects: Project[] = [
+  {
+    skills: ["Database", "SQL", "Python"],
+    title: "Library Database",
+    description: "Design and implementation of a relational database for a public library's catalogue and circulation data ",
+    repoUrl: "https://github.com/Delaram-M/library-database",
+  },
+  {
+    skills: ["Data Querying", "Data Analysis", "SQL"],
+    title: "Digital Media Store Analysis",
+    description:
+      "Addressing key business questions regarding a media store's sales covering revenue, customer spending, and employee performance ",
+    repoUrl: "https://github.com/Delaram-M/digital-media-store-analysis",
+  },
+  {
+    skills: ["Data Visualization", "Data Analysis", "Power BI"],
+    title: "Coffee Vending Machine Sales Report",
+    description: "Addressing key business questions covering product performance, refill timing, and marketing campaign focus areas",
+    repoUrl: "https://github.com/Delaram-M/coffee-vending-machine-sales-report",
+  },
+  {
+    skills: ["Data Analysis", "Data Visualization", "Excel"],
+    title: "Video Game Sales Analysis",
+    description: "Addressing key business questions covering sales tier classification, genre efficiency, and regional sales correlations",
+    repoUrl: "https://github.com/Delaram-M/video-game-sales-analysis",
+  },
+];
+
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
