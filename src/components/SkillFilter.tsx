@@ -22,12 +22,7 @@ export function SkillFilter({
         type="button"
         onClick={() => onSetAll(!allSelected)}
         aria-label={allSelected ? "Unselect all skills" : "Select all skills"}
-        className={cn(
-          "inline-flex items-center gap-1.5 rounded-full border border-dashed px-3 py-1 text-xs font-semibold tracking-wide transition-colors",
-          allSelected
-            ? "border-horizon/50 text-horizon hover:text-horizon/70"
-            : "border-primary/40 text-primary hover:text-primary/70",
-        )}
+        className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-horizon/50 px-3 py-1 text-xs font-semibold tracking-wide text-horizon transition-colors hover:text-horizon/70"
       >
         {allSelected ? "Unselect all" : "Select all"}
       </button>
