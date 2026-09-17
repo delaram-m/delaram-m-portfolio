@@ -56,7 +56,7 @@ function ExperiencePage() {
           <ExperienceEntry
             title="Teaching Assistant (volunteer)"
             org={"Amirkabir University of Technology (Tehran Polytechnic) "}
-            dates="1st Semester of 2022-2023 & 1st Semester of 2023-2024"
+            dates="\n"
             bullets={[
               "Planned and led online TA sessions including solving exercises with students to improve student learning",
               "Responded to students online between TA sessions to address their questions and concerns",
