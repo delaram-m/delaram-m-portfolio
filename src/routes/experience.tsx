@@ -74,6 +74,14 @@ function ExperiencePage() {
               "Communicated necessary messages and assisted presenters with time management",
             ]}
           />
+          <ExperienceEntry
+            title="Science Writer"
+            org="Halgheh Student Science Magazine"
+            bullets={[
+              "Independently learned the basic concepts of a field through online sources",
+              "Composed an article and incorporated editorial feedback to improve the article",
+            ]}
+          />
         </div>
       </div>
     </div>
