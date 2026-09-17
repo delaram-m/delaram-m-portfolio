@@ -79,14 +79,14 @@ function ExperienceEntry({
 }: {
   title: string;
   org: string;
-  dates: string;
+  dates?: string;
   bullets: string[];
 }) {
   return (
     <article className="rounded-2xl border border-border bg-card/90 p-6 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 sm:p-8">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h2 className="text-xl font-semibold text-foreground">{title}</h2>
-        <p className="text-sm font-medium text-horizon">{dates}</p>
+        {dates ? <p className="text-sm font-medium text-horizon">{dates}</p> : null}
       </div>
       <p className="mt-1 text-sm text-muted-foreground">{org}</p>
       <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">
