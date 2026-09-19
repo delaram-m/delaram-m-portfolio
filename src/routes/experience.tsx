@@ -200,17 +200,19 @@ function crossings(items: Dated[], leftTracks: number) {
 
 function buildLayout() {
   const dated: Omit<Dated, "track">[] = [];
-  const undated: { title: string; org: string; volunteer: boolean }[] = [];
+  const undated: { id: string; title: string; org: string; volunteer: boolean }[] = [];
 
   for (const e of experiences) {
     const volunteer = Boolean(e.volunteer);
+    const id = e.id ?? e.title;
     if (!e.start) {
-      undated.push({ title: e.title, org: e.org, volunteer });
+      undated.push({ id, title: e.title, org: e.org, volunteer });
       continue;
     }
     const start = monthIndex(e.start[0], e.start[1]);
     const end = e.end ? monthIndex(e.end[0], e.end[1]) : start;
     dated.push({
+      id,
       title: e.title,
       org: e.org,
       volunteer,
