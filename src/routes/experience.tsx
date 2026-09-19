@@ -150,13 +150,13 @@ function ExperiencePage() {
             <div
               aria-hidden
               className="absolute bottom-0 top-0 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/50 via-horizon/40 to-primary/25"
-              style={{ left: railWidth / 2 }}
+              style={{ left: spineX }}
             />
             {/* glowing cap at the bottom of the spine */}
             <div
               aria-hidden
               className="absolute h-2 w-2 -translate-x-1/2 translate-y-1/2 rounded-full bg-primary/70 shadow-[0_0_8px_2px] shadow-primary/40"
-              style={{ left: railWidth / 2, bottom: 0 }}
+              style={{ left: spineX, bottom: 0 }}
             />
             {datedExperiences.map((e) => {
               const top = topPx(e.end);
