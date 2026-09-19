@@ -17,6 +17,7 @@ export const Route = createFileRoute("/experience")({
 const MONTH_PX = 30;
 const TRACK_GAP = 26;
 const BAR_WIDTH = 10;
+const LABEL_LEFT = 24;
 
 /** year * 12 + (month - 1) */
 function monthIndex(year: number, month: number) {
@@ -33,6 +34,9 @@ type DatedExperience = {
   /** where along the bar the label sits, 0 = top, 1 = bottom */
   labelAt: number;
   barClass: string;
+  dateClass: string;
+  connectorClass: string;
+  nodeClass: string;
 };
 
 type UndatedExperience = {
@@ -50,6 +54,9 @@ const datedExperiences: DatedExperience[] = [
     track: 0,
     labelAt: 0.15,
     barClass: "bg-primary/80 shadow-[0_0_14px_2px] shadow-primary/40",
+    dateClass: "text-primary",
+    connectorClass: "bg-gradient-to-r from-primary/70 to-primary/10",
+    nodeClass: "bg-primary shadow-[0_0_8px_2px] shadow-primary/60",
   },
   {
     title: "Teaching Assistant",
@@ -60,6 +67,9 @@ const datedExperiences: DatedExperience[] = [
     track: 1,
     labelAt: 0.85,
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
+    dateClass: "text-horizon",
+    connectorClass: "bg-gradient-to-r from-horizon/70 to-horizon/10",
+    nodeClass: "bg-horizon shadow-[0_0_8px_2px] shadow-horizon/60",
   },
   {
     title: "Tech Support (volunteer)",
@@ -70,6 +80,9 @@ const datedExperiences: DatedExperience[] = [
     track: 2,
     labelAt: 0.5,
     barClass: "bg-nebula/80 shadow-[0_0_14px_2px] shadow-nebula/40",
+    dateClass: "text-nebula",
+    connectorClass: "bg-gradient-to-r from-nebula/70 to-nebula/10",
+    nodeClass: "bg-nebula shadow-[0_0_8px_2px] shadow-nebula/60",
   },
 ];
 
@@ -149,18 +162,27 @@ function ExperiencePage() {
             {datedExperiences.map((e) => {
               const top = topPx(e.end);
               const height = (e.end - e.start + 1) * MONTH_PX;
+              const labelY = top + e.labelAt * height;
+              const barLeft = 4 + e.track * TRACK_GAP;
+              const barRight = barLeft + BAR_WIDTH;
+              const connectorWidth = railWidth + LABEL_LEFT - barRight - 10;
               return (
-                <div
-                  key={e.title}
-                  aria-hidden
-                  className={`absolute rounded-full ${e.barClass}`}
-                  style={{
-                    top,
-                    height,
-                    left: 4 + e.track * TRACK_GAP,
-                    width: BAR_WIDTH,
-                  }}
-                />
+                <div key={e.title} aria-hidden>
+                  <div
+                    className={`absolute rounded-full ${e.barClass}`}
+                    style={{ top, height, left: barLeft, width: BAR_WIDTH }}
+                  />
+                  {/* connector from bar to its label */}
+                  <div
+                    className={`absolute h-px ${e.connectorClass}`}
+                    style={{ left: barRight, top: labelY, width: connectorWidth }}
+                  />
+                  {/* glowing node where the connector meets the bar */}
+                  <div
+                    className={`absolute h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${e.nodeClass}`}
+                    style={{ left: barLeft + BAR_WIDTH / 2, top: labelY }}
+                  />
+                </div>
               );
             })}
           </div>
@@ -173,14 +195,14 @@ function ExperiencePage() {
               return (
                 <div
                   key={e.title}
-                  className="absolute left-5 right-0 -translate-y-1/2 sm:left-8"
-                  style={{ top: barTop + e.labelAt * barHeight }}
+                  className="absolute right-0 -translate-y-1/2"
+                  style={{ top: barTop + e.labelAt * barHeight, left: LABEL_LEFT }}
                 >
                   <h2 className="text-base font-semibold leading-6 text-foreground sm:text-lg">
                     {e.title}
                   </h2>
                   <p className="mt-1 text-sm text-muted-foreground">{e.org}</p>
-                  <p className="mt-1 text-sm font-medium text-horizon">
+                  <p className={`mt-1 text-sm font-medium ${e.dateClass}`}>
                     {e.datesDisplay}
                   </p>
                 </div>
