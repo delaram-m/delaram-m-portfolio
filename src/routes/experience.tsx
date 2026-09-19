@@ -353,20 +353,20 @@ function ExperiencePage() {
             const colors = e.volunteer ? palette.purple : palette.blue;
             const side = sideFor(e.track, leftTracks);
             const barTop = topPx(e.end);
-            const barLeft = 4 + e.track * TRACK_GAP;
+            const barLeft = 4 + e.track * trackGap;
             const barRight = barLeft + BAR_WIDTH;
             return (
               <div
                 key={e.title}
-                className={`absolute -translate-y-3 whitespace-nowrap ${side === "left" ? "text-right" : "text-left"}`}
+                className={`absolute -translate-y-3 ${side === "left" ? "text-right" : "text-left"}`}
                 style={{
                   top: barTop + CONNECTOR_OFFSET,
                   ...(side === "left"
                     ? {
-                        right: `calc(50% + ${railWidth / 2 - barLeft + LABEL_GAP + LABEL_GAP_FROM_LABEL}px)`,
+                        right: `calc(50% + ${railWidth / 2 - barLeft + labelGap + LABEL_GAP_FROM_LABEL}px)`,
                       }
                     : {
-                        left: `calc(50% + ${barRight + LABEL_GAP + LABEL_GAP_FROM_LABEL - railWidth / 2}px)`,
+                        left: `calc(50% + ${barRight + labelGap + LABEL_GAP_FROM_LABEL - railWidth / 2}px)`,
                       }),
                 }}
               >
