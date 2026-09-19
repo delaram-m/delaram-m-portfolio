@@ -160,7 +160,7 @@ function permutations(n: number): number[][] {
 }
 
 /** greedy interval colouring: overlapping bars never share a track */
-function assignTracks(items: Omit<Dated, "track">[]) {
+function assignTracks(items: Omit<Dated, "track" | "side">[]) {
   const trackEnds: number[] = [];
   const tracks: number[] = [];
   const order = items
