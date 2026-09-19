@@ -45,7 +45,8 @@ function monthIndex(year: number, month: number, day?: number) {
 }
 
 function formatMonth(index: number) {
-  return `${MONTHS[index % 12]} ${Math.floor(index / 12)}`;
+  const whole = Math.floor(index);
+  return `${MONTHS[whole % 12]} ${Math.floor(whole / 12)}`;
 }
 
 /**
