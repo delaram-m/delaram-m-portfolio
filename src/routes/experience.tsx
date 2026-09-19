@@ -108,7 +108,7 @@ const experiences: ExperienceInput[] = [
     title: "Science Writer (volunteer)",
     org: "Halgheh Student Science Magazine",
     start: [2022, 6],
-    end: [2022, 9],
+    end: [2022, 8],
     displayDates: "Summer of 2022",
     volunteer: true,
   },
