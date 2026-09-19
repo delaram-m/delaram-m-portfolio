@@ -207,7 +207,7 @@ function ExperiencePage() {
           {/* Year markers, always close to the rail and never on a connector line */}
           {years.map(({ year, top }) => {
             const ysOn = (side: "left" | "right") =>
-              connectorYs.filter((_, i) => datedExperiences[i].side === side);
+              connectorYs.filter((_, i) => datedExperiences[i]?.side === side);
             const lYs = ysOn("left");
             const rYs = ysOn("right");
             const lMin = Math.min(...lYs.map((cy) => Math.abs(cy - top)));
