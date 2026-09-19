@@ -44,8 +44,21 @@ function monthIndex(year: number, month: number) {
   return year * 12 + (month - 1);
 }
 
+/**
+ * Fractional month position of a date tuple on the axis.
+ * Start: no day = the month's first day; with day = that day into the month.
+ * End: no day = the month's last day (start of the next month);
+ * with day = that day into the month.
+ */
+function toPosition(tuple: [number, number] | [number, number, number], kind: "start" | "end") {
+  const base = monthIndex(tuple[0], tuple[1]);
+  const day = tuple[2];
+  if (day !== undefined) return base + (day - 1) / 30;
+  return kind === "start" ? base : base + 1;
+}
+
 function formatMonth(index: number) {
-  return `${MONTHS[index % 12]} ${Math.floor(index / 12)}`;
+  return `${MONTHS[Math.floor(index) % 12]} ${Math.floor(Math.floor(index) / 12)}`;
 }
 
 /**
@@ -231,8 +244,8 @@ function buildLayout() {
       undated.push({ id, title: e.title, org: e.org, volunteer });
       continue;
     }
-    const start = monthIndex(e.start[0], e.start[1]);
-    const end = e.end ? monthIndex(e.end[0], e.end[1]) : start;
+    const start = toPosition(e.start, "start");
+    const end = e.end ? toPosition(e.end, "end") : toPosition(e.start, "end");
     dated.push({
       id,
       title: e.title,
