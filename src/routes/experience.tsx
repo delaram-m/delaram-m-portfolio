@@ -58,10 +58,10 @@ type ExperienceInput = {
   id?: string;
   title: string;
   org: string;
-  /** [year, month] — month is 1-12 */
-  start?: [number, number];
-  /** [year, month] — omit for a single-month role */
-  end?: [number, number];
+  /** [year, month] or [year, month, day] — month is 1-12 */
+  start?: [number, number] | [number, number, number];
+  /** same shape as start — omit for a single-month role */
+  end?: [number, number] | [number, number, number];
   /** shown instead of the auto-formatted start - end dates (e.g. "Summer of 2022") */
   displayDates?: string;
   volunteer?: boolean;
@@ -90,8 +90,8 @@ const experiences: ExperienceInput[] = [
     id: "amirkabir-2022",
     title: "Teaching Assistant (volunteer)",
     org: "Amirkabir University of Technology (Tehran Polytechnic)",
-    start: [2022, 9],
-    end: [2023, 1],
+    start: [2022, 9, 22],
+    end: [2023, 1, 22],
     displayDates: "1st Semester of 2022-2023",
     volunteer: true,
   },
@@ -99,16 +99,16 @@ const experiences: ExperienceInput[] = [
     id: "amirkabir-2023",
     title: "Teaching Assistant (volunteer)",
     org: "Amirkabir University of Technology (Tehran Polytechnic)",
-    start: [2023, 9],
-    end: [2024, 1],
+    start: [2023, 9, 22],
+    end: [2024, 1, 22],
     displayDates: "1st Semester of 2023-2024",
     volunteer: true,
   },
   {
     title: "Science Writer (volunteer)",
     org: "Halgheh Student Science Magazine",
-    start: [2022, 6],
-    end: [2022, 8],
+    start: [2022, 6, 22],
+    end: [2022, 9, 22],
     displayDates: "Summer of 2022",
     volunteer: true,
   },
