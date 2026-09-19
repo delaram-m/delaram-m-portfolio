@@ -273,7 +273,7 @@ function ExperiencePage() {
           </p>
         </header>
 
-        <div className="relative" style={{ height: axisHeight }}>
+        <div ref={axisRef} className="relative" style={{ height: axisHeight }}>
           {/* Subtle lines marking each year boundary, behind everything */}
           {years.map(({ year, top }) => (
             <div
