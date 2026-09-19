@@ -39,9 +39,9 @@ const MONTHS = [
   "Dec",
 ];
 
-/** year * 12 + (month - 1) */
-function monthIndex(year: number, month: number) {
-  return year * 12 + (month - 1);
+/** year * 12 + (month - 1), optionally shifted by the day within the month */
+function monthIndex(year: number, month: number, day?: number) {
+  return year * 12 + (month - 1) + (day ? (day - 1) / 31 : 0);
 }
 
 function formatMonth(index: number) {
@@ -209,8 +209,8 @@ function buildLayout() {
       undated.push({ id, title: e.title, org: e.org, volunteer });
       continue;
     }
-    const start = monthIndex(e.start[0], e.start[1]);
-    const end = e.end ? monthIndex(e.end[0], e.end[1]) : start;
+    const start = monthIndex(e.start[0], e.start[1], e.start[2]);
+    const end = e.end ? monthIndex(e.end[0], e.end[1], e.end[2]) : start;
     dated.push({
       id,
       title: e.title,
