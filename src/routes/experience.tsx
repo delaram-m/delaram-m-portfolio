@@ -118,6 +118,8 @@ function ExperiencePage() {
 
   const trackCount = Math.max(...datedExperiences.map((e) => e.track)) + 1;
   const railWidth = (trackCount - 1) * TRACK_GAP + BAR_WIDTH + 8;
+  // spine runs between the two middle bars (tracks 1 and 2), not through any bar
+  const spineX = 4 + 1.5 * TRACK_GAP + BAR_WIDTH / 2;
 
   const startYear = Math.floor(min / 12);
   const endYear = Math.floor(max / 12);
