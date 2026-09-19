@@ -18,6 +18,8 @@ const MONTH_PX = 30;
 const TRACK_GAP = 26;
 const BAR_WIDTH = 10;
 const LABEL_GAP = 44;
+/** label top margin (pt-2) + half of the title line height (leading-6 = 24px) */
+const LABEL_TITLE_OFFSET = 8 + 12;
 
 /** year * 12 + (month - 1) */
 function monthIndex(year: number, month: number) {
@@ -132,8 +134,10 @@ function ExperiencePage() {
   }
 
   // vertical center of each connector, so year markers never sit on one
-  const connectorYs = datedExperiences.map(
-    (e) => topPx(e.end) + e.labelAt * (e.end - e.start + 1) * MONTH_PX
+  const connectorYs = datedExperiences.map((e) =>
+    e.labelAlign === "top"
+      ? topPx(e.end) + LABEL_TITLE_OFFSET
+      : topPx(e.end) + e.labelAt * (e.end - e.start + 1) * MONTH_PX
   );
 
   return (
@@ -170,9 +174,12 @@ function ExperiencePage() {
               style={{ left: railWidth / 2 }}
             />
             {datedExperiences.map((e) => {
-              const top = topPx(e.end);
-              const height = (e.end - e.start + 1) * MONTH_PX;
-              const labelY = top + e.labelAt * height;
+            const top = topPx(e.end);
+            const height = (e.end - e.start + 1) * MONTH_PX;
+            const labelY =
+              e.labelAlign === "top"
+                ? top + LABEL_TITLE_OFFSET
+                : top + e.labelAt * height;
               const barLeft = 4 + e.track * TRACK_GAP;
               const barRight = barLeft + BAR_WIDTH;
               const rightConnectorWidth = railWidth + LABEL_GAP - barRight - 10;
