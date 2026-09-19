@@ -335,7 +335,7 @@ function ExperiencePage() {
               const barLeft = 4 + e.track * trackGap;
               const barRight = barLeft + BAR_WIDTH;
               return (
-                <div key={e.title} aria-hidden>
+                <div key={e.id} aria-hidden>
                   <div
                     className={`absolute rounded-full ${colors.bar}`}
                     style={{ top, height, left: barLeft, width: BAR_WIDTH }}
@@ -386,7 +386,7 @@ function ExperiencePage() {
             const wrap = axisWidth !== null && axisWidth < 900;
             return (
               <div
-                key={e.title}
+                key={e.id}
                 className={`absolute -translate-y-3 ${side === "left" ? "text-right" : "text-left"}`}
                 style={{
                   top: barTop + CONNECTOR_OFFSET,
@@ -414,7 +414,7 @@ function ExperiencePage() {
         <div className="mt-16 border-t border-border/40 pt-10">
           <ul className="space-y-8">
             {undated.map((e) => (
-              <li key={e.title} className="flex items-start gap-4">
+                <li key={e.id} className="flex items-start gap-4">
                 <span
                   aria-hidden
                   className={`mt-2 h-2 w-2 shrink-0 rounded-full ${
