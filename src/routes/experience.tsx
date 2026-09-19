@@ -17,7 +17,7 @@ export const Route = createFileRoute("/experience")({
 const MONTH_PX = 30;
 const TRACK_GAP = 26;
 const BAR_WIDTH = 10;
-const LABEL_GAP = 66;
+const LABEL_GAP = 99;
 
 /** year * 12 + (month - 1) */
 function monthIndex(year: number, month: number) {
