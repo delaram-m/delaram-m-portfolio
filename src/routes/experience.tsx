@@ -160,6 +160,25 @@ const palette = {
 
 type Span = { start: number; end: number };
 
+/** renders "1st" with a small raised "st" instead of plain text */
+function OrdinalText({ text }: { text: string }) {
+  const parts = text.split(/(\d+(?:st|nd|rd|th)\b)/g);
+  return (
+    <>
+      {parts.map((part, i) => {
+        const m = part.match(/^(\d+)(st|nd|rd|th)$/i);
+        if (!m) return part;
+        return (
+          <span key={i}>
+            {m[1]}
+            <sup className="text-[0.65em] leading-none">{m[2]}</sup>
+          </span>
+        );
+      })}
+    </>
+  );
+}
+
 /** greedy interval colouring: overlapping bars never share a slot */
 function greedySlots(spans: Span[]) {
   const slotEnds: number[] = [];
@@ -496,7 +515,9 @@ function ExperiencePage() {
                   {e.title}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">{e.org}</p>
-                <p className={`mt-1 text-sm font-medium ${colors.date}`}>{e.datesDisplay}</p>
+                <p className={`mt-1 text-sm font-medium ${colors.date}`}>
+                  <OrdinalText text={e.datesDisplay} />
+                </p>
               </div>
             );
           })}
