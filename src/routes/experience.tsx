@@ -18,8 +18,8 @@ const MONTH_PX = 22.5;
 const TRACK_GAP = 26;
 const BAR_WIDTH = 10;
 const LABEL_GAP = 99;
-/** px of breathing room between the connector's end and the label's edge */
-const LABEL_GAP_FROM_LABEL = 10;
+/** px of breathing room between the connector's end and the label's edge (0 = touches) */
+const LABEL_GAP_FROM_LABEL = 0;
 
 /** year * 12 + (month - 1) */
 function monthIndex(year: number, month: number) {
