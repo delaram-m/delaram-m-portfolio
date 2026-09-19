@@ -355,12 +355,16 @@ function ExperiencePage() {
             const barTop = topPx(e.end);
             const barLeft = 4 + e.track * trackGap;
             const barRight = barLeft + BAR_WIDTH;
+            // labels stay on one line when there's room; they wrap onto
+            // multiple lines on narrower screens instead of overflowing
+            const wrap = axisWidth !== null && axisWidth < 900;
             return (
               <div
                 key={e.title}
                 className={`absolute -translate-y-3 ${side === "left" ? "text-right" : "text-left"}`}
                 style={{
                   top: barTop + CONNECTOR_OFFSET,
+                  ...(wrap ? {} : { width: "max-content" }),
                   ...(side === "left"
                     ? {
                         right: `calc(50% + ${railWidth / 2 - barLeft + labelGap + LABEL_GAP_FROM_LABEL}px)`,
