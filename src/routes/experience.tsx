@@ -213,7 +213,7 @@ function scoreArrangement(items: Dated[]) {
 }
 
 function buildLayout() {
-  const dated: Omit<Dated, "track">[] = [];
+  const dated: Omit<Dated, "track" | "side">[] = [];
   const undated: { id: string; title: string; org: string; volunteer: boolean }[] = [];
 
   for (const e of experiences) {
