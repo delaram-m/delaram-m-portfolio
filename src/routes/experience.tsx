@@ -515,7 +515,9 @@ function ExperiencePage() {
                   {e.title}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">{e.org}</p>
-                <p className={`mt-1 text-sm font-medium ${colors.date}`}>{e.datesDisplay}</p>
+                <p className={`mt-1 text-sm font-medium ${colors.date}`}>
+                  <OrdinalText text={e.datesDisplay} />
+                </p>
               </div>
             );
           })}
