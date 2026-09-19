@@ -80,7 +80,7 @@ function ExperienceEntry({
       </p>
       <span
         aria-hidden
-        className="absolute left-[143px] top-[7px] z-10 flex h-3.5 w-3.5 -translate-x-1/2 items-center justify-center rounded-full border border-primary/60 bg-background ring-4 ring-primary/15 sm:left-[175px]"
+        className="absolute left-[127px] top-[6px] z-10 flex h-3.5 w-3.5 -translate-x-1/2 items-center justify-center rounded-full border border-primary/60 bg-background ring-4 ring-primary/15 sm:left-[159px]"
       >
         <span className="h-1 w-1 rounded-full bg-primary shadow-md shadow-primary/70" />
       </span>
