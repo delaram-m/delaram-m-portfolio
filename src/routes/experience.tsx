@@ -93,8 +93,8 @@ const datedExperiences: DatedExperience[] = [
     start: monthIndex(2025, 4),
     end: monthIndex(2025, 4),
     track: 0,
-    labelAt: 0.5,
-    labelAlign: "center",
+    labelAt: 0,
+    labelAlign: "top",
     side: "left",
     barClass: "bg-primary/80 shadow-[0_0_14px_2px] shadow-primary/40",
     dateClass: "text-primary",
@@ -116,7 +116,8 @@ const undatedExperiences: UndatedExperience[] = [
 ];
 
 function ExperiencePage() {
-  const min = Math.min(...datedExperiences.map((e) => e.start));
+  // pad the axis down to January so every fully-shown year spans the same height
+  const min = Math.floor(Math.min(...datedExperiences.map((e) => e.start)) / 12) * 12;
   const max = Math.max(...datedExperiences.map((e) => e.end));
   const axisHeight = (max - min + 1) * MONTH_PX;
 
