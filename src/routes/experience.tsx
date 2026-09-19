@@ -222,8 +222,8 @@ function ExperiencePage() {
                 className="absolute -translate-y-1/2 bg-background px-1 text-xs font-medium text-muted-foreground"
                 style={
                   side === "left"
-                    ? { top: markerTop, right: `calc(50% + ${railWidth / 2 + 8}px)` }
-                    : { top: markerTop, left: `calc(50% + ${railWidth / 2 + 8}px)` }
+                    ? { top, right: `calc(50% + ${railWidth / 2 + 8}px)` }
+                    : { top, left: `calc(50% + ${railWidth / 2 + 8}px)` }
                 }
               >
                 {year}
