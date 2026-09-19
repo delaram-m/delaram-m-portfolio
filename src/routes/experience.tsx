@@ -60,6 +60,8 @@ type ExperienceInput = {
   start?: [number, number];
   /** [year, month] — omit for a single-month role */
   end?: [number, number];
+  /** shown instead of the auto-formatted start - end dates (e.g. "Summer of 2022") */
+  displayDates?: string;
   volunteer?: boolean;
 };
 
@@ -90,6 +92,9 @@ const experiences: ExperienceInput[] = [
   {
     title: "Science Writer (volunteer)",
     org: "Halgheh Student Science Magazine",
+    start: [2022, 6],
+    end: [2022, 9],
+    displayDates: "Summer of 2022",
     volunteer: true,
   },
 ];
@@ -196,7 +201,10 @@ function buildLayout() {
       start,
       end,
       datesDisplay:
-        start === end ? formatMonth(start) : `${formatMonth(start)} - ${formatMonth(end)}`,
+        e.displayDates ??
+        (start === end
+          ? formatMonth(start)
+          : `${formatMonth(start)} - ${formatMonth(end)}`),
     });
   }
 
