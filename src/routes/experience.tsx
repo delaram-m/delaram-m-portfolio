@@ -192,6 +192,15 @@ function defaultSide(track: number, leftTracks: number): "left" | "right" {
  * neighbours alternate sides when possible
  */
 function scoreArrangement(items: Dated[]) {
+  const trackCount = Math.max(...items.map((item) => item.track)) + 1;
+  const leftTracks = Math.ceil(trackCount / 2);
+
+  // A label must stay on the outward-facing side of its bar. Allowing an
+  // independently chosen side can send its connector through the spine.
+  if (items.some((item) => item.side !== defaultSide(item.track, leftTracks))) {
+    return Number.POSITIVE_INFINITY;
+  }
+
   let count = 0;
   for (const e of items) {
     const y = e.end; // connector sits just under the end date
@@ -246,8 +255,8 @@ function buildLayout() {
   const { tracks, trackCount } = assignTracks(dated);
   const leftTracks = Math.ceil(trackCount / 2);
 
-  // try every track relabelling and every side assignment; keep the
-  // arrangement with the fewest crossings, then the most side alternation
+  // Try every track relabelling and side assignment. Invalid inward-facing
+  // connectors are rejected, then crossings and side repetition are minimized.
   let best: Dated[] = dated.map((e, i) => ({
     ...e,
     track: tracks[i]!,
