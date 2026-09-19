@@ -174,9 +174,12 @@ function ExperiencePage() {
               style={{ left: railWidth / 2 }}
             />
             {datedExperiences.map((e) => {
-              const top = topPx(e.end);
-              const height = (e.end - e.start + 1) * MONTH_PX;
-              const labelY = top + e.labelAt * height;
+            const top = topPx(e.end);
+            const height = (e.end - e.start + 1) * MONTH_PX;
+            const labelY =
+              e.labelAlign === "top"
+                ? top + LABEL_TITLE_OFFSET
+                : top + e.labelAt * height;
               const barLeft = 4 + e.track * TRACK_GAP;
               const barRight = barLeft + BAR_WIDTH;
               const rightConnectorWidth = railWidth + LABEL_GAP - barRight - 10;
