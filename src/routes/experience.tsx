@@ -118,6 +118,8 @@ function ExperiencePage() {
 
   const trackCount = Math.max(...datedExperiences.map((e) => e.track)) + 1;
   const railWidth = (trackCount - 1) * TRACK_GAP + BAR_WIDTH + 8;
+  // spine runs between the two middle bars (tracks 1 and 2), not through any bar
+  const spineX = 4 + 1.5 * TRACK_GAP + BAR_WIDTH / 2;
 
   const startYear = Math.floor(min / 12);
   const endYear = Math.floor(max / 12);
@@ -148,13 +150,13 @@ function ExperiencePage() {
             <div
               aria-hidden
               className="absolute bottom-0 top-0 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/50 via-horizon/40 to-primary/25"
-              style={{ left: railWidth / 2 }}
+              style={{ left: spineX }}
             />
             {/* glowing cap at the bottom of the spine */}
             <div
               aria-hidden
               className="absolute h-2 w-2 -translate-x-1/2 translate-y-1/2 rounded-full bg-primary/70 shadow-[0_0_8px_2px] shadow-primary/40"
-              style={{ left: railWidth / 2, bottom: 0 }}
+              style={{ left: spineX, bottom: 0 }}
             />
             {datedExperiences.map((e) => {
               const top = topPx(e.end);
