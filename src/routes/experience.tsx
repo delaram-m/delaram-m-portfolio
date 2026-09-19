@@ -164,8 +164,9 @@ function ExperiencePage() {
               const labelY = top + e.connectorAt;
               const barLeft = 4 + e.track * TRACK_GAP;
               const barRight = barLeft + BAR_WIDTH;
-              const rightConnectorWidth = railWidth + LABEL_GAP - barRight;
-              const leftConnectorWidth = barLeft + LABEL_GAP;
+              // every connector spans exactly LABEL_GAP from its bar to its label
+              const rightConnectorWidth = LABEL_GAP;
+              const leftConnectorWidth = LABEL_GAP;
               return (
                 <div key={e.title} aria-hidden>
                   <div
@@ -213,6 +214,8 @@ function ExperiencePage() {
           {/* Labels, alternating sides of the rail */}
           {datedExperiences.map((e) => {
             const barTop = topPx(e.end);
+            const barLeft = 4 + e.track * TRACK_GAP;
+            const barRight = barLeft + BAR_WIDTH;
             return (
               <div
                 key={e.title}
@@ -222,7 +225,10 @@ function ExperiencePage() {
                 style={{
                   top: barTop + e.connectorAt,
                   width: `calc(50% - ${railWidth / 2 + LABEL_GAP}px)`,
-                  ...(e.side === "left" ? { left: 0 } : { right: 0 }),
+                  // anchored a fixed LABEL_GAP away from the bar, same distance for all
+                  ...(e.side === "left"
+                    ? { right: `calc(50% + ${railWidth / 2 - barLeft + LABEL_GAP}px)` }
+                    : { left: `calc(50% + ${barRight + LABEL_GAP - railWidth / 2}px)` }),
                 }}
               >
                 <h2 className="text-base font-semibold leading-6 text-foreground sm:text-lg">
