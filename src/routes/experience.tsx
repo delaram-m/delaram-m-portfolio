@@ -17,7 +17,7 @@ export const Route = createFileRoute("/experience")({
 const MONTH_PX = 30;
 const TRACK_GAP = 26;
 const BAR_WIDTH = 10;
-const LABEL_GAP = 24;
+const LABEL_GAP = 44;
 
 /** year * 12 + (month - 1) */
 function monthIndex(year: number, month: number) {
@@ -126,12 +126,14 @@ function ExperiencePage() {
     years.push({ year: y, top: topPx(jan) });
   }
 
-  // vertical center of each label, used to keep year markers clear of them
-  const labelYs = datedExperiences.map(
+  // vertical center of each connector, so year markers never sit on one
+  const connectorYs = datedExperiences.map(
     (e) => topPx(e.end) + e.labelAt * (e.end - e.start + 1) * MONTH_PX
   );
   const sideBusy = (side: "left" | "right", top: number) =>
-    datedExperiences.some((e, i) => e.side === side && Math.abs((labelYs[i] ?? -10000) - top) < 44);
+    datedExperiences.some(
+      (e, i) => e.side === side && Math.abs((connectorYs[i] ?? -10000) - top) < 12
+    );
 
   return (
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
@@ -206,13 +208,9 @@ function ExperiencePage() {
             })}
           </div>
 
-          {/* Year markers, near the rail when free, otherwise at the outer edge */}
+          {/* Year markers, always close to the rail */}
           {years.map(({ year, top }) => {
-            const side: "left" | "right" | null = sideBusy("left", top)
-              ? sideBusy("right", top)
-                ? null
-                : "right"
-              : "left";
+            const side: "left" | "right" = sideBusy("left", top) ? "right" : "left";
             return (
               <span
                 key={year}
@@ -221,9 +219,7 @@ function ExperiencePage() {
                 style={
                   side === "left"
                     ? { top, right: `calc(50% + ${railWidth / 2 + 8}px)` }
-                    : side === "right"
-                      ? { top, left: `calc(50% + ${railWidth / 2 + 8}px)` }
-                      : { top, left: 0 }
+                    : { top, left: `calc(50% + ${railWidth / 2 + 8}px)` }
                 }
               >
                 {year}
