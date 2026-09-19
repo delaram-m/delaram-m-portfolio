@@ -33,6 +33,8 @@ type DatedExperience = {
   track: number;
   /** where along the bar the label sits, 0 = top, 1 = bottom */
   labelAt: number;
+  /** "top" = top of the label aligns with the connector point (plus a small margin); "center" = label is vertically centered on it */
+  labelAlign: "top" | "center";
   /** which side of the central rail the label sits on */
   side: "left" | "right";
   barClass: string;
@@ -58,6 +60,7 @@ const datedExperiences: DatedExperience[] = [
     end: monthIndex(2026, 4),
     track: 1,
     labelAt: 0,
+    labelAlign: "top",
     side: "left",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
@@ -73,6 +76,7 @@ const datedExperiences: DatedExperience[] = [
     end: monthIndex(2026, 4),
     track: 2,
     labelAt: 0,
+    labelAlign: "top",
     side: "right",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
@@ -88,6 +92,7 @@ const datedExperiences: DatedExperience[] = [
     end: monthIndex(2025, 4),
     track: 0,
     labelAt: 0.5,
+    labelAlign: "center",
     side: "left",
     barClass: "bg-primary/80 shadow-[0_0_14px_2px] shadow-primary/40",
     dateClass: "text-primary",
@@ -235,10 +240,13 @@ function ExperiencePage() {
           {datedExperiences.map((e) => {
             const barTop = topPx(e.end);
             const barHeight = (e.end - e.start + 1) * MONTH_PX;
+            const center = e.labelAlign === "center";
             return (
               <div
                 key={e.title}
-                className={`absolute -translate-y-1/2 ${
+                className={`${
+                  center ? "-translate-y-1/2 " : "pt-2 "
+                }absolute ${
                   e.side === "left" ? "text-right" : "text-left"
                 }`}
                 style={{
