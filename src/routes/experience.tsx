@@ -309,12 +309,13 @@ function ExperiencePage() {
     return () => observer.disconnect();
   }, []);
 
-  // pad the axis down to January so every fully-shown year spans the same height
+  // pad the axis down to January and up to December so every fully-shown
+  // year spans the same height
   const min = Math.floor(Math.min(...dated.map((e) => e.start)) / 12) * 12;
-  const max = Math.max(...dated.map((e) => e.end));
-  const axisHeight = (max - min + 1) * MONTH_PX;
+  const max = Math.ceil(Math.max(...dated.map((e) => e.end)) / 12) * 12;
+  const axisHeight = (max - min) * MONTH_PX;
 
-  const topPx = (month: number) => (max - month) * MONTH_PX;
+  const topPx = (pos: number) => (max - pos) * MONTH_PX;
 
   // on narrow screens the tracks pull closer together and the connectors
   // shorten so each label keeps room to breathe (and wrap if it must)
