@@ -87,7 +87,7 @@ const datedExperiences: DatedExperience[] = [
     start: monthIndex(2025, 4),
     end: monthIndex(2025, 4),
     track: 0,
-    connectorAt: MONTH_PX / 4,
+    connectorAt: MONTH_PX / 2,
     side: "left",
     barClass: "bg-primary/80 shadow-[0_0_14px_2px] shadow-primary/40",
     dateClass: "text-primary",
@@ -158,8 +158,8 @@ function ExperiencePage() {
             />
             {datedExperiences.map((e) => {
               const top = topPx(e.end);
-              // bar tip stops half a month below the end date
-              const height = (e.end - e.start + 1) * MONTH_PX - MONTH_PX / 2;
+              // bar tip stops half a month below the end date; never shorter than a full month
+              const height = Math.max((e.end - e.start + 1) * MONTH_PX - MONTH_PX / 2, MONTH_PX);
               const labelY = top + e.connectorAt;
               const barLeft = 4 + e.track * TRACK_GAP;
               const barRight = barLeft + BAR_WIDTH;
