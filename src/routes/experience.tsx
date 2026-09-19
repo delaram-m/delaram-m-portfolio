@@ -57,7 +57,7 @@ const datedExperiences: DatedExperience[] = [
     start: monthIndex(2024, 9),
     end: monthIndex(2026, 4),
     track: 1,
-    labelAt: 0.15,
+    labelAt: 0,
     side: "left",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
@@ -72,7 +72,7 @@ const datedExperiences: DatedExperience[] = [
     start: monthIndex(2024, 9),
     end: monthIndex(2026, 4),
     track: 2,
-    labelAt: 0.15,
+    labelAt: 0,
     side: "right",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
@@ -204,7 +204,7 @@ function ExperiencePage() {
             })}
           </div>
 
-          {/* Year markers, always close to the rail and never on a connector line */}
+          {/* Year markers, always close to the rail */}
           {years.map(({ year, top }) => {
             const ysOn = (side: "left" | "right") =>
               connectorYs.filter((_, i) => datedExperiences[i]?.side === side);
@@ -214,20 +214,7 @@ function ExperiencePage() {
             const rMin = Math.min(...rYs.map((cy) => Math.abs(cy - top)));
             const leftBusy = lMin < 12;
             const rightBusy = rMin < 12;
-            let side: "left" | "right" = leftBusy ? "right" : "left";
-            let markerTop = top;
-            if (leftBusy && rightBusy) {
-              // connectors cross this height on both sides of the rail —
-              // use the clearer side and nudge the year just off its line
-              side = lMin >= rMin ? "left" : "right";
-              const ys = side === "left" ? lYs : rYs;
-              const nearest = ys.reduce((a, b) =>
-                Math.abs(b - top) < Math.abs(a - top) ? b : a
-              );
-              const roomAbove = nearest;
-              const roomBelow = axisHeight - nearest;
-              markerTop = roomAbove >= roomBelow ? nearest - 18 : nearest + 18;
-            }
+            const side: "left" | "right" = leftBusy && !rightBusy ? "right" : "left";
             return (
               <span
                 key={year}
@@ -235,8 +222,8 @@ function ExperiencePage() {
                 className="absolute -translate-y-1/2 bg-background px-1 text-xs font-medium text-muted-foreground"
                 style={
                   side === "left"
-                    ? { top: markerTop, right: `calc(50% + ${railWidth / 2 + 8}px)` }
-                    : { top: markerTop, left: `calc(50% + ${railWidth / 2 + 8}px)` }
+                    ? { top, right: `calc(50% + ${railWidth / 2 + 8}px)` }
+                    : { top, left: `calc(50% + ${railWidth / 2 + 8}px)` }
                 }
               >
                 {year}
