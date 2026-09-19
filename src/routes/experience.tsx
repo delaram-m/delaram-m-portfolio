@@ -131,7 +131,7 @@ function ExperiencePage() {
     (e) => topPx(e.end) + e.labelAt * (e.end - e.start + 1) * MONTH_PX
   );
   const sideBusy = (side: "left" | "right", top: number) =>
-    datedExperiences.some((e, i) => e.side === side && Math.abs(labelYs[i] - top) < 44);
+    datedExperiences.some((e, i) => e.side === side && Math.abs((labelYs[i] ?? -10000) - top) < 44);
 
   return (
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
