@@ -124,6 +124,7 @@ type Dated = {
   end: number;
   volunteer: boolean;
   track: number;
+  side: "left" | "right";
 };
 
 const palette = {
@@ -159,7 +160,7 @@ function permutations(n: number): number[][] {
 }
 
 /** greedy interval colouring: overlapping bars never share a track */
-function assignTracks(items: Omit<Dated, "track">[]) {
+function assignTracks(items: Omit<Dated, "track" | "side">[]) {
   const trackEnds: number[] = [];
   const tracks: number[] = [];
   const order = items
@@ -181,23 +182,23 @@ function assignTracks(items: Omit<Dated, "track">[]) {
 }
 
 /** side of the spine for a track, given how many tracks sit on the left */
-function sideFor(track: number, leftTracks: number): "left" | "right" {
+function defaultSide(track: number, leftTracks: number): "left" | "right" {
   return track < leftTracks ? "left" : "right";
 }
 
 /**
- * arrangement score: crossings dominate; chronologically consecutive
- * experiences on the same side of the spine add a smaller penalty so
+ * arrangement score: connector crossings dominate; chronologically
+ * consecutive experiences on the same side add a smaller penalty so
  * neighbours alternate sides when possible
  */
-function crossings(items: Dated[], leftTracks: number) {
+function scoreArrangement(items: Dated[]) {
   let count = 0;
   for (const e of items) {
     const y = e.end; // connector sits just under the end date
-    const side = sideFor(e.track, leftTracks);
     for (const other of items) {
       if (other === e) continue;
-      const between = side === "left" ? other.track < e.track : other.track > e.track;
+      const between =
+        e.side === "left" ? other.track < e.track : other.track > e.track;
       if (between && other.start <= y && other.end >= y) count++;
     }
   }
@@ -206,15 +207,13 @@ function crossings(items: Dated[], leftTracks: number) {
   );
   let sameSideRuns = 0;
   for (let i = 1; i < chronological.length; i++) {
-    const prevSide = sideFor(chronological[i - 1]!.track, leftTracks);
-    const side = sideFor(chronological[i]!.track, leftTracks);
-    if (prevSide === side) sameSideRuns++;
+    if (chronological[i - 1]!.side === chronological[i]!.side) sameSideRuns++;
   }
   return count * 100 + sameSideRuns;
 }
 
 function buildLayout() {
-  const dated: Omit<Dated, "track">[] = [];
+  const dated: Omit<Dated, "track" | "side">[] = [];
   const undated: { id: string; title: string; org: string; volunteer: boolean }[] = [];
 
   for (const e of experiences) {
@@ -247,16 +246,28 @@ function buildLayout() {
   const { tracks, trackCount } = assignTracks(dated);
   const leftTracks = Math.ceil(trackCount / 2);
 
-  // try every relabelling of the tracks and keep the arrangement with the
-  // fewest connectors crossing other bars
-  let best: Dated[] = dated.map((e, i) => ({ ...e, track: tracks[i]! }));
-  let bestScore = crossings(best, leftTracks);
+  // try every track relabelling and every side assignment; keep the
+  // arrangement with the fewest crossings, then the most side alternation
+  let best: Dated[] = dated.map((e, i) => ({
+    ...e,
+    track: tracks[i]!,
+    side: defaultSide(tracks[i]!, leftTracks),
+  }));
+  let bestScore = scoreArrangement(best);
+  // exhaustive side search is only worthwhile for a small number of entries
+  const sideCombos = dated.length <= 12 ? 1 << dated.length : 1;
   for (const perm of permutations(trackCount)) {
-    const candidate = dated.map((e, i) => ({ ...e, track: perm[tracks[i]!]! }));
-    const score = crossings(candidate, leftTracks);
-    if (score < bestScore) {
-      best = candidate;
-      bestScore = score;
+    for (let mask = 0; mask < sideCombos; mask++) {
+      const candidate: Dated[] = dated.map((e, i) => ({
+        ...e,
+        track: perm[tracks[i]!]!,
+        side: (mask >> i) & 1 ? "right" : "left",
+      }));
+      const score = scoreArrangement(candidate);
+      if (score < bestScore) {
+        best = candidate;
+        bestScore = score;
+      }
     }
   }
 
@@ -346,7 +357,7 @@ function ExperiencePage() {
             />
             {dated.map((e) => {
               const colors = e.volunteer ? palette.purple : palette.blue;
-              const side = sideFor(e.track, leftTracks);
+              const side = e.side;
               const top = topPx(e.end);
               const height = Math.max((e.end - e.start) * MONTH_PX, MONTH_PX);
               const labelY = top + CONNECTOR_OFFSET;
@@ -395,7 +406,7 @@ function ExperiencePage() {
           {/* Labels, on their track's side of the spine */}
           {dated.map((e) => {
             const colors = e.volunteer ? palette.purple : palette.blue;
-            const side = sideFor(e.track, leftTracks);
+            const side = e.side;
             const barTop = topPx(e.end);
             const barLeft = 4 + e.track * trackGap;
             const barRight = barLeft + BAR_WIDTH;
