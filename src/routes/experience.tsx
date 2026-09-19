@@ -115,6 +115,7 @@ const experiences: ExperienceInput[] = [
 ];
 
 type Dated = {
+  id: string;
   title: string;
   org: string;
   datesDisplay: string;
