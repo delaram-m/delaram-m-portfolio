@@ -51,6 +51,7 @@ function ExperiencePage() {
             <ExperienceEntry
               title="Tech Support (volunteer)"
               org="University of Waterloo Teaching and Learning Conference"
+              dates="Apr 2025"
             />
             <ExperienceEntry
               title="Science Writer (volunteer)"
