@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-
 export const Route = createFileRoute("/experience")({
   head: () => ({
     meta: [
@@ -15,7 +14,94 @@ export const Route = createFileRoute("/experience")({
   component: ExperiencePage,
 });
 
+const MONTH_PX = 30;
+const TRACK_GAP = 26;
+const BAR_WIDTH = 10;
+
+/** year * 12 + (month - 1) */
+function monthIndex(year: number, month: number) {
+  return year * 12 + (month - 1);
+}
+
+type DatedExperience = {
+  title: string;
+  org: string;
+  datesDisplay: string;
+  start: number;
+  end: number;
+  track: number;
+  /** where along the bar the label sits, 0 = top, 1 = bottom */
+  labelAt: number;
+  barClass: string;
+};
+
+type UndatedExperience = {
+  title: string;
+  org: string;
+};
+
+const datedExperiences: DatedExperience[] = [
+  {
+    title: "Graduate Research Student",
+    org: "University of Waterloo",
+    datesDisplay: "Sep 2024 - Apr 2026",
+    start: monthIndex(2024, 9),
+    end: monthIndex(2026, 4),
+    track: 0,
+    labelAt: 0.15,
+    barClass: "bg-primary/80 shadow-[0_0_14px_2px] shadow-primary/40",
+  },
+  {
+    title: "Teaching Assistant",
+    org: "University of Waterloo",
+    datesDisplay: "Sep 2024 - Apr 2026",
+    start: monthIndex(2024, 9),
+    end: monthIndex(2026, 4),
+    track: 1,
+    labelAt: 0.85,
+    barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
+  },
+  {
+    title: "Tech Support (volunteer)",
+    org: "University of Waterloo Teaching and Learning Conference",
+    datesDisplay: "Apr 2025",
+    start: monthIndex(2025, 4),
+    end: monthIndex(2025, 4),
+    track: 2,
+    labelAt: 0.5,
+    barClass: "bg-nebula/80 shadow-[0_0_14px_2px] shadow-nebula/40",
+  },
+];
+
+const undatedExperiences: UndatedExperience[] = [
+  {
+    title: "Teaching Assistant (volunteer)",
+    org: "Amirkabir University of Technology (Tehran Polytechnic)",
+  },
+  {
+    title: "Science Writer (volunteer)",
+    org: "Halgheh Student Science Magazine",
+  },
+];
+
 function ExperiencePage() {
+  const min = Math.min(...datedExperiences.map((e) => e.start));
+  const max = Math.max(...datedExperiences.map((e) => e.end));
+  const axisHeight = (max - min + 1) * MONTH_PX;
+
+  const topPx = (month: number) => (max - month) * MONTH_PX;
+
+  const trackCount = Math.max(...datedExperiences.map((e) => e.track)) + 1;
+  const railWidth = (trackCount - 1) * TRACK_GAP + BAR_WIDTH + 8;
+
+  const startYear = Math.floor(min / 12);
+  const endYear = Math.floor(max / 12);
+  const years: { year: number; top: number }[] = [];
+  for (let y = startYear; y <= endYear; y++) {
+    const jan = Math.min(Math.max(monthIndex(y, 1), min), max);
+    years.push({ year: y, top: topPx(jan) });
+  }
+
   return (
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
@@ -28,67 +114,101 @@ function ExperiencePage() {
           </p>
         </header>
 
-        <div className="relative">
+        <div className="flex">
+          {/* Year markers */}
+          <div className="relative w-10 shrink-0" style={{ height: axisHeight }}>
+            {years.map(({ year, top }) => (
+              <span
+                key={year}
+                className="absolute right-2 -translate-y-1/2 text-xs font-medium text-muted-foreground"
+                style={{ top }}
+              >
+                {year}
+              </span>
+            ))}
+          </div>
+
+          {/* Rail with span bars */}
           <div
-            aria-hidden
-            className="absolute left-[125px] top-3 bottom-3 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/70 via-horizon/60 to-primary/10 sm:left-[157px]"
-          />
-          <ol className="space-y-12">
-            <ExperienceEntry
-              title="Graduate Research Student"
-              org="University of Waterloo"
-              dates="Sep 2024 - Apr 2026"
+            className="relative shrink-0"
+            style={{ width: railWidth, height: axisHeight }}
+          >
+            <div
+              aria-hidden
+              className="absolute bottom-0 top-0 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/40 via-horizon/30 to-primary/10"
+              style={{ left: railWidth / 2 }}
             />
-            <ExperienceEntry
-              title="Teaching Assistant"
-              org="University of Waterloo"
-              dates="Sep 2024 - Apr 2026"
-            />
-            <ExperienceEntry
-              title="Teaching Assistant (volunteer)"
-              org="Amirkabir University of Technology (Tehran Polytechnic)"
-            />
-            <ExperienceEntry
-              title="Tech Support (volunteer)"
-              org="University of Waterloo Teaching and Learning Conference"
-              dates="Apr 2025"
-            />
-            <ExperienceEntry
-              title="Science Writer (volunteer)"
-              org="Halgheh Student Science Magazine"
-            />
-          </ol>
+            {years.map(({ year, top }) => (
+              <div
+                key={year}
+                aria-hidden
+                className="absolute left-0 right-0 border-t border-border/40"
+                style={{ top }}
+              />
+            ))}
+            {datedExperiences.map((e) => {
+              const top = topPx(e.end);
+              const height = (e.end - e.start + 1) * MONTH_PX;
+              return (
+                <div
+                  key={e.title}
+                  aria-hidden
+                  className={`absolute rounded-full ${e.barClass}`}
+                  style={{
+                    top,
+                    height,
+                    left: 4 + e.track * TRACK_GAP,
+                    width: BAR_WIDTH,
+                  }}
+                />
+              );
+            })}
+          </div>
+
+          {/* Labels */}
+          <div className="relative min-w-0 flex-1" style={{ height: axisHeight }}>
+            {datedExperiences.map((e) => {
+              const barTop = topPx(e.end);
+              const barHeight = (e.end - e.start + 1) * MONTH_PX;
+              return (
+                <div
+                  key={e.title}
+                  className="absolute left-5 right-0 -translate-y-1/2 sm:left-8"
+                  style={{ top: barTop + e.labelAt * barHeight }}
+                >
+                  <h2 className="text-base font-semibold leading-6 text-foreground sm:text-lg">
+                    {e.title}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">{e.org}</p>
+                  <p className="mt-1 text-sm font-medium text-horizon">
+                    {e.datesDisplay}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Undated entries */}
+        <div className="mt-16 border-t border-border/40 pt-10">
+          <ul className="space-y-8">
+            {undatedExperiences.map((e) => (
+              <li key={e.title} className="flex items-start gap-4">
+                <span
+                  aria-hidden
+                  className="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary/70 shadow-md shadow-primary/50"
+                />
+                <div>
+                  <h2 className="text-base font-semibold leading-6 text-foreground sm:text-lg">
+                    {e.title}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">{e.org}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
-  );
-}
-
-function ExperienceEntry({
-  title,
-  org,
-  dates,
-}: {
-  title: string;
-  org: string;
-  dates?: string;
-}) {
-  const showDates = Boolean(dates?.trim());
-  return (
-    <li className="relative grid grid-cols-[112px_1fr] gap-x-8 sm:grid-cols-[144px_1fr]">
-      <p className="pt-0.5 text-right text-sm font-medium leading-5 text-horizon">
-        {showDates ? dates : ""}
-      </p>
-      <span
-        aria-hidden
-        className="absolute left-[125px] top-[6px] z-10 flex h-3.5 w-3.5 -translate-x-1/2 items-center justify-center rounded-full border border-primary/60 bg-background ring-4 ring-primary/15 sm:left-[157px]"
-      >
-        <span className="h-1 w-1 rounded-full bg-primary shadow-md shadow-primary/70" />
-      </span>
-      <div>
-        <h2 className="text-lg font-semibold leading-6 text-foreground">{title}</h2>
-        <p className="mt-1.5 text-sm text-muted-foreground">{org}</p>
-      </div>
-    </li>
   );
 }
