@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+// bars meet at an exact shared date (e.g. Sep 22) without overlapping
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/experience")({
