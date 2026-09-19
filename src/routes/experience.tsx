@@ -134,8 +134,10 @@ function ExperiencePage() {
   }
 
   // vertical center of each connector, so year markers never sit on one
-  const connectorYs = datedExperiences.map(
-    (e) => topPx(e.end) + e.labelAt * (e.end - e.start + 1) * MONTH_PX
+  const connectorYs = datedExperiences.map((e) =>
+    e.labelAlign === "top"
+      ? topPx(e.end) + LABEL_TITLE_OFFSET
+      : topPx(e.end) + e.labelAt * (e.end - e.start + 1) * MONTH_PX
   );
 
   return (
