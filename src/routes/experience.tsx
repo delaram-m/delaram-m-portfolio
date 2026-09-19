@@ -185,7 +185,11 @@ function sideFor(track: number, leftTracks: number): "left" | "right" {
   return track < leftTracks ? "left" : "right";
 }
 
-/** how many bars a connector has to cross to reach its label */
+/**
+ * arrangement score: crossings dominate; chronologically consecutive
+ * experiences on the same side of the spine add a smaller penalty so
+ * neighbours alternate sides when possible
+ */
 function crossings(items: Dated[], leftTracks: number) {
   let count = 0;
   for (const e of items) {
@@ -197,7 +201,16 @@ function crossings(items: Dated[], leftTracks: number) {
       if (between && other.start <= y && other.end >= y) count++;
     }
   }
-  return count;
+  const chronological = [...items].sort(
+    (a, b) => a.start - b.start || a.end - b.end
+  );
+  let sameSideRuns = 0;
+  for (let i = 1; i < chronological.length; i++) {
+    const prevSide = sideFor(chronological[i - 1]!.track, leftTracks);
+    const side = sideFor(chronological[i]!.track, leftTracks);
+    if (prevSide === side) sameSideRuns++;
+  }
+  return count * 100 + sameSideRuns;
 }
 
 function buildLayout() {
