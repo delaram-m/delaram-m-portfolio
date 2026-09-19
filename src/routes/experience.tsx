@@ -39,14 +39,13 @@ const MONTHS = [
   "Dec",
 ];
 
-/** year * 12 + (month - 1), optionally shifted by the day within the month */
-function monthIndex(year: number, month: number, day?: number) {
-  return year * 12 + (month - 1) + (day ? (day - 1) / 31 : 0);
+/** year * 12 + (month - 1) */
+function monthIndex(year: number, month: number) {
+  return year * 12 + (month - 1);
 }
 
 function formatMonth(index: number) {
-  const whole = Math.floor(index);
-  return `${MONTHS[whole % 12]} ${Math.floor(whole / 12)}`;
+  return `${MONTHS[index % 12]} ${Math.floor(index / 12)}`;
 }
 
 /**
@@ -59,10 +58,10 @@ type ExperienceInput = {
   id?: string;
   title: string;
   org: string;
-  /** [year, month, day?] — month is 1-12, day optional (for finer internal placement) */
-  start?: [number, number, number?];
-  /** [year, month, day?] — omit for a single-month role */
-  end?: [number, number, number?];
+  /** [year, month] — month is 1-12 */
+  start?: [number, number];
+  /** [year, month] — omit for a single-month role */
+  end?: [number, number];
   /** shown instead of the auto-formatted start - end dates (e.g. "Summer of 2022") */
   displayDates?: string;
   volunteer?: boolean;
@@ -91,8 +90,8 @@ const experiences: ExperienceInput[] = [
     id: "amirkabir-2022",
     title: "Teaching Assistant (volunteer)",
     org: "Amirkabir University of Technology (Tehran Polytechnic)",
-    start: [2022, 9, 22],
-    end: [2023, 1, 22],
+    start: [2022, 9],
+    end: [2023, 1],
     displayDates: "1st Semester of 2022-2023",
     volunteer: true,
   },
@@ -100,16 +99,16 @@ const experiences: ExperienceInput[] = [
     id: "amirkabir-2023",
     title: "Teaching Assistant (volunteer)",
     org: "Amirkabir University of Technology (Tehran Polytechnic)",
-    start: [2023, 9, 22],
-    end: [2024, 1, 22],
+    start: [2023, 9],
+    end: [2024, 1],
     displayDates: "1st Semester of 2023-2024",
     volunteer: true,
   },
   {
     title: "Science Writer (volunteer)",
     org: "Halgheh Student Science Magazine",
-    start: [2022, 6, 22],
-    end: [2022, 9, 22],
+    start: [2022, 6],
+    end: [2022, 9],
     displayDates: "Summer of 2022",
     volunteer: true,
   },
@@ -168,8 +167,8 @@ function assignTracks(items: Omit<Dated, "track" | "side">[]) {
     .sort((a, b) => items[a]!.start - items[b]!.start || items[a]!.end - items[b]!.end);
   for (const i of order) {
     const e = items[i]!;
-    // touching intervals (end == start) may share a track
-    let t = trackEnds.findIndex((end) => end <= e.start);
+    // months are inclusive, so a shared month counts as an overlap
+    let t = trackEnds.findIndex((end) => end < e.start);
     if (t === -1) {
       t = trackEnds.length;
       trackEnds.push(e.end);
@@ -232,11 +231,8 @@ function buildLayout() {
       undated.push({ id, title: e.title, org: e.org, volunteer });
       continue;
     }
-    const start = monthIndex(e.start[0], e.start[1], e.start[2] ?? 1);
-    // an end date without a day means the whole month (end of month)
-    const endDay =
-      e.end?.[2] ?? (e.end ? new Date(e.end[0], e.end[1], 0).getDate() : 1);
-    const end = e.end ? monthIndex(e.end[0], e.end[1], endDay) : start;
+    const start = monthIndex(e.start[0], e.start[1]);
+    const end = e.end ? monthIndex(e.end[0], e.end[1]) : start;
     dated.push({
       id,
       title: e.title,
@@ -368,7 +364,7 @@ function ExperiencePage() {
               const colors = e.volunteer ? palette.purple : palette.blue;
               const side = e.side;
               const top = topPx(e.end);
-              const height = Math.max((e.end - e.start) * MONTH_PX, MONTH_PX);
+              const height = (e.end - e.start + 1) * MONTH_PX;
               const labelY = top + CONNECTOR_OFFSET;
               const barLeft = 4 + e.track * trackGap;
               const barRight = barLeft + BAR_WIDTH;
