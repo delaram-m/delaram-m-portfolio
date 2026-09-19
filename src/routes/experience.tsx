@@ -54,6 +54,8 @@ function formatMonth(index: number) {
  * its colour (purple = volunteer, blue = otherwise) and a connector.
  */
 type ExperienceInput = {
+  /** unique key; only needed when two entries share the same title */
+  id?: string;
   title: string;
   org: string;
   /** [year, month] — month is 1-12 */
@@ -85,8 +87,21 @@ const experiences: ExperienceInput[] = [
     volunteer: true,
   },
   {
+    id: "amirkabir-2022",
     title: "Teaching Assistant (volunteer)",
     org: "Amirkabir University of Technology (Tehran Polytechnic)",
+    start: [2022, 9],
+    end: [2023, 1],
+    displayDates: "1st Semester of 2022-2023",
+    volunteer: true,
+  },
+  {
+    id: "amirkabir-2023",
+    title: "Teaching Assistant (volunteer)",
+    org: "Amirkabir University of Technology (Tehran Polytechnic)",
+    start: [2023, 9],
+    end: [2024, 1],
+    displayDates: "1st Semester of 2023-2024",
     volunteer: true,
   },
   {
@@ -100,6 +115,7 @@ const experiences: ExperienceInput[] = [
 ];
 
 type Dated = {
+  id: string;
   title: string;
   org: string;
   datesDisplay: string;
@@ -184,17 +200,19 @@ function crossings(items: Dated[], leftTracks: number) {
 
 function buildLayout() {
   const dated: Omit<Dated, "track">[] = [];
-  const undated: { title: string; org: string; volunteer: boolean }[] = [];
+  const undated: { id: string; title: string; org: string; volunteer: boolean }[] = [];
 
   for (const e of experiences) {
     const volunteer = Boolean(e.volunteer);
+    const id = e.id ?? e.title;
     if (!e.start) {
-      undated.push({ title: e.title, org: e.org, volunteer });
+      undated.push({ id, title: e.title, org: e.org, volunteer });
       continue;
     }
     const start = monthIndex(e.start[0], e.start[1]);
     const end = e.end ? monthIndex(e.end[0], e.end[1]) : start;
     dated.push({
+      id,
       title: e.title,
       org: e.org,
       volunteer,
@@ -317,7 +335,7 @@ function ExperiencePage() {
               const barLeft = 4 + e.track * trackGap;
               const barRight = barLeft + BAR_WIDTH;
               return (
-                <div key={e.title} aria-hidden>
+                <div key={e.id} aria-hidden>
                   <div
                     className={`absolute rounded-full ${colors.bar}`}
                     style={{ top, height, left: barLeft, width: BAR_WIDTH }}
@@ -368,7 +386,7 @@ function ExperiencePage() {
             const wrap = axisWidth !== null && axisWidth < 900;
             return (
               <div
-                key={e.title}
+                key={e.id}
                 className={`absolute -translate-y-3 ${side === "left" ? "text-right" : "text-left"}`}
                 style={{
                   top: barTop + CONNECTOR_OFFSET,
@@ -396,7 +414,7 @@ function ExperiencePage() {
         <div className="mt-16 border-t border-border/40 pt-10">
           <ul className="space-y-8">
             {undated.map((e) => (
-              <li key={e.title} className="flex items-start gap-4">
+                <li key={e.id} className="flex items-start gap-4">
                 <span
                   aria-hidden
                   className={`mt-2 h-2 w-2 shrink-0 rounded-full ${
