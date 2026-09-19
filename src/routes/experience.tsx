@@ -18,6 +18,8 @@ const MONTH_PX = 30;
 const TRACK_GAP = 26;
 const BAR_WIDTH = 10;
 const LABEL_GAP = 44;
+/** label top margin (pt-2) + half of the title line height (leading-6 = 24px) */
+const LABEL_TITLE_OFFSET = 8 + 12;
 
 /** year * 12 + (month - 1) */
 function monthIndex(year: number, month: number) {
