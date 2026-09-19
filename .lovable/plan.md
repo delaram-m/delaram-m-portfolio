@@ -1,29 +1,28 @@
-# Fix Experience timeline ordering
+# Experience timeline with time-scaled span bars
 
-The timeline on /experience lists entries in the order they were added, which is not chronological — Tech Support (Apr 2025) currently sits below the older Amirkabir role. The Waterloo roles overlapping each other is intentional and stays as-is.
+Show concurrency on /experience: Tech Support (Apr 2025) happened *during* the Waterloo roles (Sep 2024 - Apr 2026). The vertical rail becomes a real time axis where each role draws a bar spanning its actual months, so overlaps are visible by position.
 
 ## What will change
 
-1. **Structured dates**: Each experience entry gets machine-readable start/end dates (year + month) stored alongside its title/org/display text — the same approach the Trainings page uses for its automatic sorting.
+### Dated roles: span bars on a true time scale
+- The timeline axis covers Sep 2024 to Apr 2026, drawn vertically top (newest) to bottom (oldest).
+- Year markers (2024, 2025, 2026) sit along the left of the rail so the scale is readable.
+- Each dated role renders as a slim rounded bar on the rail covering its exact months, with its title, organization, and date text to the right, vertically centered on the bar:
+  - **Graduate Research Student** — Sep 2024 - Apr 2026 (full-length bar, purple, track 1)
+  - **Teaching Assistant, Waterloo** — Sep 2024 - Apr 2026 (full-length bar, blue, parallel track 2)
+  - **Tech Support (volunteer)** — Apr 2025 (short single-month bar, third track)
+- Because the two Waterloo bars run the full height on parallel tracks, Tech Support's short bar physically sits *inside* their span — the overlap is visible at a glance.
+- Bars use the existing theme colors (primary purple / horizon blue) with the same soft glow style as the current dots.
 
-2. **Automatic sorting, newest first**: The timeline sorts itself by date (most recent end date at the top), so new roles land in the right place automatically regardless of the order they're added in.
+### Undated roles: simple entries below
+- Teaching Assistant (volunteer) at Amirkabir and Science Writer (volunteer) stay undated and appear as plain entries below the span-bar section, unchanged for now. (Dates you shared — Amirkabir 1st semesters of 2022-2023 & 2023-2024, Science Writer Summer 2022 — can be added as bars later if you want.)
 
-3. **Dates for the undated roles**:
-   - Teaching Assistant (volunteer), Amirkabir University of Technology — display: "1st Semester of 2022-2023 & 1st Semester of 2023-2024"; internal sort dates Sep 2022 - Jan 2024.
-   - Science Writer (volunteer), Halgheh Student Science Magazine — display: "Summer 2022"; internal sort date Jun-Aug 2022.
-
-## Resulting order (top to bottom)
-
-1. Graduate Research Student — Sep 2024 - Apr 2026
-2. Teaching Assistant (Waterloo) — Sep 2024 - Apr 2026
-3. Tech Support (volunteer) — Apr 2025
-4. Teaching Assistant (volunteer), Amirkabir — 2022-2023 & 2023-2024
-5. Science Writer (volunteer) — Summer 2022
+### Data structure
+- Entries move to a data array with `title`, `org`, `datesDisplay`, and structured `startYear/startMonth/endYear/endMonth` fields (nullable for undated entries), so future roles just get added to the array and position themselves automatically.
 
 ## Technical details
-
 - Edit only `src/routes/experience.tsx`.
-- Replace the hardcoded `<ExperienceEntry>` list with a data array containing `title`, `org`, `datesDisplay`, and `sortEnd` (and `sortStart`) values; sort by `sortEnd` descending before rendering.
-- Long Amirkabir date text wraps onto two lines in the date column.
-- Visual style (vertical rail, glowing dots, date column) is unchanged.
-- Verify with a build check and a Playwright screenshot of /experience.
+- Month-to-position math: axis height = months in range x fixed px-per-month; each bar absolutely positioned by start/end month as percentages.
+- Responsive: on mobile the axis stays vertical with slightly narrower tracks and smaller text; bars and labels remain readable.
+- Keeps the existing page header, colors, and reduced-motion friendliness (no animation required).
+- Verify with a build check and a Playwright screenshot of /experience on desktop and mobile widths.
