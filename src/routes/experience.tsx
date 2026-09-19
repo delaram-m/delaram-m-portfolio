@@ -18,6 +18,8 @@ const MONTH_PX = 30;
 const TRACK_GAP = 26;
 const BAR_WIDTH = 10;
 const LABEL_GAP = 99;
+/** px of breathing room between the connector's end and the label's edge */
+const LABEL_GAP_FROM_LABEL = 10;
 
 /** year * 12 + (month - 1) */
 function monthIndex(year: number, month: number) {
@@ -219,16 +221,17 @@ function ExperiencePage() {
             return (
               <div
                 key={e.title}
-                className={`absolute -translate-y-1/2 ${
+                className={`absolute -translate-y-3 ${
                   e.side === "left" ? "text-right" : "text-left"
                 }`}
                 style={{
                   top: barTop + e.connectorAt,
-                  width: `calc(50% - ${railWidth / 2 + LABEL_GAP}px)`,
-                  // anchored a fixed LABEL_GAP away from the bar, same distance for all
+                  width: `calc(50% - ${railWidth / 2 + LABEL_GAP + LABEL_GAP_FROM_LABEL}px)`,
+                  // anchored a fixed LABEL_GAP + gap away from the bar, same for all,
+                  // leaving a small visual gap before the label edge
                   ...(e.side === "left"
-                    ? { right: `calc(50% + ${railWidth / 2 - barLeft + LABEL_GAP}px)` }
-                    : { left: `calc(50% + ${barRight + LABEL_GAP - railWidth / 2}px)` }),
+                    ? { right: `calc(50% + ${railWidth / 2 - barLeft + LABEL_GAP + LABEL_GAP_FROM_LABEL}px)` }
+                    : { left: `calc(50% + ${barRight + LABEL_GAP + LABEL_GAP_FROM_LABEL - railWidth / 2}px)` }),
                 }}
               >
                 <h2 className="text-base font-semibold leading-6 text-foreground sm:text-lg">
