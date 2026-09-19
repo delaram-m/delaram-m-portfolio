@@ -164,8 +164,8 @@ function ExperiencePage() {
               const labelY = top + e.connectorAt;
               const barLeft = 4 + e.track * TRACK_GAP;
               const barRight = barLeft + BAR_WIDTH;
-              const rightConnectorWidth = railWidth + LABEL_GAP - barRight - 10;
-              const leftConnectorWidth = barLeft + LABEL_GAP - 10;
+              const rightConnectorWidth = railWidth + LABEL_GAP - barRight;
+              const leftConnectorWidth = barLeft + LABEL_GAP;
               return (
                 <div key={e.title} aria-hidden>
                   <div
