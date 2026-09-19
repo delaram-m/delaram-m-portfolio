@@ -222,6 +222,20 @@ function buildLayout() {
 function ExperiencePage() {
   const { dated, undated, trackCount, leftTracks } = buildLayout();
 
+  // measure the timeline so connectors and gaps can shrink on small screens
+  const axisRef = useRef<HTMLDivElement>(null);
+  const [axisWidth, setAxisWidth] = useState<number | null>(null);
+
+  useEffect(() => {
+    const el = axisRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) => {
+      setAxisWidth(entry.contentRect.width);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   // pad the axis down to January so every fully-shown year spans the same height
   const min = Math.floor(Math.min(...dated.map((e) => e.start)) / 12) * 12;
   const max = Math.max(...dated.map((e) => e.end));
@@ -229,9 +243,15 @@ function ExperiencePage() {
 
   const topPx = (month: number) => (max - month) * MONTH_PX;
 
-  const railWidth = (trackCount - 1) * TRACK_GAP + BAR_WIDTH + 8;
+  // on narrow screens the tracks pull closer together and the connectors
+  // shorten so each label keeps room to breathe (and wrap if it must)
+  const trackGap = axisWidth !== null && axisWidth < 640 ? 18 : TRACK_GAP;
+  const railWidth = (trackCount - 1) * trackGap + BAR_WIDTH + 8;
   // spine runs between the last left track and the first right track
-  const spineX = 4 + (leftTracks - 0.5) * TRACK_GAP + BAR_WIDTH / 2;
+  const spineX = 4 + (leftTracks - 0.5) * trackGap + BAR_WIDTH / 2;
+  const sideSpace = axisWidth !== null ? (axisWidth - railWidth) / 2 : Infinity;
+  const labelGap =
+    axisWidth !== null ? Math.max(24, Math.min(LABEL_GAP, sideSpace - 120)) : LABEL_GAP;
 
   const startYear = Math.floor(min / 12);
   const endYear = Math.floor(max / 12);
