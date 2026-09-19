@@ -20,108 +20,217 @@ const BAR_WIDTH = 10;
 const LABEL_GAP = 99;
 /** px of breathing room between the connector's end and the label's edge (0 = touches) */
 const LABEL_GAP_FROM_LABEL = 0;
+/** px below the bar's top tip (= end date) where the connector attaches */
+const CONNECTOR_OFFSET = MONTH_PX / 2;
+
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 /** year * 12 + (month - 1) */
 function monthIndex(year: number, month: number) {
   return year * 12 + (month - 1);
 }
 
-type DatedExperience = {
+function formatMonth(index: number) {
+  return `${MONTHS[index % 12]} ${Math.floor(index / 12)}`;
+}
+
+/**
+ * Add a new experience here and the timeline places it automatically:
+ * its bar spans the given months, it gets a free track, a side of the spine,
+ * its colour (purple = volunteer, blue = otherwise) and a connector.
+ */
+type ExperienceInput = {
+  title: string;
+  org: string;
+  /** [year, month] — month is 1-12 */
+  start?: [number, number];
+  /** [year, month] — omit for a single-month role */
+  end?: [number, number];
+  volunteer?: boolean;
+};
+
+const experiences: ExperienceInput[] = [
+  {
+    title: "Graduate Research Student",
+    org: "University of Waterloo",
+    start: [2024, 9],
+    end: [2026, 4],
+  },
+  {
+    title: "Teaching Assistant",
+    org: "University of Waterloo",
+    start: [2024, 9],
+    end: [2026, 4],
+  },
+  {
+    title: "Tech Support (volunteer)",
+    org: "University of Waterloo Teaching and Learning Conference",
+    start: [2025, 4],
+    volunteer: true,
+  },
+  {
+    title: "Teaching Assistant (volunteer)",
+    org: "Amirkabir University of Technology (Tehran Polytechnic)",
+    volunteer: true,
+  },
+  {
+    title: "Science Writer (volunteer)",
+    org: "Halgheh Student Science Magazine",
+    volunteer: true,
+  },
+];
+
+type Dated = {
   title: string;
   org: string;
   datesDisplay: string;
   start: number;
   end: number;
+  volunteer: boolean;
   track: number;
-  /** px below the bar's top tip where the connector attaches; the label is vertically centered on this point */
-  connectorAt: number;
-  /** which side of the central rail the label sits on */
-  side: "left" | "right";
-  barClass: string;
-  dateClass: string;
-  /** connector fading toward a label on the right */
-  connectorClass: string;
-  /** connector fading toward a label on the left */
-  connectorLeftClass: string;
-  nodeClass: string;
 };
 
-type UndatedExperience = {
-  title: string;
-  org: string;
+const palette = {
+  blue: {
+    bar: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
+    date: "text-horizon",
+    right: "bg-gradient-to-r from-horizon/90 to-horizon/0",
+    left: "bg-gradient-to-l from-horizon/90 to-horizon/0",
+    node: "bg-horizon shadow-[0_0_8px_2px] shadow-horizon/60",
+    dot: "bg-horizon/70 shadow-md shadow-horizon/50",
+  },
+  purple: {
+    bar: "bg-primary/80 shadow-[0_0_14px_2px] shadow-primary/40",
+    date: "text-primary",
+    right: "bg-gradient-to-r from-primary/90 to-primary/0",
+    left: "bg-gradient-to-l from-primary/90 to-primary/0",
+    node: "bg-primary shadow-[0_0_8px_2px] shadow-primary/60",
+    dot: "bg-primary/70 shadow-md shadow-primary/50",
+  },
 };
 
-const datedExperiences: DatedExperience[] = [
-  {
-    title: "Graduate Research Student",
-    org: "University of Waterloo",
-    datesDisplay: "Sep 2024 - Apr 2026",
-    start: monthIndex(2024, 9),
-    end: monthIndex(2026, 4),
-    track: 1,
-    connectorAt: MONTH_PX / 2,
-    side: "left",
-    barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
-    dateClass: "text-horizon",
-    connectorClass: "bg-gradient-to-r from-horizon/90 to-horizon/0",
-    connectorLeftClass: "bg-gradient-to-l from-horizon/90 to-horizon/0",
-    nodeClass: "bg-horizon shadow-[0_0_8px_2px] shadow-horizon/60",
-  },
-  {
-    title: "Teaching Assistant",
-    org: "University of Waterloo",
-    datesDisplay: "Sep 2024 - Apr 2026",
-    start: monthIndex(2024, 9),
-    end: monthIndex(2026, 4),
-    track: 2,
-    connectorAt: MONTH_PX / 2,
-    side: "right",
-    barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
-    dateClass: "text-horizon",
-    connectorClass: "bg-gradient-to-r from-horizon/90 to-horizon/0",
-    connectorLeftClass: "bg-gradient-to-l from-horizon/90 to-horizon/0",
-    nodeClass: "bg-horizon shadow-[0_0_8px_2px] shadow-horizon/60",
-  },
-  {
-    title: "Tech Support (volunteer)",
-    org: "University of Waterloo Teaching and Learning Conference",
-    datesDisplay: "Apr 2025",
-    start: monthIndex(2025, 4),
-    end: monthIndex(2025, 4),
-    track: 0,
-    connectorAt: MONTH_PX / 2,
-    side: "left",
-    barClass: "bg-primary/80 shadow-[0_0_14px_2px] shadow-primary/40",
-    dateClass: "text-primary",
-    connectorClass: "bg-gradient-to-r from-primary/90 to-primary/0",
-    connectorLeftClass: "bg-gradient-to-l from-primary/90 to-primary/0",
-    nodeClass: "bg-primary shadow-[0_0_8px_2px] shadow-primary/60",
-  },
-];
+/** permutations of [0..n-1] */
+function permutations(n: number): number[][] {
+  if (n <= 1) return [[0]];
+  const out: number[][] = [];
+  const rest = permutations(n - 1);
+  for (const p of rest) {
+    for (let i = 0; i <= p.length; i++) {
+      out.push([...p.slice(0, i), n - 1, ...p.slice(i)]);
+    }
+  }
+  return out;
+}
 
-const undatedExperiences: UndatedExperience[] = [
-  {
-    title: "Teaching Assistant (volunteer)",
-    org: "Amirkabir University of Technology (Tehran Polytechnic)",
-  },
-  {
-    title: "Science Writer (volunteer)",
-    org: "Halgheh Student Science Magazine",
-  },
-];
+/** greedy interval colouring: overlapping bars never share a track */
+function assignTracks(items: Omit<Dated, "track">[]) {
+  const trackEnds: number[] = [];
+  const tracks: number[] = [];
+  const order = items
+    .map((e, i) => i)
+    .sort((a, b) => items[a]!.start - items[b]!.start || items[a]!.end - items[b]!.end);
+  for (const i of order) {
+    const e = items[i]!;
+    let t = trackEnds.findIndex((end) => end < e.start);
+    if (t === -1) {
+      t = trackEnds.length;
+      trackEnds.push(e.end);
+    } else {
+      trackEnds[t] = e.end;
+    }
+    tracks[i] = t;
+  }
+  return { tracks, trackCount: trackEnds.length };
+}
+
+/** side of the spine for a track, given how many tracks sit on the left */
+function sideFor(track: number, leftTracks: number): "left" | "right" {
+  return track < leftTracks ? "left" : "right";
+}
+
+/** how many bars a connector has to cross to reach its label */
+function crossings(items: Dated[], leftTracks: number) {
+  let count = 0;
+  for (const e of items) {
+    const y = e.end; // connector sits just under the end date
+    const side = sideFor(e.track, leftTracks);
+    for (const other of items) {
+      if (other === e) continue;
+      const between = side === "left" ? other.track < e.track : other.track > e.track;
+      if (between && other.start <= y && other.end >= y) count++;
+    }
+  }
+  return count;
+}
+
+function buildLayout() {
+  const dated: Omit<Dated, "track">[] = [];
+  const undated: { title: string; org: string; volunteer: boolean }[] = [];
+
+  for (const e of experiences) {
+    const volunteer = Boolean(e.volunteer);
+    if (!e.start) {
+      undated.push({ title: e.title, org: e.org, volunteer });
+      continue;
+    }
+    const start = monthIndex(e.start[0], e.start[1]);
+    const end = e.end ? monthIndex(e.end[0], e.end[1]) : start;
+    dated.push({
+      title: e.title,
+      org: e.org,
+      volunteer,
+      start,
+      end,
+      datesDisplay:
+        start === end ? formatMonth(start) : `${formatMonth(start)} - ${formatMonth(end)}`,
+    });
+  }
+
+  const { tracks, trackCount } = assignTracks(dated);
+  const leftTracks = Math.ceil(trackCount / 2);
+
+  // try every relabelling of the tracks and keep the arrangement with the
+  // fewest connectors crossing other bars
+  let best: Dated[] = dated.map((e, i) => ({ ...e, track: tracks[i]! }));
+  let bestScore = crossings(best, leftTracks);
+  for (const perm of permutations(trackCount)) {
+    const candidate = dated.map((e, i) => ({ ...e, track: perm[tracks[i]!]! }));
+    const score = crossings(candidate, leftTracks);
+    if (score < bestScore) {
+      best = candidate;
+      bestScore = score;
+    }
+  }
+
+  return { dated: best, undated, trackCount, leftTracks };
+}
 
 function ExperiencePage() {
+  const { dated, undated, trackCount, leftTracks } = buildLayout();
+
   // pad the axis down to January so every fully-shown year spans the same height
-  const min = Math.floor(Math.min(...datedExperiences.map((e) => e.start)) / 12) * 12;
-  const max = Math.max(...datedExperiences.map((e) => e.end));
+  const min = Math.floor(Math.min(...dated.map((e) => e.start)) / 12) * 12;
+  const max = Math.max(...dated.map((e) => e.end));
   const axisHeight = (max - min + 1) * MONTH_PX;
 
   const topPx = (month: number) => (max - month) * MONTH_PX;
 
-  const trackCount = Math.max(...datedExperiences.map((e) => e.track)) + 1;
   const railWidth = (trackCount - 1) * TRACK_GAP + BAR_WIDTH + 8;
-  // spine runs between the two middle bars (tracks 1 and 2), not through any bar
-  const spineX = 4 + 1.5 * TRACK_GAP + BAR_WIDTH / 2;
+  // spine runs between the last left track and the first right track
+  const spineX = 4 + (leftTracks - 0.5) * TRACK_GAP + BAR_WIDTH / 2;
 
   const startYear = Math.floor(min / 12);
   const endYear = Math.floor(max / 12);
@@ -170,40 +279,35 @@ function ExperiencePage() {
               className="absolute h-2 w-2 -translate-x-1/2 translate-y-1/2 rounded-full bg-primary/70 shadow-[0_0_8px_2px] shadow-primary/40"
               style={{ left: spineX, bottom: 0 }}
             />
-            {datedExperiences.map((e) => {
+            {dated.map((e) => {
+              const colors = e.volunteer ? palette.purple : palette.blue;
+              const side = sideFor(e.track, leftTracks);
               const top = topPx(e.end);
               const height = (e.end - e.start + 1) * MONTH_PX;
-              const labelY = top + e.connectorAt;
+              const labelY = top + CONNECTOR_OFFSET;
               const barLeft = 4 + e.track * TRACK_GAP;
               const barRight = barLeft + BAR_WIDTH;
-              // every connector spans exactly LABEL_GAP from its bar to its label
-              const rightConnectorWidth = LABEL_GAP;
-              const leftConnectorWidth = LABEL_GAP;
               return (
                 <div key={e.title} aria-hidden>
                   <div
-                    className={`absolute rounded-full ${e.barClass}`}
+                    className={`absolute rounded-full ${colors.bar}`}
                     style={{ top, height, left: barLeft, width: BAR_WIDTH }}
                   />
-                  {/* connector from bar to its label */}
-                  {e.side === "right" ? (
+                  {/* connector from bar to its label — always the same length */}
+                  {side === "right" ? (
                     <div
-                      className={`absolute h-px ${e.connectorClass}`}
-                      style={{ left: barRight, top: labelY, width: rightConnectorWidth }}
+                      className={`absolute h-px ${colors.right}`}
+                      style={{ left: barRight, top: labelY, width: LABEL_GAP }}
                     />
                   ) : (
                     <div
-                      className={`absolute h-px ${e.connectorLeftClass}`}
-                      style={{
-                        left: barLeft - leftConnectorWidth,
-                        top: labelY,
-                        width: leftConnectorWidth,
-                      }}
+                      className={`absolute h-px ${colors.left}`}
+                      style={{ left: barLeft - LABEL_GAP, top: labelY, width: LABEL_GAP }}
                     />
                   )}
                   {/* glowing node where the connector meets the bar */}
                   <div
-                    className={`absolute h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${e.nodeClass}`}
+                    className={`absolute h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${colors.node}`}
                     style={{ left: barLeft + BAR_WIDTH / 2, top: labelY }}
                   />
                 </div>
@@ -223,34 +327,34 @@ function ExperiencePage() {
             </span>
           ))}
 
-          {/* Labels, alternating sides of the rail */}
-          {datedExperiences.map((e) => {
+          {/* Labels, on their track's side of the spine */}
+          {dated.map((e) => {
+            const colors = e.volunteer ? palette.purple : palette.blue;
+            const side = sideFor(e.track, leftTracks);
             const barTop = topPx(e.end);
             const barLeft = 4 + e.track * TRACK_GAP;
             const barRight = barLeft + BAR_WIDTH;
             return (
               <div
                 key={e.title}
-                className={`absolute -translate-y-3 ${
-                  e.side === "left" ? "text-right" : "text-left"
-                }`}
+                className={`absolute -translate-y-3 ${side === "left" ? "text-right" : "text-left"}`}
                 style={{
-                  top: barTop + e.connectorAt,
+                  top: barTop + CONNECTOR_OFFSET,
                   width: `calc(50% - ${railWidth / 2 + LABEL_GAP + LABEL_GAP_FROM_LABEL}px)`,
-                  // anchored a fixed LABEL_GAP + gap away from the bar, same for all,
-                  // leaving a small visual gap before the label edge
-                  ...(e.side === "left"
-                    ? { right: `calc(50% + ${railWidth / 2 - barLeft + LABEL_GAP + LABEL_GAP_FROM_LABEL}px)` }
-                    : { left: `calc(50% + ${barRight + LABEL_GAP + LABEL_GAP_FROM_LABEL - railWidth / 2}px)` }),
+                  ...(side === "left"
+                    ? {
+                        right: `calc(50% + ${railWidth / 2 - barLeft + LABEL_GAP + LABEL_GAP_FROM_LABEL}px)`,
+                      }
+                    : {
+                        left: `calc(50% + ${barRight + LABEL_GAP + LABEL_GAP_FROM_LABEL - railWidth / 2}px)`,
+                      }),
                 }}
               >
                 <h2 className="text-base font-semibold leading-6 text-foreground sm:text-lg">
                   {e.title}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">{e.org}</p>
-                <p className={`mt-1 text-sm font-medium ${e.dateClass}`}>
-                  {e.datesDisplay}
-                </p>
+                <p className={`mt-1 text-sm font-medium ${colors.date}`}>{e.datesDisplay}</p>
               </div>
             );
           })}
@@ -259,11 +363,13 @@ function ExperiencePage() {
         {/* Undated entries */}
         <div className="mt-16 border-t border-border/40 pt-10">
           <ul className="space-y-8">
-            {undatedExperiences.map((e) => (
+            {undated.map((e) => (
               <li key={e.title} className="flex items-start gap-4">
                 <span
                   aria-hidden
-                  className="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary/70 shadow-md shadow-primary/50"
+                  className={`mt-2 h-2 w-2 shrink-0 rounded-full ${
+                    e.volunteer ? palette.purple.dot : palette.blue.dot
+                  }`}
                 />
                 <div>
                   <h2 className="text-base font-semibold leading-6 text-foreground sm:text-lg">
