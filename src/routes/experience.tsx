@@ -63,8 +63,8 @@ const datedExperiences: DatedExperience[] = [
     side: "left",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
-    connectorClass: "bg-gradient-to-r from-horizon/70 to-horizon/10",
-    connectorLeftClass: "bg-gradient-to-l from-horizon/70 to-horizon/10",
+    connectorClass: "bg-gradient-to-r from-horizon/80 to-horizon/20",
+    connectorLeftClass: "bg-gradient-to-l from-horizon/80 to-horizon/20",
     nodeClass: "bg-horizon shadow-[0_0_8px_2px] shadow-horizon/60",
   },
   {
@@ -93,8 +93,8 @@ const datedExperiences: DatedExperience[] = [
     side: "left",
     barClass: "bg-primary/80 shadow-[0_0_14px_2px] shadow-primary/40",
     dateClass: "text-primary",
-    connectorClass: "bg-gradient-to-r from-primary/70 to-primary/10",
-    connectorLeftClass: "bg-gradient-to-l from-primary/70 to-primary/10",
+    connectorClass: "bg-gradient-to-r from-primary/80 to-primary/20",
+    connectorLeftClass: "bg-gradient-to-l from-primary/80 to-primary/20",
     nodeClass: "bg-primary shadow-[0_0_8px_2px] shadow-primary/60",
   },
 ];
