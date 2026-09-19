@@ -230,14 +230,14 @@ function ExperiencePage() {
             return (
               <div
                 key={e.title}
-                className={`absolute w-[calc(50%-${railWidth / 2 + LABEL_GAP}px)] -translate-y-1/2 ${
+                className={`absolute -translate-y-1/2 ${
                   e.side === "left" ? "text-right" : "text-left"
                 }`}
-                style={
-                  e.side === "left"
-                    ? { top: barTop + e.labelAt * barHeight, left: 0 }
-                    : { top: barTop + e.labelAt * barHeight, right: 0 }
-                }
+                style={{
+                  top: barTop + e.labelAt * barHeight,
+                  width: `calc(50% - ${railWidth / 2 + LABEL_GAP}px)`,
+                  ...(e.side === "left" ? { left: 0 } : { right: 0 }),
+                }}
               >
                 <h2 className="text-base font-semibold leading-6 text-foreground sm:text-lg">
                   {e.title}
