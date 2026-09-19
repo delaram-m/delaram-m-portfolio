@@ -54,6 +54,8 @@ function formatMonth(index: number) {
  * its colour (purple = volunteer, blue = otherwise) and a connector.
  */
 type ExperienceInput = {
+  /** unique key; only needed when two entries share the same title */
+  id?: string;
   title: string;
   org: string;
   /** [year, month] — month is 1-12 */
@@ -85,8 +87,21 @@ const experiences: ExperienceInput[] = [
     volunteer: true,
   },
   {
+    id: "amirkabir-2022",
     title: "Teaching Assistant (volunteer)",
     org: "Amirkabir University of Technology (Tehran Polytechnic)",
+    start: [2022, 9],
+    end: [2023, 1],
+    displayDates: "1st Semester of 2022-2023",
+    volunteer: true,
+  },
+  {
+    id: "amirkabir-2023",
+    title: "Teaching Assistant (volunteer)",
+    org: "Amirkabir University of Technology (Tehran Polytechnic)",
+    start: [2023, 9],
+    end: [2024, 1],
+    displayDates: "1st Semester of 2023-2024",
     volunteer: true,
   },
   {
