@@ -45,7 +45,8 @@ function monthIndex(year: number, month: number, day?: number) {
 }
 
 function formatMonth(index: number) {
-  return `${MONTHS[index % 12]} ${Math.floor(index / 12)}`;
+  const whole = Math.floor(index);
+  return `${MONTHS[whole % 12]} ${Math.floor(whole / 12)}`;
 }
 
 /**
@@ -166,7 +167,8 @@ function assignTracks(items: Omit<Dated, "track">[]) {
     .sort((a, b) => items[a]!.start - items[b]!.start || items[a]!.end - items[b]!.end);
   for (const i of order) {
     const e = items[i]!;
-    let t = trackEnds.findIndex((end) => end < e.start);
+    // touching intervals (end == start) may share a track
+    let t = trackEnds.findIndex((end) => end <= e.start);
     if (t === -1) {
       t = trackEnds.length;
       trackEnds.push(e.end);
@@ -209,8 +211,11 @@ function buildLayout() {
       undated.push({ id, title: e.title, org: e.org, volunteer });
       continue;
     }
-    const start = monthIndex(e.start[0], e.start[1], e.start[2]);
-    const end = e.end ? monthIndex(e.end[0], e.end[1], e.end[2]) : start;
+    const start = monthIndex(e.start[0], e.start[1], e.start[2] ?? 1);
+    // an end date without a day means the whole month (end of month)
+    const endDay =
+      e.end?.[2] ?? (e.end ? new Date(e.end[0], e.end[1], 0).getDate() : 1);
+    const end = e.end ? monthIndex(e.end[0], e.end[1], endDay) : start;
     dated.push({
       id,
       title: e.title,
@@ -330,7 +335,7 @@ function ExperiencePage() {
               const colors = e.volunteer ? palette.purple : palette.blue;
               const side = sideFor(e.track, leftTracks);
               const top = topPx(e.end);
-              const height = (e.end - e.start + 1) * MONTH_PX;
+              const height = Math.max((e.end - e.start) * MONTH_PX, MONTH_PX);
               const labelY = top + CONNECTOR_OFFSET;
               const barLeft = 4 + e.track * trackGap;
               const barRight = barLeft + BAR_WIDTH;
