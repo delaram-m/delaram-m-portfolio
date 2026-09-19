@@ -37,12 +37,12 @@ function ExperiencePage() {
             <ExperienceEntry
               title="Graduate Research Student"
               org="University of Waterloo"
-              dates="September 2024 - April 2026"
+              dates="Sep 2024 - Apr 2026"
             />
             <ExperienceEntry
               title="Teaching Assistant"
               org="University of Waterloo"
-              dates="September 2024 - April 2026"
+              dates="Sep 2024 - Apr 2026"
             />
             <ExperienceEntry
               title="Teaching Assistant (volunteer)"
