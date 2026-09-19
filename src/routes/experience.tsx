@@ -246,16 +246,23 @@ function buildLayout() {
   const { tracks, trackCount } = assignTracks(dated);
   const leftTracks = Math.ceil(trackCount / 2);
 
-  // try every relabelling of the tracks and keep the arrangement with the
-  // fewest connectors crossing other bars
-  let best: Dated[] = dated.map((e, i) => ({ ...e, track: tracks[i]! }));
-  let bestScore = crossings(best, leftTracks);
+  // try every track relabelling and every side assignment; keep the
+  // arrangement with the fewest crossings, then the most side alternation
+  let best: Dated[] = [];
+  let bestScore = Infinity;
+  const sideCombos = 1 << dated.length;
   for (const perm of permutations(trackCount)) {
-    const candidate = dated.map((e, i) => ({ ...e, track: perm[tracks[i]!]! }));
-    const score = crossings(candidate, leftTracks);
-    if (score < bestScore) {
-      best = candidate;
-      bestScore = score;
+    for (let mask = 0; mask < sideCombos; mask++) {
+      const candidate: Dated[] = dated.map((e, i) => ({
+        ...e,
+        track: perm[tracks[i]!]!,
+        side: (mask >> i) & 1 ? "right" : "left",
+      }));
+      const score = scoreArrangement(candidate);
+      if (score < bestScore) {
+        best = candidate;
+        bestScore = score;
+      }
     }
   }
 
