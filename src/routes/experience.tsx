@@ -162,18 +162,27 @@ function ExperiencePage() {
             {datedExperiences.map((e) => {
               const top = topPx(e.end);
               const height = (e.end - e.start + 1) * MONTH_PX;
+              const labelY = top + e.labelAt * height;
+              const barLeft = 4 + e.track * TRACK_GAP;
+              const barRight = barLeft + BAR_WIDTH;
+              const connectorWidth = railWidth + LABEL_LEFT - barRight - 10;
               return (
-                <div
-                  key={e.title}
-                  aria-hidden
-                  className={`absolute rounded-full ${e.barClass}`}
-                  style={{
-                    top,
-                    height,
-                    left: 4 + e.track * TRACK_GAP,
-                    width: BAR_WIDTH,
-                  }}
-                />
+                <div key={e.title} aria-hidden>
+                  <div
+                    className={`absolute rounded-full ${e.barClass}`}
+                    style={{ top, height, left: barLeft, width: BAR_WIDTH }}
+                  />
+                  {/* connector from bar to its label */}
+                  <div
+                    className={`absolute h-px ${e.connectorClass}`}
+                    style={{ left: barRight, top: labelY, width: connectorWidth }}
+                  />
+                  {/* glowing node where the connector meets the bar */}
+                  <div
+                    className={`absolute h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${e.nodeClass}`}
+                    style={{ left: barLeft + BAR_WIDTH / 2, top: labelY }}
+                  />
+                </div>
               );
             })}
           </div>
@@ -186,14 +195,14 @@ function ExperiencePage() {
               return (
                 <div
                   key={e.title}
-                  className="absolute left-5 right-0 -translate-y-1/2 sm:left-8"
-                  style={{ top: barTop + e.labelAt * barHeight }}
+                  className="absolute right-0 -translate-y-1/2"
+                  style={{ top: barTop + e.labelAt * barHeight, left: LABEL_LEFT }}
                 >
                   <h2 className="text-base font-semibold leading-6 text-foreground sm:text-lg">
                     {e.title}
                   </h2>
                   <p className="mt-1 text-sm text-muted-foreground">{e.org}</p>
-                  <p className="mt-1 text-sm font-medium text-horizon">
+                  <p className={`mt-1 text-sm font-medium ${e.dateClass}`}>
                     {e.datesDisplay}
                   </p>
                 </div>
