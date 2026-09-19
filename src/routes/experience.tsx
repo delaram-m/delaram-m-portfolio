@@ -39,9 +39,9 @@ const MONTHS = [
   "Dec",
 ];
 
-/** year * 12 + (month - 1) */
-function monthIndex(year: number, month: number) {
-  return year * 12 + (month - 1);
+/** year * 12 + (month - 1), optionally shifted by the day within the month */
+function monthIndex(year: number, month: number, day?: number) {
+  return year * 12 + (month - 1) + (day ? (day - 1) / 31 : 0);
 }
 
 function formatMonth(index: number) {
@@ -58,10 +58,10 @@ type ExperienceInput = {
   id?: string;
   title: string;
   org: string;
-  /** [year, month] — month is 1-12 */
-  start?: [number, number];
-  /** [year, month] — omit for a single-month role */
-  end?: [number, number];
+  /** [year, month, day?] — month is 1-12, day optional (for finer internal placement) */
+  start?: [number, number, number?];
+  /** [year, month, day?] — omit for a single-month role */
+  end?: [number, number, number?];
   /** shown instead of the auto-formatted start - end dates (e.g. "Summer of 2022") */
   displayDates?: string;
   volunteer?: boolean;
@@ -90,8 +90,8 @@ const experiences: ExperienceInput[] = [
     id: "amirkabir-2022",
     title: "Teaching Assistant (volunteer)",
     org: "Amirkabir University of Technology (Tehran Polytechnic)",
-    start: [2022, 9],
-    end: [2023, 1],
+    start: [2022, 9, 22],
+    end: [2023, 1, 22],
     displayDates: "1st Semester of 2022-2023",
     volunteer: true,
   },
@@ -99,16 +99,16 @@ const experiences: ExperienceInput[] = [
     id: "amirkabir-2023",
     title: "Teaching Assistant (volunteer)",
     org: "Amirkabir University of Technology (Tehran Polytechnic)",
-    start: [2023, 9],
-    end: [2024, 1],
+    start: [2023, 9, 22],
+    end: [2024, 1, 22],
     displayDates: "1st Semester of 2023-2024",
     volunteer: true,
   },
   {
     title: "Science Writer (volunteer)",
     org: "Halgheh Student Science Magazine",
-    start: [2022, 6],
-    end: [2022, 9],
+    start: [2022, 6, 22],
+    end: [2022, 9, 22],
     displayDates: "Summer of 2022",
     volunteer: true,
   },
@@ -209,8 +209,8 @@ function buildLayout() {
       undated.push({ id, title: e.title, org: e.org, volunteer });
       continue;
     }
-    const start = monthIndex(e.start[0], e.start[1]);
-    const end = e.end ? monthIndex(e.end[0], e.end[1]) : start;
+    const start = monthIndex(e.start[0], e.start[1], e.start[2]);
+    const end = e.end ? monthIndex(e.end[0], e.end[1], e.end[2]) : start;
     dated.push({
       id,
       title: e.title,
