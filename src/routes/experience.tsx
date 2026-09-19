@@ -72,7 +72,7 @@ const datedExperiences: DatedExperience[] = [
     start: monthIndex(2024, 9),
     end: monthIndex(2026, 4),
     track: 2,
-    labelAt: 0.85,
+    labelAt: 0.15,
     side: "right",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
@@ -206,7 +206,12 @@ function ExperiencePage() {
 
           {/* Year markers, placed on whichever side is free */}
           {years.map(({ year, top }) => {
-            const side = sideBusy("left", top) ? "right" : "left";
+            const side: "left" | "right" | null = sideBusy("left", top)
+              ? sideBusy("right", top)
+                ? null
+                : "right"
+              : "left";
+            if (!side) return null;
             return (
               <span
                 key={year}
