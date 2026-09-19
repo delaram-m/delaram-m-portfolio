@@ -352,7 +352,7 @@ function ExperiencePage() {
             />
             {dated.map((e) => {
               const colors = e.volunteer ? palette.purple : palette.blue;
-              const side = sideFor(e.track, leftTracks);
+              const side = e.side;
               const top = topPx(e.end);
               const height = Math.max((e.end - e.start) * MONTH_PX, MONTH_PX);
               const labelY = top + CONNECTOR_OFFSET;
@@ -401,7 +401,7 @@ function ExperiencePage() {
           {/* Labels, on their track's side of the spine */}
           {dated.map((e) => {
             const colors = e.volunteer ? palette.purple : palette.blue;
-            const side = sideFor(e.track, leftTracks);
+            const side = e.side;
             const barTop = topPx(e.end);
             const barLeft = 4 + e.track * trackGap;
             const barRight = barLeft + BAR_WIDTH;
