@@ -337,10 +337,9 @@ function ExperiencePage() {
             return (
               <div
                 key={e.title}
-                className={`absolute -translate-y-3 ${side === "left" ? "text-right" : "text-left"}`}
+                className={`absolute -translate-y-3 whitespace-nowrap ${side === "left" ? "text-right" : "text-left"}`}
                 style={{
                   top: barTop + CONNECTOR_OFFSET,
-                  width: `calc(50% - ${railWidth / 2 + LABEL_GAP + LABEL_GAP_FROM_LABEL}px)`,
                   ...(side === "left"
                     ? {
                         right: `calc(50% + ${railWidth / 2 - barLeft + LABEL_GAP + LABEL_GAP_FROM_LABEL}px)`,
