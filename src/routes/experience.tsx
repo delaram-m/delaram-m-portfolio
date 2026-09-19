@@ -14,7 +14,7 @@ export const Route = createFileRoute("/experience")({
   component: ExperiencePage,
 });
 
-const MONTH_PX = 30;
+const MONTH_PX = 22.5;
 const TRACK_GAP = 26;
 const BAR_WIDTH = 10;
 const LABEL_GAP = 99;
@@ -144,6 +144,16 @@ function ExperiencePage() {
         </header>
 
         <div className="relative" style={{ height: axisHeight }}>
+          {/* Subtle lines marking each year boundary, behind everything */}
+          {years.map(({ year, top }) => (
+            <div
+              key={`yearline-${year}`}
+              aria-hidden
+              className="absolute left-0 right-0 h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-border/25 to-transparent"
+              style={{ top }}
+            />
+          ))}
+
           {/* Central rail = the timeline spine, with span bars */}
           <div
             className="absolute left-1/2 top-0 -translate-x-1/2"
