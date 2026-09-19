@@ -229,8 +229,8 @@ function ExperiencePage() {
   useEffect(() => {
     const el = axisRef.current;
     if (!el) return;
-    const observer = new ResizeObserver(([entry]) => {
-      setAxisWidth(entry.contentRect.width);
+    const observer = new ResizeObserver((entries) => {
+      setAxisWidth(entries[0]!.contentRect.width);
     });
     observer.observe(el);
     return () => observer.disconnect();
