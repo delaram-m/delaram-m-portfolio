@@ -246,6 +246,8 @@ function buildLayout() {
     }
     const start = toPosition(e.start, "start");
     const end = e.end ? toPosition(e.end, "end") : toPosition(e.start, "end");
+    const startLabel = formatMonth(monthIndex(e.start[0], e.start[1]));
+    const endLabel = e.end ? formatMonth(monthIndex(e.end[0], e.end[1])) : startLabel;
     dated.push({
       id,
       title: e.title,
@@ -255,9 +257,7 @@ function buildLayout() {
       end,
       datesDisplay:
         e.displayDates ??
-        (start === end
-          ? formatMonth(start)
-          : `${formatMonth(start)} - ${formatMonth(end)}`),
+        (startLabel === endLabel ? startLabel : `${startLabel} - ${endLabel}`),
     });
   }
 
@@ -309,10 +309,10 @@ function ExperiencePage() {
     return () => observer.disconnect();
   }, []);
 
-  // pad the axis down to January and up to December so every fully-shown
-  // year spans the same height
+  // pad the axis down to January so every fully-shown year spans the same
+  // height; round the top up only to the next whole month
   const min = Math.floor(Math.min(...dated.map((e) => e.start)) / 12) * 12;
-  const max = Math.ceil(Math.max(...dated.map((e) => e.end)) / 12) * 12;
+  const max = Math.ceil(Math.max(...dated.map((e) => e.end)));
   const axisHeight = (max - min) * MONTH_PX;
 
   const topPx = (pos: number) => (max - pos) * MONTH_PX;
