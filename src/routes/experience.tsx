@@ -31,7 +31,7 @@ function ExperiencePage() {
         <div className="relative">
           <div
             aria-hidden
-            className="absolute left-[127px] top-3 bottom-3 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/70 via-horizon/60 to-primary/10 sm:left-[159px]"
+            className="absolute left-[125px] top-3 bottom-3 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/70 via-horizon/60 to-primary/10 sm:left-[157px]"
           />
           <ol className="space-y-12">
             <ExperienceEntry
@@ -74,13 +74,13 @@ function ExperienceEntry({
 }) {
   const showDates = Boolean(dates?.trim());
   return (
-    <li className="relative grid grid-cols-[7rem_1fr] gap-x-8 sm:grid-cols-[9rem_1fr]">
+    <li className="relative grid grid-cols-[112px_1fr] gap-x-8 sm:grid-cols-[144px_1fr]">
       <p className="pt-0.5 text-right text-sm font-medium leading-5 text-horizon">
         {showDates ? dates : ""}
       </p>
       <span
         aria-hidden
-        className="absolute left-[127px] top-[6px] z-10 flex h-3.5 w-3.5 -translate-x-1/2 items-center justify-center rounded-full border border-primary/60 bg-background ring-4 ring-primary/15 sm:left-[159px]"
+        className="absolute left-[125px] top-[6px] z-10 flex h-3.5 w-3.5 -translate-x-1/2 items-center justify-center rounded-full border border-primary/60 bg-background ring-4 ring-primary/15 sm:left-[157px]"
       >
         <span className="h-1 w-1 rounded-full bg-primary shadow-md shadow-primary/70" />
       </span>
