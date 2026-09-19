@@ -127,13 +127,6 @@ function ExperiencePage() {
     years.push({ year: y, top: topPx(jan) });
   }
 
-  // vertical center of each connector, so year markers never sit on one
-  const connectorYs = datedExperiences.map((e) =>
-    e.labelAlign === "top"
-      ? topPx(e.end) + LABEL_TITLE_OFFSET
-      : topPx(e.end) + e.labelAt * (e.end - e.start + 1) * MONTH_PX
-  );
-
   return (
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
