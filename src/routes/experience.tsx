@@ -25,18 +25,18 @@ const LABEL_GAP_FROM_LABEL = 0;
 const CONNECTOR_OFFSET = MONTH_PX / 2;
 
 const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
+  "January",
+  "February",
+  "March",
+  "April",
   "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 /** year * 12 + (month - 1) */
