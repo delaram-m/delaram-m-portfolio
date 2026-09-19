@@ -31,7 +31,7 @@ function ExperiencePage() {
         <div className="relative">
           <div
             aria-hidden
-            className="absolute left-[143px] top-3 bottom-3 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/70 via-horizon/60 to-primary/10 sm:left-[175px]"
+            className="absolute left-[127px] top-3 bottom-3 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/70 via-horizon/60 to-primary/10 sm:left-[159px]"
           />
           <ol className="space-y-12">
             <ExperienceEntry
