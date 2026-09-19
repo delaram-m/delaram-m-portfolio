@@ -157,12 +157,10 @@ function ExperiencePage() {
               style={{ left: railWidth / 2, bottom: 0 }}
             />
             {datedExperiences.map((e) => {
-            const top = topPx(e.end);
-            const height = (e.end - e.start + 1) * MONTH_PX;
-            const labelY =
-              e.labelAlign === "top"
-                ? top + LABEL_TITLE_OFFSET
-                : top + e.labelAt * height;
+              const top = topPx(e.end);
+              // bar tip stops half a month below the end date
+              const height = (e.end - e.start + 1) * MONTH_PX - MONTH_PX / 2;
+              const labelY = top + e.connectorAt;
               const barLeft = 4 + e.track * TRACK_GAP;
               const barRight = barLeft + BAR_WIDTH;
               const rightConnectorWidth = railWidth + LABEL_GAP - barRight - 10;
@@ -199,32 +197,17 @@ function ExperiencePage() {
             })}
           </div>
 
-          {/* Year markers, always close to the rail */}
-          {years.map(({ year, top }) => {
-            const ysOn = (side: "left" | "right") =>
-              connectorYs.filter((_, i) => datedExperiences[i]?.side === side);
-            const lYs = ysOn("left");
-            const rYs = ysOn("right");
-            const lMin = Math.min(...lYs.map((cy) => Math.abs(cy - top)));
-            const rMin = Math.min(...rYs.map((cy) => Math.abs(cy - top)));
-            const leftBusy = lMin < 12;
-            const rightBusy = rMin < 12;
-            const side: "left" | "right" = leftBusy && !rightBusy ? "right" : "left";
-            return (
-              <span
-                key={year}
-                aria-hidden
-                className="absolute -translate-y-1/2 bg-background px-1 text-xs font-medium text-muted-foreground"
-                style={
-                  side === "left"
-                    ? { top, right: `calc(50% + ${railWidth / 2 + 8}px)` }
-                    : { top, left: `calc(50% + ${railWidth / 2 + 8}px)` }
-                }
-              >
-                {year}
-              </span>
-            );
-          })}
+          {/* Year markers beside the spine */}
+          {years.map(({ year, top }) => (
+            <span
+              key={year}
+              aria-hidden
+              className="absolute -translate-y-1/2 bg-background px-1 text-xs font-medium text-muted-foreground"
+              style={{ top, right: `calc(50% + ${railWidth / 2 + 8}px)` }}
+            >
+              {year}
+            </span>
+          ))}
 
           {/* Labels, alternating sides of the rail */}
           {datedExperiences.map((e) => {
