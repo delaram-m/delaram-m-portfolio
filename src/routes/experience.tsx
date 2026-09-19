@@ -18,8 +18,6 @@ const MONTH_PX = 30;
 const TRACK_GAP = 26;
 const BAR_WIDTH = 10;
 const LABEL_GAP = 44;
-/** label top margin (pt-2) + half of the title line height (leading-6 = 24px) */
-const LABEL_TITLE_OFFSET = 8 + 12;
 
 /** year * 12 + (month - 1) */
 function monthIndex(year: number, month: number) {
@@ -33,10 +31,8 @@ type DatedExperience = {
   start: number;
   end: number;
   track: number;
-  /** where along the bar the label sits, 0 = top, 1 = bottom */
-  labelAt: number;
-  /** "top" = top of the label aligns with the connector point (plus a small margin); "center" = label is vertically centered on it */
-  labelAlign: "top" | "center";
+  /** px below the bar's top tip where the connector attaches; the label is vertically centered on this point */
+  connectorAt: number;
   /** which side of the central rail the label sits on */
   side: "left" | "right";
   barClass: string;
@@ -61,8 +57,7 @@ const datedExperiences: DatedExperience[] = [
     start: monthIndex(2024, 9),
     end: monthIndex(2026, 4),
     track: 1,
-    labelAt: 0,
-    labelAlign: "top",
+    connectorAt: MONTH_PX / 2,
     side: "left",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
@@ -77,8 +72,7 @@ const datedExperiences: DatedExperience[] = [
     start: monthIndex(2024, 9),
     end: monthIndex(2026, 4),
     track: 2,
-    labelAt: 0,
-    labelAlign: "top",
+    connectorAt: MONTH_PX / 2,
     side: "right",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
@@ -93,8 +87,7 @@ const datedExperiences: DatedExperience[] = [
     start: monthIndex(2025, 4),
     end: monthIndex(2025, 4),
     track: 0,
-    labelAt: 0,
-    labelAlign: "top",
+    connectorAt: MONTH_PX / 4,
     side: "left",
     barClass: "bg-primary/80 shadow-[0_0_14px_2px] shadow-primary/40",
     dateClass: "text-primary",
@@ -134,13 +127,6 @@ function ExperiencePage() {
     years.push({ year: y, top: topPx(jan) });
   }
 
-  // vertical center of each connector, so year markers never sit on one
-  const connectorYs = datedExperiences.map((e) =>
-    e.labelAlign === "top"
-      ? topPx(e.end) + LABEL_TITLE_OFFSET
-      : topPx(e.end) + e.labelAt * (e.end - e.start + 1) * MONTH_PX
-  );
-
   return (
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
@@ -154,33 +140,27 @@ function ExperiencePage() {
         </header>
 
         <div className="relative" style={{ height: axisHeight }}>
-          {/* Full-width year grid lines */}
-          {years.map(({ year, top }) => (
-            <div
-              key={year}
-              aria-hidden
-              className="absolute left-0 right-0 border-t border-border/30"
-              style={{ top }}
-            />
-          ))}
-
-          {/* Central rail with span bars */}
+          {/* Central rail = the timeline spine, with span bars */}
           <div
             className="absolute left-1/2 top-0 -translate-x-1/2"
             style={{ width: railWidth, height: axisHeight }}
           >
             <div
               aria-hidden
-              className="absolute bottom-0 top-0 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/40 via-horizon/30 to-primary/10"
+              className="absolute bottom-0 top-0 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/50 via-horizon/40 to-primary/25"
               style={{ left: railWidth / 2 }}
             />
+            {/* glowing cap at the bottom of the spine */}
+            <div
+              aria-hidden
+              className="absolute h-2 w-2 -translate-x-1/2 translate-y-1/2 rounded-full bg-primary/70 shadow-[0_0_8px_2px] shadow-primary/40"
+              style={{ left: railWidth / 2, bottom: 0 }}
+            />
             {datedExperiences.map((e) => {
-            const top = topPx(e.end);
-            const height = (e.end - e.start + 1) * MONTH_PX;
-            const labelY =
-              e.labelAlign === "top"
-                ? top + LABEL_TITLE_OFFSET
-                : top + e.labelAt * height;
+              const top = topPx(e.end);
+              // bar tip stops half a month below the end date
+              const height = (e.end - e.start + 1) * MONTH_PX - MONTH_PX / 2;
+              const labelY = top + e.connectorAt;
               const barLeft = 4 + e.track * TRACK_GAP;
               const barRight = barLeft + BAR_WIDTH;
               const rightConnectorWidth = railWidth + LABEL_GAP - barRight - 10;
@@ -217,48 +197,29 @@ function ExperiencePage() {
             })}
           </div>
 
-          {/* Year markers, always close to the rail */}
-          {years.map(({ year, top }) => {
-            const ysOn = (side: "left" | "right") =>
-              connectorYs.filter((_, i) => datedExperiences[i]?.side === side);
-            const lYs = ysOn("left");
-            const rYs = ysOn("right");
-            const lMin = Math.min(...lYs.map((cy) => Math.abs(cy - top)));
-            const rMin = Math.min(...rYs.map((cy) => Math.abs(cy - top)));
-            const leftBusy = lMin < 12;
-            const rightBusy = rMin < 12;
-            const side: "left" | "right" = leftBusy && !rightBusy ? "right" : "left";
-            return (
-              <span
-                key={year}
-                aria-hidden
-                className="absolute -translate-y-1/2 bg-background px-1 text-xs font-medium text-muted-foreground"
-                style={
-                  side === "left"
-                    ? { top, right: `calc(50% + ${railWidth / 2 + 8}px)` }
-                    : { top, left: `calc(50% + ${railWidth / 2 + 8}px)` }
-                }
-              >
-                {year}
-              </span>
-            );
-          })}
+          {/* Year markers beside the spine */}
+          {years.map(({ year, top }) => (
+            <span
+              key={year}
+              aria-hidden
+              className="absolute -translate-y-1/2 bg-background px-1 text-xs font-medium text-muted-foreground"
+              style={{ top, right: `calc(50% + ${railWidth / 2 + 8}px)` }}
+            >
+              {year}
+            </span>
+          ))}
 
           {/* Labels, alternating sides of the rail */}
           {datedExperiences.map((e) => {
             const barTop = topPx(e.end);
-            const barHeight = (e.end - e.start + 1) * MONTH_PX;
-            const center = e.labelAlign === "center";
             return (
               <div
                 key={e.title}
-                className={`${
-                  center ? "-translate-y-1/2 " : "pt-2 "
-                }absolute ${
+                className={`absolute -translate-y-1/2 ${
                   e.side === "left" ? "text-right" : "text-left"
                 }`}
                 style={{
-                  top: barTop + e.labelAt * barHeight,
+                  top: barTop + e.connectorAt,
                   width: `calc(50% - ${railWidth / 2 + LABEL_GAP}px)`,
                   ...(e.side === "left" ? { left: 0 } : { right: 0 }),
                 }}
