@@ -212,18 +212,14 @@ function ExperiencePage() {
           {/* Labels, alternating sides of the rail */}
           {datedExperiences.map((e) => {
             const barTop = topPx(e.end);
-            const barHeight = (e.end - e.start + 1) * MONTH_PX;
-            const center = e.labelAlign === "center";
             return (
               <div
                 key={e.title}
-                className={`${
-                  center ? "-translate-y-1/2 " : "pt-2 "
-                }absolute ${
+                className={`absolute -translate-y-1/2 ${
                   e.side === "left" ? "text-right" : "text-left"
                 }`}
                 style={{
-                  top: barTop + e.labelAt * barHeight,
+                  top: barTop + e.connectorAt,
                   width: `calc(50% - ${railWidth / 2 + LABEL_GAP}px)`,
                   ...(e.side === "left" ? { left: 0 } : { right: 0 }),
                 }}
