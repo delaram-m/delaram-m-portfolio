@@ -140,25 +140,21 @@ function ExperiencePage() {
         </header>
 
         <div className="relative" style={{ height: axisHeight }}>
-          {/* Full-width year grid lines */}
-          {years.map(({ year, top }) => (
-            <div
-              key={year}
-              aria-hidden
-              className="absolute left-0 right-0 border-t border-border/30"
-              style={{ top }}
-            />
-          ))}
-
-          {/* Central rail with span bars */}
+          {/* Central rail = the timeline spine, with span bars */}
           <div
             className="absolute left-1/2 top-0 -translate-x-1/2"
             style={{ width: railWidth, height: axisHeight }}
           >
             <div
               aria-hidden
-              className="absolute bottom-0 top-0 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/40 via-horizon/30 to-primary/10"
+              className="absolute bottom-0 top-0 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/50 via-horizon/40 to-primary/25"
               style={{ left: railWidth / 2 }}
+            />
+            {/* glowing cap at the bottom of the spine */}
+            <div
+              aria-hidden
+              className="absolute h-2 w-2 -translate-x-1/2 translate-y-1/2 rounded-full bg-primary/70 shadow-[0_0_8px_2px] shadow-primary/40"
+              style={{ left: railWidth / 2, bottom: 0 }}
             />
             {datedExperiences.map((e) => {
             const top = topPx(e.end);
