@@ -337,7 +337,7 @@ function buildLayout() {
 const layout = buildLayout();
 
 function ExperiencePage() {
-  const { dated, undated, trackCount, leftTracks } = buildLayout();
+  const { dated, undated, trackCount, leftTracks } = layout;
 
   // measure the timeline so connectors and gaps can shrink on small screens
   const axisRef = useRef<HTMLDivElement>(null);
@@ -366,7 +366,7 @@ function ExperiencePage() {
   const trackGap = axisWidth !== null && axisWidth < 640 ? 18 : TRACK_GAP;
   const railWidth = (trackCount - 1) * trackGap + BAR_WIDTH + 8;
   // spine runs between the last left track and the first right track
-  const spineX = 4 + (leftTracks - 0.5) * trackGap + BAR_WIDTH / 2;
+  const spineX = Math.max(2, 4 + (leftTracks - 0.5) * trackGap + BAR_WIDTH / 2);
   const sideSpace = axisWidth !== null ? (axisWidth - railWidth) / 2 : Infinity;
   const labelGap =
     axisWidth !== null ? Math.max(24, Math.min(LABEL_GAP, sideSpace - 120)) : LABEL_GAP;
