@@ -63,8 +63,8 @@ const datedExperiences: DatedExperience[] = [
     side: "left",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
-    connectorClass: "bg-gradient-to-r from-horizon/95 to-horizon/25",
-    connectorLeftClass: "bg-gradient-to-l from-horizon/95 to-horizon/25",
+    connectorClass: "bg-gradient-to-r from-horizon/70 to-horizon/10",
+    connectorLeftClass: "bg-gradient-to-l from-horizon/70 to-horizon/10",
     nodeClass: "bg-horizon shadow-[0_0_8px_2px] shadow-horizon/60",
   },
   {
