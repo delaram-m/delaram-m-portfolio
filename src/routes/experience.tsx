@@ -146,6 +146,16 @@ function ExperiencePage() {
         </header>
 
         <div className="relative" style={{ height: axisHeight }}>
+          {/* Full-width year grid lines */}
+          {years.map(({ year, top }) => (
+            <div
+              key={year}
+              aria-hidden
+              className="absolute left-0 right-0 border-t border-border/30"
+              style={{ top }}
+            />
+          ))}
+
           {/* Central rail with span bars */}
           <div
             className="absolute left-1/2 top-0 -translate-x-1/2"
@@ -156,14 +166,6 @@ function ExperiencePage() {
               className="absolute bottom-0 top-0 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/40 via-horizon/30 to-primary/10"
               style={{ left: railWidth / 2 }}
             />
-            {years.map(({ year, top }) => (
-              <div
-                key={year}
-                aria-hidden
-                className="absolute left-0 right-0 border-t border-border/40"
-                style={{ top }}
-              />
-            ))}
             {datedExperiences.map((e) => {
               const top = topPx(e.end);
               const height = (e.end - e.start + 1) * MONTH_PX;
@@ -204,23 +206,24 @@ function ExperiencePage() {
             })}
           </div>
 
-          {/* Year markers, placed on whichever side is free */}
+          {/* Year markers, near the rail when free, otherwise at the outer edge */}
           {years.map(({ year, top }) => {
             const side: "left" | "right" | null = sideBusy("left", top)
               ? sideBusy("right", top)
                 ? null
                 : "right"
               : "left";
-            if (!side) return null;
             return (
               <span
                 key={year}
                 aria-hidden
-                className="absolute -translate-y-1/2 text-xs font-medium text-muted-foreground"
+                className="absolute -translate-y-1/2 bg-background px-1 text-xs font-medium text-muted-foreground"
                 style={
                   side === "left"
                     ? { top, right: `calc(50% + ${railWidth / 2 + 8}px)` }
-                    : { top, left: `calc(50% + ${railWidth / 2 + 8}px)` }
+                    : side === "right"
+                      ? { top, left: `calc(50% + ${railWidth / 2 + 8}px)` }
+                      : { top, left: 0 }
                 }
               >
                 {year}
