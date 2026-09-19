@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-// bars meet at an exact shared date (e.g. Sep 22) without overlapping
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/experience")({
@@ -181,8 +180,8 @@ function assignTracks(items: Omit<Dated, "track" | "side">[]) {
     .sort((a, b) => items[a]!.start - items[b]!.start || items[a]!.end - items[b]!.end);
   for (const i of order) {
     const e = items[i]!;
-    // months are inclusive, so a shared month counts as an overlap
-    let t = trackEnds.findIndex((end) => end < e.start);
+    // bars that merely touch at a shared date can reuse a track
+    let t = trackEnds.findIndex((end) => end <= e.start);
     if (t === -1) {
       t = trackEnds.length;
       trackEnds.push(e.end);
@@ -379,7 +378,7 @@ function ExperiencePage() {
               const colors = e.volunteer ? palette.purple : palette.blue;
               const side = e.side;
               const top = topPx(e.end);
-              const height = (e.end - e.start + 1) * MONTH_PX;
+              const height = (e.end - e.start) * MONTH_PX;
               const labelY = top + CONNECTOR_OFFSET;
               const barLeft = 4 + e.track * trackGap;
               const barRight = barLeft + BAR_WIDTH;
