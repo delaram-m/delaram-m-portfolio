@@ -146,24 +146,22 @@ function ExperiencePage() {
         </header>
 
         <div className="relative" style={{ height: axisHeight }}>
+          {/* Full-width year grid lines */}
+          {years.map(({ year, top }) => (
+            <div
+              key={year}
+              aria-hidden
+              className="absolute left-0 right-0 border-t border-border/30"
+              style={{ top }}
+            />
+          ))}
+
           {/* Central rail with span bars */}
           <div
             className="absolute left-1/2 top-0 -translate-x-1/2"
             style={{ width: railWidth, height: axisHeight }}
           >
             <div
-              aria-hidden
-              className="absolute bottom-0 top-0 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/40 via-horizon/30 to-primary/10"
-              style={{ left: railWidth / 2 }}
-            />
-            {years.map(({ year, top }) => (
-              <div
-                key={year}
-                aria-hidden
-                className="absolute left-0 right-0 border-t border-border/40"
-                style={{ top }}
-              />
-            ))}
             {datedExperiences.map((e) => {
               const top = topPx(e.end);
               const height = (e.end - e.start + 1) * MONTH_PX;
