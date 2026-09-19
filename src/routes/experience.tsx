@@ -149,7 +149,7 @@ function ExperiencePage() {
             <div
               key={`yearline-${year}`}
               aria-hidden
-              className="absolute left-0 right-0 h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-border/25 to-transparent"
+              className="absolute left-0 right-0 h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-border/50 to-transparent"
               style={{ top }}
             />
           ))}
