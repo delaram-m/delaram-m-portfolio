@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/experience")({
@@ -221,6 +222,20 @@ function buildLayout() {
 function ExperiencePage() {
   const { dated, undated, trackCount, leftTracks } = buildLayout();
 
+  // measure the timeline so connectors and gaps can shrink on small screens
+  const axisRef = useRef<HTMLDivElement>(null);
+  const [axisWidth, setAxisWidth] = useState<number | null>(null);
+
+  useEffect(() => {
+    const el = axisRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver((entries) => {
+      setAxisWidth(entries[0]!.contentRect.width);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   // pad the axis down to January so every fully-shown year spans the same height
   const min = Math.floor(Math.min(...dated.map((e) => e.start)) / 12) * 12;
   const max = Math.max(...dated.map((e) => e.end));
@@ -228,9 +243,15 @@ function ExperiencePage() {
 
   const topPx = (month: number) => (max - month) * MONTH_PX;
 
-  const railWidth = (trackCount - 1) * TRACK_GAP + BAR_WIDTH + 8;
+  // on narrow screens the tracks pull closer together and the connectors
+  // shorten so each label keeps room to breathe (and wrap if it must)
+  const trackGap = axisWidth !== null && axisWidth < 640 ? 18 : TRACK_GAP;
+  const railWidth = (trackCount - 1) * trackGap + BAR_WIDTH + 8;
   // spine runs between the last left track and the first right track
-  const spineX = 4 + (leftTracks - 0.5) * TRACK_GAP + BAR_WIDTH / 2;
+  const spineX = 4 + (leftTracks - 0.5) * trackGap + BAR_WIDTH / 2;
+  const sideSpace = axisWidth !== null ? (axisWidth - railWidth) / 2 : Infinity;
+  const labelGap =
+    axisWidth !== null ? Math.max(24, Math.min(LABEL_GAP, sideSpace - 120)) : LABEL_GAP;
 
   const startYear = Math.floor(min / 12);
   const endYear = Math.floor(max / 12);
@@ -252,7 +273,7 @@ function ExperiencePage() {
           </p>
         </header>
 
-        <div className="relative" style={{ height: axisHeight }}>
+        <div ref={axisRef} className="relative" style={{ height: axisHeight }}>
           {/* Subtle lines marking each year boundary, behind everything */}
           {years.map(({ year, top }) => (
             <div
@@ -285,7 +306,7 @@ function ExperiencePage() {
               const top = topPx(e.end);
               const height = (e.end - e.start + 1) * MONTH_PX;
               const labelY = top + CONNECTOR_OFFSET;
-              const barLeft = 4 + e.track * TRACK_GAP;
+              const barLeft = 4 + e.track * trackGap;
               const barRight = barLeft + BAR_WIDTH;
               return (
                 <div key={e.title} aria-hidden>
@@ -297,12 +318,12 @@ function ExperiencePage() {
                   {side === "right" ? (
                     <div
                       className={`absolute h-px ${colors.right}`}
-                      style={{ left: barRight, top: labelY, width: LABEL_GAP }}
+                      style={{ left: barRight, top: labelY, width: labelGap }}
                     />
                   ) : (
                     <div
                       className={`absolute h-px ${colors.left}`}
-                      style={{ left: barLeft - LABEL_GAP, top: labelY, width: LABEL_GAP }}
+                      style={{ left: barLeft - labelGap, top: labelY, width: labelGap }}
                     />
                   )}
                   {/* glowing node where the connector meets the bar */}
@@ -332,20 +353,24 @@ function ExperiencePage() {
             const colors = e.volunteer ? palette.purple : palette.blue;
             const side = sideFor(e.track, leftTracks);
             const barTop = topPx(e.end);
-            const barLeft = 4 + e.track * TRACK_GAP;
+            const barLeft = 4 + e.track * trackGap;
             const barRight = barLeft + BAR_WIDTH;
+            // labels stay on one line when there's room; they wrap onto
+            // multiple lines on narrower screens instead of overflowing
+            const wrap = axisWidth !== null && axisWidth < 900;
             return (
               <div
                 key={e.title}
-                className={`absolute -translate-y-3 whitespace-nowrap ${side === "left" ? "text-right" : "text-left"}`}
+                className={`absolute -translate-y-3 ${side === "left" ? "text-right" : "text-left"}`}
                 style={{
                   top: barTop + CONNECTOR_OFFSET,
+                  ...(wrap ? {} : { width: "max-content" }),
                   ...(side === "left"
                     ? {
-                        right: `calc(50% + ${railWidth / 2 - barLeft + LABEL_GAP + LABEL_GAP_FROM_LABEL}px)`,
+                        right: `calc(50% + ${railWidth / 2 - barLeft + labelGap + LABEL_GAP_FROM_LABEL}px)`,
                       }
                     : {
-                        left: `calc(50% + ${barRight + LABEL_GAP + LABEL_GAP_FROM_LABEL - railWidth / 2}px)`,
+                        left: `calc(50% + ${barRight + labelGap + LABEL_GAP_FROM_LABEL - railWidth / 2}px)`,
                       }),
                 }}
               >
