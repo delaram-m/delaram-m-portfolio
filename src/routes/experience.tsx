@@ -63,8 +63,8 @@ const datedExperiences: DatedExperience[] = [
     side: "left",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
-    connectorClass: "bg-gradient-to-r from-horizon/95 to-horizon/25",
-    connectorLeftClass: "bg-gradient-to-l from-horizon/95 to-horizon/25",
+    connectorClass: "bg-gradient-to-r from-horizon/70 to-horizon/10",
+    connectorLeftClass: "bg-gradient-to-l from-horizon/70 to-horizon/10",
     nodeClass: "bg-horizon shadow-[0_0_8px_2px] shadow-horizon/60",
   },
   {
@@ -78,8 +78,8 @@ const datedExperiences: DatedExperience[] = [
     side: "right",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
-    connectorClass: "bg-gradient-to-r from-horizon/95 to-horizon/25",
-    connectorLeftClass: "bg-gradient-to-l from-horizon/95 to-horizon/25",
+    connectorClass: "bg-gradient-to-r from-horizon/70 to-horizon/10",
+    connectorLeftClass: "bg-gradient-to-l from-horizon/70 to-horizon/10",
     nodeClass: "bg-horizon shadow-[0_0_8px_2px] shadow-horizon/60",
   },
   {
@@ -93,8 +93,8 @@ const datedExperiences: DatedExperience[] = [
     side: "left",
     barClass: "bg-primary/80 shadow-[0_0_14px_2px] shadow-primary/40",
     dateClass: "text-primary",
-    connectorClass: "bg-gradient-to-r from-primary/95 to-primary/25",
-    connectorLeftClass: "bg-gradient-to-l from-primary/95 to-primary/25",
+    connectorClass: "bg-gradient-to-r from-primary/70 to-primary/10",
+    connectorLeftClass: "bg-gradient-to-l from-primary/70 to-primary/10",
     nodeClass: "bg-primary shadow-[0_0_8px_2px] shadow-primary/60",
   },
 ];
@@ -188,12 +188,12 @@ function ExperiencePage() {
                   {/* connector from bar to its label */}
                   {e.side === "right" ? (
                     <div
-                      className={`absolute h-[2px] ${e.connectorClass}`}
+                      className={`absolute h-px ${e.connectorClass}`}
                       style={{ left: barRight, top: labelY, width: rightConnectorWidth }}
                     />
                   ) : (
                     <div
-                      className={`absolute h-[2px] ${e.connectorLeftClass}`}
+                      className={`absolute h-px ${e.connectorLeftClass}`}
                       style={{
                         left: barLeft - leftConnectorWidth,
                         top: labelY,
