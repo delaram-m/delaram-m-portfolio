@@ -182,7 +182,7 @@ function assignTracks(items: Omit<Dated, "track">[]) {
 }
 
 /** side of the spine for a track, given how many tracks sit on the left */
-function sideFor(track: number, leftTracks: number): "left" | "right" {
+function defaultSide(track: number, leftTracks: number): "left" | "right" {
   return track < leftTracks ? "left" : "right";
 }
 
@@ -248,9 +248,14 @@ function buildLayout() {
 
   // try every track relabelling and every side assignment; keep the
   // arrangement with the fewest crossings, then the most side alternation
-  let best: Dated[] = [];
-  let bestScore = Infinity;
-  const sideCombos = 1 << dated.length;
+  let best: Dated[] = dated.map((e, i) => ({
+    ...e,
+    track: tracks[i]!,
+    side: defaultSide(tracks[i]!, leftTracks),
+  }));
+  let bestScore = scoreArrangement(best);
+  // exhaustive side search is only worthwhile for a small number of entries
+  const sideCombos = dated.length <= 12 ? 1 << dated.length : 1;
   for (const perm of permutations(trackCount)) {
     for (let mask = 0; mask < sideCombos; mask++) {
       const candidate: Dated[] = dated.map((e, i) => ({
