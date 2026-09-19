@@ -18,8 +18,6 @@ const MONTH_PX = 30;
 const TRACK_GAP = 26;
 const BAR_WIDTH = 10;
 const LABEL_GAP = 44;
-/** label top margin (pt-2) + half of the title line height (leading-6 = 24px) */
-const LABEL_TITLE_OFFSET = 8 + 12;
 
 /** year * 12 + (month - 1) */
 function monthIndex(year: number, month: number) {
@@ -33,10 +31,8 @@ type DatedExperience = {
   start: number;
   end: number;
   track: number;
-  /** where along the bar the label sits, 0 = top, 1 = bottom */
-  labelAt: number;
-  /** "top" = top of the label aligns with the connector point (plus a small margin); "center" = label is vertically centered on it */
-  labelAlign: "top" | "center";
+  /** px below the bar's top tip where the connector attaches; the label is vertically centered on this point */
+  connectorAt: number;
   /** which side of the central rail the label sits on */
   side: "left" | "right";
   barClass: string;
