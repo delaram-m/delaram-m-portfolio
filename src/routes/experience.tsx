@@ -206,23 +206,24 @@ function ExperiencePage() {
             })}
           </div>
 
-          {/* Year markers, placed on whichever side is free */}
+          {/* Year markers, near the rail when free, otherwise at the outer edge */}
           {years.map(({ year, top }) => {
             const side: "left" | "right" | null = sideBusy("left", top)
               ? sideBusy("right", top)
                 ? null
                 : "right"
               : "left";
-            if (!side) return null;
             return (
               <span
                 key={year}
                 aria-hidden
-                className="absolute -translate-y-1/2 text-xs font-medium text-muted-foreground"
+                className="absolute -translate-y-1/2 bg-background px-1 text-xs font-medium text-muted-foreground"
                 style={
                   side === "left"
                     ? { top, right: `calc(50% + ${railWidth / 2 + 8}px)` }
-                    : { top, left: `calc(50% + ${railWidth / 2 + 8}px)` }
+                    : side === "right"
+                      ? { top, left: `calc(50% + ${railWidth / 2 + 8}px)` }
+                      : { top, left: 0 }
                 }
               >
                 {year}
