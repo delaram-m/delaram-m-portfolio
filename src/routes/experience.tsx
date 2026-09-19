@@ -17,7 +17,7 @@ export const Route = createFileRoute("/experience")({
 const MONTH_PX = 30;
 const TRACK_GAP = 26;
 const BAR_WIDTH = 10;
-const LABEL_LEFT = 24;
+const LABEL_GAP = 24;
 
 /** year * 12 + (month - 1) */
 function monthIndex(year: number, month: number) {
@@ -33,9 +33,14 @@ type DatedExperience = {
   track: number;
   /** where along the bar the label sits, 0 = top, 1 = bottom */
   labelAt: number;
+  /** which side of the central rail the label sits on */
+  side: "left" | "right";
   barClass: string;
   dateClass: string;
+  /** connector fading toward a label on the right */
   connectorClass: string;
+  /** connector fading toward a label on the left */
+  connectorLeftClass: string;
   nodeClass: string;
 };
 
@@ -53,9 +58,11 @@ const datedExperiences: DatedExperience[] = [
     end: monthIndex(2026, 4),
     track: 0,
     labelAt: 0.15,
+    side: "right",
     barClass: "bg-primary/80 shadow-[0_0_14px_2px] shadow-primary/40",
     dateClass: "text-primary",
     connectorClass: "bg-gradient-to-r from-primary/70 to-primary/10",
+    connectorLeftClass: "bg-gradient-to-l from-primary/70 to-primary/10",
     nodeClass: "bg-primary shadow-[0_0_8px_2px] shadow-primary/60",
   },
   {
@@ -64,11 +71,13 @@ const datedExperiences: DatedExperience[] = [
     datesDisplay: "Sep 2024 - Apr 2026",
     start: monthIndex(2024, 9),
     end: monthIndex(2026, 4),
-    track: 1,
+    track: 2,
     labelAt: 0.85,
+    side: "right",
     barClass: "bg-horizon/80 shadow-[0_0_14px_2px] shadow-horizon/40",
     dateClass: "text-horizon",
     connectorClass: "bg-gradient-to-r from-horizon/70 to-horizon/10",
+    connectorLeftClass: "bg-gradient-to-l from-horizon/70 to-horizon/10",
     nodeClass: "bg-horizon shadow-[0_0_8px_2px] shadow-horizon/60",
   },
   {
@@ -77,11 +86,13 @@ const datedExperiences: DatedExperience[] = [
     datesDisplay: "Apr 2025",
     start: monthIndex(2025, 4),
     end: monthIndex(2025, 4),
-    track: 2,
+    track: 1,
     labelAt: 0.5,
+    side: "left",
     barClass: "bg-nebula/80 shadow-[0_0_14px_2px] shadow-nebula/40",
     dateClass: "text-nebula",
     connectorClass: "bg-gradient-to-r from-nebula/70 to-nebula/10",
+    connectorLeftClass: "bg-gradient-to-l from-nebula/70 to-nebula/10",
     nodeClass: "bg-nebula shadow-[0_0_8px_2px] shadow-nebula/60",
   },
 ];
@@ -115,6 +126,13 @@ function ExperiencePage() {
     years.push({ year: y, top: topPx(jan) });
   }
 
+  // vertical center of each label, used to keep year markers clear of them
+  const labelYs = datedExperiences.map(
+    (e) => topPx(e.end) + e.labelAt * (e.end - e.start + 1) * MONTH_PX
+  );
+  const sideBusy = (side: "left" | "right", top: number) =>
+    datedExperiences.some((e, i) => e.side === side && Math.abs((labelYs[i] ?? -10000) - top) < 44);
+
   return (
     <div className="px-4 pb-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
@@ -127,23 +145,10 @@ function ExperiencePage() {
           </p>
         </header>
 
-        <div className="flex">
-          {/* Year markers */}
-          <div className="relative w-10 shrink-0" style={{ height: axisHeight }}>
-            {years.map(({ year, top }) => (
-              <span
-                key={year}
-                className="absolute right-2 -translate-y-1/2 text-xs font-medium text-muted-foreground"
-                style={{ top }}
-              >
-                {year}
-              </span>
-            ))}
-          </div>
-
-          {/* Rail with span bars */}
+        <div className="relative" style={{ height: axisHeight }}>
+          {/* Central rail with span bars */}
           <div
-            className="relative shrink-0"
+            className="absolute left-1/2 top-0 -translate-x-1/2"
             style={{ width: railWidth, height: axisHeight }}
           >
             <div
@@ -165,7 +170,8 @@ function ExperiencePage() {
               const labelY = top + e.labelAt * height;
               const barLeft = 4 + e.track * TRACK_GAP;
               const barRight = barLeft + BAR_WIDTH;
-              const connectorWidth = railWidth + LABEL_LEFT - barRight - 10;
+              const rightConnectorWidth = railWidth + LABEL_GAP - barRight - 10;
+              const leftConnectorWidth = barLeft + LABEL_GAP - 10;
               return (
                 <div key={e.title} aria-hidden>
                   <div
@@ -173,10 +179,21 @@ function ExperiencePage() {
                     style={{ top, height, left: barLeft, width: BAR_WIDTH }}
                   />
                   {/* connector from bar to its label */}
-                  <div
-                    className={`absolute h-px ${e.connectorClass}`}
-                    style={{ left: barRight, top: labelY, width: connectorWidth }}
-                  />
+                  {e.side === "right" ? (
+                    <div
+                      className={`absolute h-px ${e.connectorClass}`}
+                      style={{ left: barRight, top: labelY, width: rightConnectorWidth }}
+                    />
+                  ) : (
+                    <div
+                      className={`absolute h-px ${e.connectorLeftClass}`}
+                      style={{
+                        left: barLeft - leftConnectorWidth,
+                        top: labelY,
+                        width: leftConnectorWidth,
+                      }}
+                    />
+                  )}
                   {/* glowing node where the connector meets the bar */}
                   <div
                     className={`absolute h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${e.nodeClass}`}
@@ -187,28 +204,51 @@ function ExperiencePage() {
             })}
           </div>
 
-          {/* Labels */}
-          <div className="relative min-w-0 flex-1" style={{ height: axisHeight }}>
-            {datedExperiences.map((e) => {
-              const barTop = topPx(e.end);
-              const barHeight = (e.end - e.start + 1) * MONTH_PX;
-              return (
-                <div
-                  key={e.title}
-                  className="absolute right-0 -translate-y-1/2"
-                  style={{ top: barTop + e.labelAt * barHeight, left: LABEL_LEFT }}
-                >
-                  <h2 className="text-base font-semibold leading-6 text-foreground sm:text-lg">
-                    {e.title}
-                  </h2>
-                  <p className="mt-1 text-sm text-muted-foreground">{e.org}</p>
-                  <p className={`mt-1 text-sm font-medium ${e.dateClass}`}>
-                    {e.datesDisplay}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
+          {/* Year markers, placed on whichever side is free */}
+          {years.map(({ year, top }) => {
+            const side = sideBusy("left", top) ? "right" : "left";
+            return (
+              <span
+                key={year}
+                aria-hidden
+                className="absolute -translate-y-1/2 text-xs font-medium text-muted-foreground"
+                style={
+                  side === "left"
+                    ? { top, right: `calc(50% + ${railWidth / 2 + 8}px)` }
+                    : { top, left: `calc(50% + ${railWidth / 2 + 8}px)` }
+                }
+              >
+                {year}
+              </span>
+            );
+          })}
+
+          {/* Labels, alternating sides of the rail */}
+          {datedExperiences.map((e) => {
+            const barTop = topPx(e.end);
+            const barHeight = (e.end - e.start + 1) * MONTH_PX;
+            return (
+              <div
+                key={e.title}
+                className={`absolute -translate-y-1/2 ${
+                  e.side === "left" ? "text-right" : "text-left"
+                }`}
+                style={{
+                  top: barTop + e.labelAt * barHeight,
+                  width: `calc(50% - ${railWidth / 2 + LABEL_GAP}px)`,
+                  ...(e.side === "left" ? { left: 0 } : { right: 0 }),
+                }}
+              >
+                <h2 className="text-base font-semibold leading-6 text-foreground sm:text-lg">
+                  {e.title}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">{e.org}</p>
+                <p className={`mt-1 text-sm font-medium ${e.dateClass}`}>
+                  {e.datesDisplay}
+                </p>
+              </div>
+            );
+          })}
         </div>
 
         {/* Undated entries */}
