@@ -162,6 +162,10 @@ function ExperiencePage() {
             style={{ width: railWidth, height: axisHeight }}
           >
             <div
+              aria-hidden
+              className="absolute bottom-0 top-0 w-0.5 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/40 via-horizon/30 to-primary/10"
+              style={{ left: railWidth / 2 }}
+            />
             {datedExperiences.map((e) => {
               const top = topPx(e.end);
               const height = (e.end - e.start + 1) * MONTH_PX;
