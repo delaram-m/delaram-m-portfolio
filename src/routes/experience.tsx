@@ -306,7 +306,7 @@ function ExperiencePage() {
               const top = topPx(e.end);
               const height = (e.end - e.start + 1) * MONTH_PX;
               const labelY = top + CONNECTOR_OFFSET;
-              const barLeft = 4 + e.track * TRACK_GAP;
+              const barLeft = 4 + e.track * trackGap;
               const barRight = barLeft + BAR_WIDTH;
               return (
                 <div key={e.title} aria-hidden>
@@ -318,12 +318,12 @@ function ExperiencePage() {
                   {side === "right" ? (
                     <div
                       className={`absolute h-px ${colors.right}`}
-                      style={{ left: barRight, top: labelY, width: LABEL_GAP }}
+                      style={{ left: barRight, top: labelY, width: labelGap }}
                     />
                   ) : (
                     <div
                       className={`absolute h-px ${colors.left}`}
-                      style={{ left: barLeft - LABEL_GAP, top: labelY, width: LABEL_GAP }}
+                      style={{ left: barLeft - labelGap, top: labelY, width: labelGap }}
                     />
                   )}
                   {/* glowing node where the connector meets the bar */}
