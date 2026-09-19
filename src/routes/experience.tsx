@@ -124,6 +124,7 @@ type Dated = {
   end: number;
   volunteer: boolean;
   track: number;
+  side: "left" | "right";
 };
 
 const palette = {
@@ -186,18 +187,18 @@ function sideFor(track: number, leftTracks: number): "left" | "right" {
 }
 
 /**
- * arrangement score: crossings dominate; chronologically consecutive
- * experiences on the same side of the spine add a smaller penalty so
+ * arrangement score: connector crossings dominate; chronologically
+ * consecutive experiences on the same side add a smaller penalty so
  * neighbours alternate sides when possible
  */
-function crossings(items: Dated[], leftTracks: number) {
+function scoreArrangement(items: Dated[]) {
   let count = 0;
   for (const e of items) {
     const y = e.end; // connector sits just under the end date
-    const side = sideFor(e.track, leftTracks);
     for (const other of items) {
       if (other === e) continue;
-      const between = side === "left" ? other.track < e.track : other.track > e.track;
+      const between =
+        e.side === "left" ? other.track < e.track : other.track > e.track;
       if (between && other.start <= y && other.end >= y) count++;
     }
   }
@@ -206,9 +207,7 @@ function crossings(items: Dated[], leftTracks: number) {
   );
   let sameSideRuns = 0;
   for (let i = 1; i < chronological.length; i++) {
-    const prevSide = sideFor(chronological[i - 1]!.track, leftTracks);
-    const side = sideFor(chronological[i]!.track, leftTracks);
-    if (prevSide === side) sameSideRuns++;
+    if (chronological[i - 1]!.side === chronological[i]!.side) sameSideRuns++;
   }
   return count * 100 + sameSideRuns;
 }
