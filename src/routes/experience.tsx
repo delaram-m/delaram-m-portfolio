@@ -166,7 +166,8 @@ function assignTracks(items: Omit<Dated, "track">[]) {
     .sort((a, b) => items[a]!.start - items[b]!.start || items[a]!.end - items[b]!.end);
   for (const i of order) {
     const e = items[i]!;
-    let t = trackEnds.findIndex((end) => end < e.start);
+    // touching intervals (end == start) may share a track
+    let t = trackEnds.findIndex((end) => end <= e.start);
     if (t === -1) {
       t = trackEnds.length;
       trackEnds.push(e.end);
