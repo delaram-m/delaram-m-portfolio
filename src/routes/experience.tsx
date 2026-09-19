@@ -158,69 +158,71 @@ const palette = {
   },
 };
 
-/** permutations of [0..n-1] */
-function permutations(n: number): number[][] {
-  if (n <= 1) return [[0]];
-  const out: number[][] = [];
-  const rest = permutations(n - 1);
-  for (const p of rest) {
-    for (let i = 0; i <= p.length; i++) {
-      out.push([...p.slice(0, i), n - 1, ...p.slice(i)]);
-    }
-  }
-  return out;
-}
+type Span = { start: number; end: number };
 
-/** greedy interval colouring: overlapping bars never share a track */
-function assignTracks(items: Omit<Dated, "track" | "side">[]) {
-  const trackEnds: number[] = [];
-  const tracks: number[] = [];
-  const order = items
-    .map((e, i) => i)
-    .sort((a, b) => items[a]!.start - items[b]!.start || items[a]!.end - items[b]!.end);
+/** greedy interval colouring: overlapping bars never share a slot */
+function greedySlots(spans: Span[]) {
+  const slotEnds: number[] = [];
+  const slots: number[] = [];
+  const order = spans
+    .map((_, i) => i)
+    .sort((a, b) => spans[a]!.start - spans[b]!.start || spans[a]!.end - spans[b]!.end);
   for (const i of order) {
-    const e = items[i]!;
-    // bars that merely touch at a shared date can reuse a track
-    let t = trackEnds.findIndex((end) => end <= e.start);
+    const s = spans[i]!;
+    // bars that merely touch at a shared date can reuse a slot
+    let t = slotEnds.findIndex((end) => end <= s.start);
     if (t === -1) {
-      t = trackEnds.length;
-      trackEnds.push(e.end);
+      t = slotEnds.length;
+      slotEnds.push(s.end);
     } else {
-      trackEnds[t] = e.end;
+      slotEnds[t] = s.end;
     }
-    tracks[i] = t;
+    slots[i] = t;
   }
-  return { tracks, trackCount: trackEnds.length };
+  return { slots, count: slotEnds.length };
 }
 
-/** side of the spine for a track, given how many tracks sit on the left */
-function defaultSide(track: number, leftTracks: number): "left" | "right" {
-  return track < leftTracks ? "left" : "right";
+/** every way to give each item one of `count` slots while overlapping items stay apart */
+function slotMaps(spans: Span[], count: number): number[][] {
+  if (spans.length === 0) return [[]];
+  const out: number[][] = [];
+  const current: number[] = [];
+  const walk = (i: number) => {
+    if (i === spans.length) {
+      out.push([...current]);
+      return;
+    }
+    for (let t = 0; t < count; t++) {
+      const clash = current.some(
+        (j, k) =>
+          current[k] === t &&
+          spans[j]!.start < spans[i]!.end &&
+          spans[i]!.start < spans[j]!.end
+      );
+      if (!clash) {
+        current[i] = t;
+        walk(i + 1);
+      }
+    }
+  };
+  walk(0);
+  return out;
 }
 
 /**
  * arrangement score: connector crossings dominate; chronologically
- * consecutive experiences on the same side add a smaller penalty so
- * neighbours alternate sides when possible
+ * consecutive experiences on the same side of the spine add a smaller
+ * penalty so neighbours alternate sides when possible
  */
 function scoreArrangement(items: Dated[]) {
-  const trackCount = Math.max(...items.map((item) => item.track)) + 1;
-  const leftTracks = Math.ceil(trackCount / 2);
-
-  // A label must stay on the outward-facing side of its bar. Allowing an
-  // independently chosen side can send its connector through the spine.
-  if (items.some((item) => item.side !== defaultSide(item.track, leftTracks))) {
-    return Number.POSITIVE_INFINITY;
-  }
-
-  let count = 0;
+  let crossings = 0;
   for (const e of items) {
     const y = e.end; // connector sits just under the end date
     for (const other of items) {
       if (other === e) continue;
       const between =
         e.side === "left" ? other.track < e.track : other.track > e.track;
-      if (between && other.start <= y && other.end >= y) count++;
+      if (between && other.start <= y && other.end >= y) crossings++;
     }
   }
   const chronological = [...items].sort(
@@ -230,9 +232,18 @@ function scoreArrangement(items: Dated[]) {
   for (let i = 1; i < chronological.length; i++) {
     if (chronological[i - 1]!.side === chronological[i]!.side) sameSideRuns++;
   }
-  return count * 100 + sameSideRuns;
+  return crossings * 100 + sameSideRuns;
 }
 
+/**
+ * Fully automatic layout. Each experience is free to sit on either side of
+ * the spine (all combinations are tried for short lists), bars stack on
+ * slots per side (every valid stacking is tried), and the arrangement with
+ * the fewest connector crossings wins — ties broken by alternating sides
+ * between chronologically consecutive experiences. Connectors always run
+ * outward from their own bar, so they never cross the spine. Add a new
+ * experience and it finds its own place.
+ */
 function buildLayout() {
   const dated: Omit<Dated, "track" | "side">[] = [];
   const undated: { id: string; title: string; org: string; volunteer: boolean }[] = [];
@@ -261,39 +272,72 @@ function buildLayout() {
     });
   }
 
-  const { tracks, trackCount } = assignTracks(dated);
-  const leftTracks = Math.ceil(trackCount / 2);
+  const n = dated.length;
+  if (n === 0) return { dated: [] as Dated[], undated, trackCount: 0, leftTracks: 0 };
 
-  // Try every track relabelling and side assignment. Invalid inward-facing
-  // connectors are rejected, then crossings and side repetition are minimized.
-  let best: Dated[] = dated.map((e, i) => ({
-    ...e,
-    track: tracks[i]!,
-    side: defaultSide(tracks[i]!, leftTracks),
-  }));
-  let bestScore = scoreArrangement(best);
-  // exhaustive side search is only worthwhile for a small number of entries
-  const sideCombos = dated.length <= 12 ? 1 << dated.length : 1;
-  for (const perm of permutations(trackCount)) {
-    for (let mask = 0; mask < sideCombos; mask++) {
-      const candidate: Dated[] = dated.map((e, i) => ({
-        ...e,
-        track: perm[tracks[i]!]!,
-        side: (mask >> i) & 1 ? "right" : "left",
-      }));
-      const score = scoreArrangement(candidate);
-      if (score < bestScore) {
-        best = candidate;
-        bestScore = score;
+  // which side each experience sits on: try every combination for short
+  // lists; long lists fall back to chronological alternation
+  const chronological = dated
+    .map((_, i) => i)
+    .sort((a, b) => dated[a]!.start - dated[b]!.start || dated[a]!.end - dated[b]!.end);
+  const masks: number[] = [];
+  if (n <= 12) {
+    for (let m = 0; m < (1 << n); m++) masks.push(m);
+  } else {
+    let m = 0;
+    chronological.forEach((item, rank) => {
+      if (rank % 2 === 1) m |= 1 << item;
+    });
+    masks.push(m);
+  }
+
+  let best: Dated[] = [];
+  let bestLeftCount = 0;
+  let bestTrackCount = 0;
+  let bestScore = Number.POSITIVE_INFINITY;
+
+  for (const mask of masks) {
+    const leftIdx: number[] = [];
+    const rightIdx: number[] = [];
+    dated.forEach((_, i) => ((mask >> i) & 1 ? rightIdx : leftIdx).push(i));
+    const leftSpans = leftIdx.map((i) => dated[i]!);
+    const rightSpans = rightIdx.map((i) => dated[i]!);
+    const leftRes = greedySlots(leftSpans);
+    const rightRes = greedySlots(rightSpans);
+    const leftCount = leftRes.count;
+    const trackCount = leftCount + rightRes.count;
+    // exhaustive slot search is only worthwhile for a small number of entries
+    const enumerate = n <= 12;
+    const leftMaps = enumerate ? slotMaps(leftSpans, leftCount) : [leftRes.slots];
+    const rightMaps = enumerate ? slotMaps(rightSpans, rightRes.count) : [rightRes.slots];
+    for (const lm of leftMaps) {
+      for (const rm of rightMaps) {
+        const candidate: Dated[] = dated.map((e, i) => {
+          const li = leftIdx.indexOf(i);
+          if (li !== -1) {
+            return { ...e, track: lm[li]!, side: "left" as const };
+          }
+          const ri = rightIdx.indexOf(i);
+          return { ...e, track: leftCount + rm[ri]!, side: "right" as const };
+        });
+        const score = scoreArrangement(candidate);
+        if (score < bestScore) {
+          bestScore = score;
+          best = candidate;
+          bestLeftCount = leftCount;
+          bestTrackCount = trackCount;
+        }
       }
     }
   }
 
-  return { dated: best, undated, trackCount, leftTracks };
+  return { dated: best, undated, trackCount: bestTrackCount, leftTracks: bestLeftCount };
 }
 
+const layout = buildLayout();
+
 function ExperiencePage() {
-  const { dated, undated, trackCount, leftTracks } = buildLayout();
+  const { dated, undated, trackCount, leftTracks } = layout;
 
   // measure the timeline so connectors and gaps can shrink on small screens
   const axisRef = useRef<HTMLDivElement>(null);
@@ -322,7 +366,7 @@ function ExperiencePage() {
   const trackGap = axisWidth !== null && axisWidth < 640 ? 18 : TRACK_GAP;
   const railWidth = (trackCount - 1) * trackGap + BAR_WIDTH + 8;
   // spine runs between the last left track and the first right track
-  const spineX = 4 + (leftTracks - 0.5) * trackGap + BAR_WIDTH / 2;
+  const spineX = Math.max(2, 4 + (leftTracks - 0.5) * trackGap + BAR_WIDTH / 2);
   const sideSpace = axisWidth !== null ? (axisWidth - railWidth) / 2 : Infinity;
   const labelGap =
     axisWidth !== null ? Math.max(24, Math.min(LABEL_GAP, sideSpace - 120)) : LABEL_GAP;
