@@ -158,8 +158,7 @@ function ExperiencePage() {
             />
             {datedExperiences.map((e) => {
               const top = topPx(e.end);
-              // bar tip stops half a month below the end date; never shorter than a full month
-              const height = Math.max((e.end - e.start + 1) * MONTH_PX - MONTH_PX / 2, MONTH_PX);
+              const height = (e.end - e.start + 1) * MONTH_PX;
               const labelY = top + e.connectorAt;
               const barLeft = 4 + e.track * TRACK_GAP;
               const barRight = barLeft + BAR_WIDTH;
