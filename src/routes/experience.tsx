@@ -206,7 +206,12 @@ function ExperiencePage() {
 
           {/* Year markers, placed on whichever side is free */}
           {years.map(({ year, top }) => {
-            const side = sideBusy("left", top) ? "right" : "left";
+            const side: "left" | "right" | null = sideBusy("left", top)
+              ? sideBusy("right", top)
+                ? null
+                : "right"
+              : "left";
+            if (!side) return null;
             return (
               <span
                 key={year}
