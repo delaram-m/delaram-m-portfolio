@@ -5,13 +5,23 @@ export type CredentialPreview = { url: string; kind: "image" | "pdf" } | null;
 const IMAGE_EXTENSIONS = /\.(avif|gif|jpe?g|png|svg|webp)(?:$|[?#])/i;
 const PDF_EXTENSION = /\.pdf(?:$|[?#])/i;
 
+// The server only fetches credential pages from known credential providers,
+// so the endpoint cannot be abused as an open proxy to arbitrary hosts.
+const ALLOWED_HOSTS = ["coursera.org", "s3.amazonaws.com"];
+
+function isAllowedHost(hostname: string) {
+  const host = hostname.toLowerCase();
+  return ALLOWED_HOSTS.some((allowed) => host === allowed || host.endsWith(`.${allowed}`));
+}
+
 function isPublicWebUrl(value: string) {
   try {
     const url = new URL(value);
-    if (url.protocol !== "http:" && url.protocol !== "https:") return false;
+    if (url.protocol !== "https:") return false;
 
     const hostname = url.hostname.toLowerCase();
     return (
+      isAllowedHost(hostname) &&
       hostname !== "localhost" &&
       hostname !== "0.0.0.0" &&
       hostname !== "127.0.0.1" &&
