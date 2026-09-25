@@ -2,13 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { getRouterInstance } from "@tanstack/react-start";
 import { sitemapStaticPaths, sitemapXML, type SitemapEntry } from "@/lib/sitemap";
 
-const BASE_URL = "https://delaram-portfolio.lovable.app";
-
 export const Route = createFileRoute("/sitemap.xml")({
   staticData: { sitemap: false },
   server: {
     handlers: {
-      GET: async () => {
+      GET: async ({ request }) => {
+        // The base URL is whatever public origin serves this request, so the
+        // sitemap stays correct across renames and custom domains.
+        const baseURL = new URL(request.url).origin;
         const router = await getRouterInstance();
         const entries: SitemapEntry[] = sitemapStaticPaths(router).map((path) => ({ path }));
         if (entries.length === 0) {
@@ -17,7 +18,7 @@ export const Route = createFileRoute("/sitemap.xml")({
             { status: 404, headers: { "Cache-Control": "no-store" } },
           );
         }
-        return new Response(sitemapXML(BASE_URL, entries), {
+        return new Response(sitemapXML(baseURL, entries), {
           headers: { "Content-Type": "application/xml", "Cache-Control": "public, max-age=3600" },
         });
       },
