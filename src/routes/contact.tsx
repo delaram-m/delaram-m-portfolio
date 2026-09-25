@@ -5,9 +5,9 @@ export const Route = createFileRoute("/contact")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Contact — Delaram Moradi" },
+      { title: "Delaram Moradi — Contact" },
       { name: "description", content: "Get in touch with Delaram Moradi via social links and email." },
-      { property: "og:title", content: "Contact — Delaram Moradi" },
+      { property: "og:title", content: "Delaram Moradi — Contact" },
       { property: "og:description", content: "Get in touch with Delaram Moradi via social links and email." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
