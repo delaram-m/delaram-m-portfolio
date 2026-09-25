@@ -5,9 +5,9 @@ export const Route = createFileRoute("/experience")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Experience — Delaram Moradi -- Portfolio" },
+      { title: "Experience — Delaram Moradi — Portfolio" },
       { name: "description", content: "Professional experience and volunteering by Delaram Moradi." },
-      { property: "og:title", content: "Experience — Delaram Moradi -- Portfolio" },
+      { property: "og:title", content: "Experience — Delaram Moradi — Portfolio" },
       { property: "og:description", content: "Professional experience and volunteering by Delaram Moradi." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
