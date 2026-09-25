@@ -7,6 +7,7 @@ import { getRepoReadmeMedia } from "@/lib/repoImage.functions";
 import { SkillFilter } from "@/components/SkillFilter";
 
 export const Route = createFileRoute("/projects")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Projects — Delaram Moradi" },

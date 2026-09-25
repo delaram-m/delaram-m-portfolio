@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/experience")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Experience — Delaram Moradi" },

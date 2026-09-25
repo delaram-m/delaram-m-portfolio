@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Linkedin, Github } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Contact — Delaram Moradi" },

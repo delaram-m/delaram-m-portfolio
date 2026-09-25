@@ -9,6 +9,7 @@ import { SkillFilter } from "@/components/SkillFilter";
 
 
 export const Route = createFileRoute("/trainings")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Trainings — Delaram Moradi" },
