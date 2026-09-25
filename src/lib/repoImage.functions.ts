@@ -29,7 +29,7 @@ function extractFirstMedia(markdown: string): string | null {
   ];
   for (const re of patterns) {
     let m: RegExpExecArray | null;
-    while ((m = re.exec(markdown))) {
+    while ((m = re.exec(text))) {
       const raw = m[1];
       if (!raw) continue;
       if (raw.startsWith("#")) continue;
