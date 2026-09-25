@@ -20,7 +20,3 @@ npm run dev
 - UI components: [shadcn/ui](https://ui.shadcn.com) and [Radix UI](https://www.radix-ui.com)
 - Icons: [Lucide](https://lucide.dev) (ISC License)
 - Project and credential previews may be loaded from their original sources and remain the property of their respective owners.
-
----
-
-© 2026 Delaram Moradi. All rights reserved.
