@@ -7,7 +7,7 @@ export const Route = createFileRoute("/contact")({
     meta: [
       { title: "Contact — Delaram Moradi -- Portfolio" },
       { name: "description", content: "Get in touch with Delaram Moradi via social links and email." },
-      { property: "og:title", content: "Contact — Delaram Moradi" },
+      { property: "og:title", content: "Contact — Delaram Moradi -- Portfolio" },
       { property: "og:description", content: "Get in touch with Delaram Moradi via social links and email." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

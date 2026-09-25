@@ -7,7 +7,7 @@ export const Route = createFileRoute("/experience")({
     meta: [
       { title: "Experience — Delaram Moradi -- Portfolio" },
       { name: "description", content: "Professional experience and volunteering by Delaram Moradi." },
-      { property: "og:title", content: "Experience — Delaram Moradi" },
+      { property: "og:title", content: "Experience — Delaram Moradi -- Portfolio" },
       { property: "og:description", content: "Professional experience and volunteering by Delaram Moradi." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

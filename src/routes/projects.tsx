@@ -12,7 +12,7 @@ export const Route = createFileRoute("/projects")({
     meta: [
       { title: "Projects — Delaram Moradi -- Portfolio" },
       { name: "description", content: "Portfolio of projects and creative work by Delaram Moradi." },
-      { property: "og:title", content: "Projects — Delaram Moradi" },
+      { property: "og:title", content: "Projects — Delaram Moradi -- Portfolio" },
       { property: "og:description", content: "Portfolio of projects and creative work by Delaram Moradi." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
