@@ -7,9 +7,9 @@ export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Delaram Moradi — Data & Research Portfolio" },
+      { title: "Delaram Moradi — Portfolio" },
       { name: "description", content: "Portfolio of Delaram Moradi: projects, trainings, experience, and contact links" },
-      { property: "og:title", content: "Delaram Moradi — Data & Research Portfolio" },
+      { property: "og:title", content: "Delaram Moradi — Portfolio" },
       { property: "og:description", content: "Portfolio of Delaram Moradi: projects, trainings, experience, and contact links" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
