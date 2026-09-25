@@ -6,10 +6,10 @@ export const Route = createFileRoute("/sitemap.xml")({
   staticData: { sitemap: false },
   server: {
     handlers: {
-      GET: async ({ request }) => {
-        // The base URL is whatever public origin serves this request, so the
-        // sitemap stays correct across renames and custom domains.
-        const baseURL = new URL(request.url).origin;
+      GET: async () => {
+        // The project's public domain; sitemap entries must always point here,
+        // never at the preview host serving this request.
+        const baseURL = "https://delaram-m.lovable.app";
         const router = await getRouterInstance();
         const entries: SitemapEntry[] = sitemapStaticPaths(router).map((path) => ({ path }));
         if (entries.length === 0) {
