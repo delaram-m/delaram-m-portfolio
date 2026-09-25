@@ -4,6 +4,7 @@ import profilePhoto from "@/assets/delaram-profile.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Delaram Moradi — Creative Portfolio" },
