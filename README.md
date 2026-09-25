@@ -1,14 +1,7 @@
-# delaram-portfolio
+# Delaram's Portfolio
 
-Personal portfolio website of Delaram Moradi, with a dark, galaxy-inspired theme.
+Personal portfolio website of Delaram Moradi, with the pages Home, Projects, Trainings, Experience, and Connect.
 
-## Pages
-
-- Home
-- Projects
-- Trainings
-- Experience
-- Connect
 
 ## Development
 
