@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://delaram-portfolio.lovable.app/sitemap.xml
+Sitemap: https://delaram-m.lovable.app/sitemap.xml
