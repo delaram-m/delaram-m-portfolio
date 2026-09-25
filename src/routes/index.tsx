@@ -7,10 +7,10 @@ export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Delaram Moradi — Data Analysis & Research Portfolio" },
-      { name: "description", content: "Portfolio of Delaram Moradi: data analysis and research projects, certifications, and university teaching and research experience." },
-      { property: "og:title", content: "Delaram Moradi — Data Analysis & Research Portfolio" },
-      { property: "og:description", content: "Portfolio of Delaram Moradi: data analysis and research projects, certifications, and university teaching and research experience." },
+      { title: "Delaram Moradi -- Portfolio" },
+      { name: "description", content: "Portfolio of Delaram Moradi: projects, trainings, experience, and contact links" },
+      { property: "og:title", content: "Delaram Moradi -- Portfolio" },
+      { property: "og:description", content: "Portfolio of Delaram Moradi: projects, trainings, experience, and contact links" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
