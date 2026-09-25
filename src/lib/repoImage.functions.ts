@@ -16,7 +16,11 @@ function parseRepo(repoUrl: string) {
 
 const MEDIA_RE = /\.(png|jpe?g|gif|webp|svg|pdf)(\?[^\s)"']*)?$/i;
 
+// Cap the text we scan so a huge or malformed README can't stall the server on regex backtracking.
+const MAX_MARKDOWN_SCAN = 100_000;
+
 function extractFirstMedia(markdown: string): string | null {
+  const text = markdown.length > MAX_MARKDOWN_SCAN ? markdown.slice(0, MAX_MARKDOWN_SCAN) : markdown;
   // Markdown images, then HTML <img src>, then plain links to media files.
   const patterns = [
     /!\[[^\]]*\]\(\s*<?([^)\s>]+)>?[^)]*\)/g,
@@ -25,7 +29,7 @@ function extractFirstMedia(markdown: string): string | null {
   ];
   for (const re of patterns) {
     let m: RegExpExecArray | null;
-    while ((m = re.exec(markdown))) {
+    while ((m = re.exec(text))) {
       const raw = m[1];
       if (!raw) continue;
       if (raw.startsWith("#")) continue;
