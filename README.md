@@ -1,6 +1,6 @@
 # Delaram's Portfolio
 
-Personal portfolio website of Delaram Moradi, with the pages Home, Projects, Trainings, Experience, and Connect.
+Personal portfolio website with the pages Home, Projects, Trainings, Experience, and Connect.
 
 
 ## Development
@@ -19,7 +19,7 @@ npm run dev
 - Styling: [Tailwind CSS](https://tailwindcss.com)
 - UI components: [shadcn/ui](https://ui.shadcn.com) and [Radix UI](https://www.radix-ui.com)
 - Icons: [Lucide](https://lucide.dev) (ISC License)
-- Project and credential previews are loaded from their original sources (GitHub, Coursera, and credential issuers) and remain the property of their respective owners.
+- Project and credential previews may be loaded from their original sources (GitHub, Coursera, and credential issuers) and remain the property of their respective owners.
 
 ---
 
