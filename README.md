@@ -1,6 +1,6 @@
 # Delaram's Portfolio
 
-Personal portfolio website with the pages Home, Projects, Trainings, Experience, and Connect.
+Portfolio website with the pages Home, Projects, Trainings, Experience, and Connect.
 
 ## Attributions
 
