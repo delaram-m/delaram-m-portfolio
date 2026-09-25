@@ -1,31 +1,33 @@
-# Delaram Moradi — Portfolio
+# delaram-portfolio
 
-A personal portfolio website with a dark, galaxy-inspired theme: slowly drifting stars, a subtle cursor sparkle, and a purple/blue palette.
+Personal portfolio website of Delaram Moradi, with a dark, galaxy-inspired theme.
 
 ## Pages
 
-- **Home** — Introduction with Delaram's profile and quick paths to the other sections.
-- **Projects** — Data analysis and database projects, with skill filters and repository links.
-- **Trainings** — Certificates and courses with completion dates, skill filters, and credential previews.
-- **Experience** — A time-scaled timeline of research, teaching, and volunteer roles.
-- **Connect** — Links to get in touch (LinkedIn, GitHub).
-
-## Built with
-
-- [Lovable](https://lovable.dev)
-- React + TypeScript (TanStack Start)
-- Tailwind CSS
-- Custom animated star background and sparkle cursor
+- Home
+- Projects
+- Trainings
+- Experience
+- Connect
 
 ## Development
 
 ```sh
 git clone <this-repository-url>
-cd <repository-name>
+cd delaram-portfolio
 npm i
 npm run dev
 ```
 
+## Attributions
+
+- Created with [Lovable](https://lovable.dev)
+- Framework: [TanStack Start](https://tanstack.com/start) and [React](https://react.dev)
+- Styling: [Tailwind CSS](https://tailwindcss.com)
+- UI components: [shadcn/ui](https://ui.shadcn.com) and [Radix UI](https://www.radix-ui.com)
+- Icons: [Lucide](https://lucide.dev) (ISC License)
+- Project and credential previews are loaded from their original sources (GitHub, Coursera, and credential issuers) and remain the property of their respective owners.
+
 ---
 
-© 2026 Delaram Moradi. Built with ♥ in Lovable.
+© 2026 Delaram Moradi. All rights reserved.
