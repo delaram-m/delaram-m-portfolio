@@ -2,16 +2,6 @@
 
 Personal portfolio website with the pages Home, Projects, Trainings, Experience, and Connect.
 
-
-## Development
-
-```sh
-git clone <this-repository-url>
-cd delaram-portfolio
-npm i
-npm run dev
-```
-
 ## Attributions
 
 - Created with [Lovable](https://lovable.dev)
