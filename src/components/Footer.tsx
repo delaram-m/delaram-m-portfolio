@@ -7,7 +7,7 @@ export function Footer() {
         <p className="inline-flex items-center gap-1.5 text-sm text-muted-foreground">
           Built with
           <Heart className="h-3.5 w-3.5 fill-primary text-primary" aria-label="love" />
-          in Lovable by Delaram Moradi.
+          in Lovable by Delaram Moradi
         </p>
       </div>
     </footer>
