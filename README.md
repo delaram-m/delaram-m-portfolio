@@ -2,8 +2,6 @@
 
 Portfolio website with the pages Home, Projects, Trainings, Experience, and Connect.
 
-You can see it live at [delaram-m.lovable.app](https://delaram-m.lovable.app).
-
 ## Attributions
 
 - Created with [Lovable](https://lovable.dev)
