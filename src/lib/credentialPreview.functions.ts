@@ -7,7 +7,7 @@ const PDF_EXTENSION = /\.pdf(?:$|[?#])/i;
 
 // The server only fetches credential pages from known credential providers,
 // so the endpoint cannot be abused as an open proxy to arbitrary hosts.
-const ALLOWED_HOSTS = ["coursera.org", "s3.amazonaws.com", "achieve.snowflake.com", "accredible.com", "credential.net"];
+const ALLOWED_HOSTS = ["coursera.org", "s3.amazonaws.com", "achieve.snowflake.com", "accredible.com", "credential.net", "credentials.databricks.com"];
 
 function isAllowedHost(hostname: string) {
   const host = hostname.toLowerCase();
@@ -83,7 +83,7 @@ function courseraCertificateImage(pageUrl: string): string | null {
 
 // Accredible-hosted pages (e.g. achieve.snowflake.com) render client-side, so
 // read the credential's badge image from Accredible's public credential API.
-const ACCREDIBLE_UUID = /^https:\/\/(?:achieve\.snowflake\.com|(?:www\.)?credential\.net|[a-z0-9-]+\.accredible\.com)\/([0-9a-f-]{36})/i;
+const ACCREDIBLE_UUID = /^https:\/\/(?:achieve\.snowflake\.com|credentials\.databricks\.com|(?:www\.)?credential\.net|[a-z0-9-]+\.accredible\.com)\/([0-9a-f-]{36})/i;
 
 async function accredibleBadge(link: string): Promise<CredentialPreview> {
   const uuid = ACCREDIBLE_UUID.exec(link)?.[1];

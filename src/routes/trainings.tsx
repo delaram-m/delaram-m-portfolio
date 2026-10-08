@@ -65,6 +65,13 @@ const trainings: Training[] = [
     skills: ["Snowflake"],
     link: "https://achieve.snowflake.com/de45a062-b62f-402f-86b8-7f5a1301a4d0#acc.k4YZ9FEp",
   },
+  {
+    name: "Databricks Fundamentals",
+    month: "October",
+    year: 2026,
+    skills: ["Databricks"],
+    link: "https://credentials.databricks.com/1a546fe4-e807-47a5-b70c-48d818eeab58#acc.nTj1oawJ",
+  },
 ];
 
 const MONTHS = [
