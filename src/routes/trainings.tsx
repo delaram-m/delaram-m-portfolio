@@ -5,7 +5,6 @@ import { useMemo, useState } from "react";
 import { ArrowUpRight, Award } from "lucide-react";
 import { getCredentialPreview } from "@/lib/credentialPreview.functions";
 import awsCredentialImage from "@/assets/getting_started_with_aws_cloud_essentials.png.asset.json";
-import aiFluencyBadge from "@/assets/ai_fluency_framework_and_foundations.png";
 import { SkillFilter } from "@/components/SkillFilter";
 
 
@@ -58,16 +57,6 @@ const trainings: Training[] = [
     year: 2021,
     skills: ["Python"],
     link: "https://coursera.org/share/14a0a4242348d12a342cf6d2d533e5e7",
-  },
-  {
-    name: "AI Fluency: Framework and foundations",
-    month: "October",
-    year: 2026,
-    skills: ["AI"],
-    link: "https://academy.claude.com/verify/7846fa5342e0a01714aef738de1b015e",
-    // Claude Academy draws its badge in the browser (no image URL to fetch),
-    // so the badge captured from the credential page is used directly.
-    manualPreview: { url: aiFluencyBadge, kind: "image" },
   },
   {
     name: "Databricks Fundamentals",
