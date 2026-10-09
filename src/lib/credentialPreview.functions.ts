@@ -7,7 +7,7 @@ const PDF_EXTENSION = /\.pdf(?:$|[?#])/i;
 
 // The server only fetches credential pages from known credential providers,
 // so the endpoint cannot be abused as an open proxy to arbitrary hosts.
-const ALLOWED_HOSTS = ["coursera.org", "s3.amazonaws.com", "achieve.snowflake.com", "accredible.com", "credential.net", "credentials.databricks.com"];
+const ALLOWED_HOSTS = ["coursera.org", "s3.amazonaws.com", "achieve.snowflake.com", "accredible.com", "credential.net", "credentials.databricks.com", "academy.claude.com"];
 
 function isAllowedHost(hostname: string) {
   const host = hostname.toLowerCase();

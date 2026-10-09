@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { ArrowUpRight, Award } from "lucide-react";
 import { getCredentialPreview } from "@/lib/credentialPreview.functions";
 import awsCredentialImage from "@/assets/getting_started_with_aws_cloud_essentials.png.asset.json";
+import aiFluencyBadge from "@/assets/ai_fluency_framework_and_foundations.png";
 import { SkillFilter } from "@/components/SkillFilter";
 
 
