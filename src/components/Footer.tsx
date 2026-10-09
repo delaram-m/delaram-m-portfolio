@@ -9,6 +9,7 @@ export function Footer() {
           <Heart className="h-3.5 w-3.5 fill-primary text-primary" aria-label="love" />
           in Lovable by Delaram Moradi
         </p>
+        <p className="mt-2 text-xs text-muted-foreground">© 2026 Delaram Moradi</p>
       </div>
     </footer>
   );
