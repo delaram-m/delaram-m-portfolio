@@ -108,6 +108,10 @@ export const getCredentialPreview = createServerFn({ method: "GET" })
     if (IMAGE_EXTENSIONS.test(data.link)) return { url: data.link, kind: "image" };
     if (ACCREDIBLE_UUID.test(data.link)) return accredibleBadge(data.link);
 
+    // Claude Academy draws its badge client-side; a server fetch only finds
+    // the site favicon, which must not be used as the credential preview.
+    if (new URL(data.link).hostname.toLowerCase().endsWith("academy.claude.com")) return null;
+
     try {
       const response = await fetch(data.link, {
         headers: { Accept: "text/html,application/pdf,image/*", "User-Agent": "portfolio-site" },
