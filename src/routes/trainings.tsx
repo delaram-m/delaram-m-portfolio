@@ -60,6 +60,16 @@ const trainings: Training[] = [
     link: "https://coursera.org/share/14a0a4242348d12a342cf6d2d533e5e7",
   },
   {
+    name: "AI Fluency: Framework and foundations",
+    month: "October",
+    year: 2026,
+    skills: ["AI"],
+    link: "https://academy.claude.com/verify/7846fa5342e0a01714aef738de1b015e",
+    // Claude Academy draws its badge in the browser (no image URL to fetch),
+    // so the badge captured from the credential page is used directly.
+    manualPreview: { url: aiFluencyBadge, kind: "image" },
+  },
+  {
     name: "Databricks Fundamentals",
     month: "October",
     year: 2026,
