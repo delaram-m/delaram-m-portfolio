@@ -174,21 +174,30 @@ function ProjectPlaceholder({
     : "";
   const repoPreviewUrl =
     isFetched && !imageUrl && repoPath ? `https://opengraph.githubassets.com/1/${repoPath}` : null;
+  const previewUrl = manualPreview?.url ?? imageUrl;
+  const previewKind = manualPreview ? manualPreview.kind : media?.kind;
 
   return (
     <article
       className={`group grid overflow-hidden rounded-2xl border border-border bg-card/90 transition-all hover:border-horizon/60 hover:shadow-lg hover:shadow-horizon/10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}
     >
       <div className="flex min-h-60 items-center justify-center bg-gradient-to-br from-horizon/25 via-primary/15 to-nebula/20 md:min-h-72">
-        {imageUrl && media?.kind === "pdf" ? (
+        {previewUrl && previewKind === "pdf" ? (
           <iframe
-            src={`${imageUrl}#view=FitH&toolbar=0`}
+            src={`${previewUrl}#view=FitH&toolbar=0`}
             title={imageAlt || `${title} document preview`}
             className="h-72 w-full"
           />
-        ) : imageUrl ? (
+        ) : previewUrl && manualPreview ? (
           <img
-            src={imageUrl}
+            src={previewUrl}
+            alt={imageAlt || `${title}`}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+        ) : previewUrl ? (
+          <img
+            src={previewUrl}
             alt={imageAlt || `${title} preview from repository README`}
             className="max-h-72 w-full object-contain p-4"
             loading="lazy"
