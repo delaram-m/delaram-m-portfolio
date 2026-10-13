@@ -79,7 +79,7 @@ const projects: Project[] = [
     repoUrl: "",
   },
   {
-    skills: ["Computer Vision", "Interactive Art", "JavaScript"],
+    skills: ["Computer Vision", "Human-Computer Interaction", "JavaScript"],
     title: "The Essence",
     description:
       "Created a publicly exhibited interactive art installation using a computer vision model to enable touchless interaction",
