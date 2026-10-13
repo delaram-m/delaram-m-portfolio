@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useMemo, useState } from "react";
 import { ArrowUpRight, FolderOpen } from "lucide-react";
 import { getRepoReadmeMedia } from "@/lib/repoImage.functions";
+import essencePhoto from "@/assets/the-essence-back.jpg.asset.json";
 import { SkillFilter } from "@/components/SkillFilter";
 
 export const Route = createFileRoute("/projects")({
@@ -26,6 +27,8 @@ type Project = {
   title: string;
   description: string;
   repoUrl: string;
+  // Custom preview shown instead of anything pulled from a repository.
+  manualPreview?: { url: string; kind: "image" | "pdf" };
 };
 
 const projects: Project[] = [
@@ -74,6 +77,14 @@ const projects: Project[] = [
     description:
       "Preprocessed and visualized employee absence data for exploratory data analysis in collaboration with team members",
     repoUrl: "",
+  },
+  {
+    skills: ["Computer Vision", "Interactive Art", "JavaScript"],
+    title: "The Essence",
+    description:
+      "Created a publicly exhibited interactive art installation using a computer vision model to enable touchless interaction",
+    repoUrl: "",
+    manualPreview: { url: essencePhoto.url, kind: "image" },
   },
 ];
 
@@ -131,6 +142,7 @@ function ProjectPlaceholder({
   title,
   description,
   repoUrl = "https://github.com/yourusername",
+  manualPreview,
   reverse = false,
   showRepoLink = true,
   imageAlt = "",
@@ -139,11 +151,12 @@ function ProjectPlaceholder({
   title: string;
   description: string;
   repoUrl?: string;
+  manualPreview?: { url: string; kind: "image" | "pdf" };
   reverse?: boolean;
   showRepoLink?: boolean;
   imageAlt?: string;
 }) {
-  const isRealRepo = repoUrl.includes("github.com/") && !repoUrl.includes("yourusername");
+  const isRealRepo = !manualPreview && repoUrl.includes("github.com/") && !repoUrl.includes("yourusername");
   const fetchMedia = useServerFn(getRepoReadmeMedia);
   const { data: media, isFetched } = useQuery({
     queryKey: ["repo-readme-media", repoUrl],
