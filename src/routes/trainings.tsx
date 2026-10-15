@@ -59,18 +59,18 @@ const trainings: Training[] = [
     link: "https://coursera.org/share/14a0a4242348d12a342cf6d2d533e5e7",
   },
   {
-    name: "Databricks Fundamentals",
-    month: "October",
-    year: 2026,
-    skills: ["Databricks"],
-    link: "https://credentials.databricks.com/1a546fe4-e807-47a5-b70c-48d818eeab58#acc.nTj1oawJ",
-  },
-  {
     name: "Hands-On Essentials: Data Warehousing Workshop",
     month: "October",
     year: 2026,
     skills: ["Snowflake"],
     link: "https://achieve.snowflake.com/de45a062-b62f-402f-86b8-7f5a1301a4d0#acc.k4YZ9FEp",
+  },
+  {
+    name: "Databricks Fundamentals",
+    month: "October",
+    year: 2026,
+    skills: ["Databricks"],
+    link: "https://credentials.databricks.com/1a546fe4-e807-47a5-b70c-48d818eeab58#acc.nTj1oawJ",
   },
   {
     name: "AI Fluency: Framework & Foundations",
@@ -97,9 +97,10 @@ const MONTHS = [
 ];
 
 // Sort by completion date, most recent first. Unknown months sort as January.
+// Same date: the most recently added entry leads.
 function byDateDesc(a: Training, b: Training) {
   const dateValue = (t: Training) => t.year * 100 + (MONTHS.indexOf(t.month.toLowerCase()) + 1 || 1);
-  return dateValue(b) - dateValue(a);
+  return dateValue(b) - dateValue(a) || trainings.indexOf(b) - trainings.indexOf(a);
 }
 
 function TrainingsPage() {
