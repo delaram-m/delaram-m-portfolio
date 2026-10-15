@@ -72,6 +72,13 @@ const trainings: Training[] = [
     skills: ["Snowflake"],
     link: "https://achieve.snowflake.com/de45a062-b62f-402f-86b8-7f5a1301a4d0#acc.k4YZ9FEp",
   },
+  {
+    name: "AI Fluency: Framework & Foundations",
+    month: "October",
+    year: 2026,
+    skills: ["AI"],
+    link: "https://verify.skilljar.com/c/7kzf3dcwgg4z",
+  },
 ];
 
 const MONTHS = [
