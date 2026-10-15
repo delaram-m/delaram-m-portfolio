@@ -97,9 +97,10 @@ const MONTHS = [
 ];
 
 // Sort by completion date, most recent first. Unknown months sort as January.
+// Same date: the most recently added entry leads.
 function byDateDesc(a: Training, b: Training) {
   const dateValue = (t: Training) => t.year * 100 + (MONTHS.indexOf(t.month.toLowerCase()) + 1 || 1);
-  return dateValue(b) - dateValue(a);
+  return dateValue(b) - dateValue(a) || trainings.indexOf(b) - trainings.indexOf(a);
 }
 
 function TrainingsPage() {
