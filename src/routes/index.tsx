@@ -66,7 +66,7 @@ function HomePage() {
             title="Experience"
           />
           <FeatureCard
-            to="/contact"
+            to="/connect"
             icon={<Handshake className="h-5 w-5" />}
             title="Connect"
           />
