@@ -83,7 +83,7 @@ function courseraCertificateImage(pageUrl: string): string | null {
 
 // Accredible-hosted pages (e.g. achieve.snowflake.com) render client-side, so
 // read the credential's badge image from Accredible's public credential API.
-const ACCREDIBLE_UUID = /^https:\/\/(?:achieve\.snowflake\.com|credentials\.databricks\.com|(?:www\.)?credential\.net|[a-z0-9-]+\.accredible\.com)\/([0-9a-f-]{36})/i;
+const ACCREDIBLE_UUID = /^https:\/\/(?:achieve\.snowflake\.com|credentials\.databricks\.com|(?:[a-z0-9-]+\.)?credential\.net|[a-z0-9-]+\.accredible\.com)\/([0-9a-f-]{36})/i;
 
 async function accredibleBadge(link: string): Promise<CredentialPreview> {
   const uuid = ACCREDIBLE_UUID.exec(link)?.[1];
