@@ -79,6 +79,13 @@ const trainings: Training[] = [
     skills: ["AI"],
     link: "https://verify.skilljar.com/c/7kzf3dcwgg4z",
   },
+  {
+    name: "Agents and Workflows",
+    month: "October",
+    year: 2026,
+    skills: ["AI"],
+    link: "https://oaiacademy.credential.net/e6d7e5a5-59ae-4d62-8f38-13c1084193b9#acc.YBl3u8Vf",
+  },
 ];
 
 const MONTHS = [
