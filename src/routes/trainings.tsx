@@ -52,6 +52,13 @@ const trainings: Training[] = [
     link: "https://coursera.org/share/79d4bd7456b0ce3fd22e4c4590c8a504",
   },
   {
+    name: "Build a Game with an AI Coding Agent",
+    month: "May",
+    year: 2026,
+    skills: ["AI"],
+    link: "https://coursera.org/share/4ed8bbe6fcfe1fe0e417bb21fc7ad6b9",
+  },
+  {
     name: "Python for Everybody",
     month: "October",
     year: 2021,
